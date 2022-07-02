@@ -106,7 +106,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define LOCKING_RESYNC_ENABLE
 
 /* Force boot in NKRO mode */
-//#define FORCE_NKRO
+#define FORCE_NKRO
 
 /*
  * Feature disable options
@@ -125,6 +125,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 
 #define RGB_MATRIX_KEYPRESSES
+#define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #define RGB_MATRIX_LED_PROCESS_LIMIT 15
 #define RGB_MATRIX_LED_FLUSH_LIMIT 10
 // RGB Matrix Animation modes. Explicitly enabled
@@ -175,5 +176,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define ENABLE_RGB_MATRIX_MULTISPLASH
 #    define ENABLE_RGB_MATRIX_SOLID_SPLASH
 #    define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
+
+#    define TAPPING_TOGGLE 2
+#    define TAPPING_TERM 200
+
+#    define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 
 #include "config_led.h"

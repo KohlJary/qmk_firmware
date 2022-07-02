@@ -12,7 +12,7 @@ BOOTLOADER = md-boot
 #   change yes to no to disable
 #
 BOOTMAGIC_ENABLE = no       # Enable Bootmagic Lite
-MOUSEKEY_ENABLE = no        # Mouse keys
+MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes       # Audio control and System control
 CONSOLE_ENABLE = no         # Console for debug
 COMMAND_ENABLE = no         # Commands for debug and configuration
@@ -23,6 +23,9 @@ AUDIO_ENABLE = no           # Audio output
 VIRTSER_ENABLE = no         # USB Serial Driver
 RAW_ENABLE = no             # Raw device
 AUTO_SHIFT_ENABLE = no      # Auto Shift
+DYNAMIC_MACRO_ENABLE = yes  # Dynamic macro support
+CAPS_WORD_ENABLE = yes      # Caps Word support
+#TAP_DANCE_ENABLE = yes			# Tap dance
 
 # Custom RGB matrix handling
 RGB_MATRIX_ENABLE = yes
