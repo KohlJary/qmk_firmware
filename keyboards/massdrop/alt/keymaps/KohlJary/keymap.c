@@ -24,6 +24,9 @@ enum alt_keycodes {
     NEXTPAR,               //Next paragraph macro
     HOM_END,               //Home/end on one key
     PG_UPDN,               //Page up/down on one key
+    INV_1, INV_2, INV_3,   //Inverted num keys
+    INV_4, INV_5, INV_6,
+    INV_7, INV_8, INV_9, INV_0
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -35,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         MO(3),           TG(1), MEH_T(KC_GRV),                    KC_SPC,                        NEXTPAR, NEXTSEN,       KC_LEFT, KC_DOWN,        KC_RGHT
     ),
     [1] = LAYOUT_65_ansi_blocker(
-        _______, S(KC_1), S(KC_2), S(KC_3), S(KC_4), S(KC_5), S(KC_6), S(KC_7), S(KC_8), S(KC_9), S(KC_0), _______, _______, _______, _______,
+        _______, INV_1,   INV_2,   INV_3,   INV_4,   INV_5,   INV_6,   INV_7,   INV_8,   INV_9,   INV_0,   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
@@ -64,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [5] = LAYOUT(
         _______, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,    KC_F9,    KC_F10,  KC_F11,  KC_F12,  MAKE_FL, DM_REC1,
-        RGB_TOG, KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,     KC_9,     KC_0,    KC_MINS, KC_EQL,  _______, DM_PLY1,
+        RGB_TOG, KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,     KC_9,     KC_0,    KC_MINS, KC_EQL,  NK_TOGG, DM_PLY1,
         RGB_M_B, RGB_RMOD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, KC_HOME, KC_PGDN, KC_PGUP,  KC_END,   _______, _______,          MD_BOOT, DM_REC2,
         _______, RGB_MOD,  RGB_VAD, RGB_SPD, RGB_HUD, RGB_SAD, NK_TOGG, DBG_TOG, U_T_AUTO, U_T_AGCR, _______, _______,          KC_PGUP, DM_PLY2,
         _______, _______,  _______,                            _______,                              DM_REC1, DM_REC2, KC_HOME, KC_PGDN, KC_END
@@ -342,6 +345,126 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_TAP(X_PGUP));
               } else {
                 SEND_STRING(SS_TAP(X_PGDN));
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_1:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("1");
+              } else {
+                SEND_STRING("!");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_2:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("2");
+              } else {
+                SEND_STRING("@");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_3:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("3");
+              } else {
+                SEND_STRING("#");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_4:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("4");
+              } else {
+                SEND_STRING("$");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_5:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("5");
+              } else {
+                SEND_STRING("%");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_6:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("6");
+              } else {
+                SEND_STRING("^");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_7:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("7");
+              } else {
+                SEND_STRING("&");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_8:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("8");
+              } else {
+                SEND_STRING("*");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_9:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("9");
+              } else {
+                SEND_STRING("(");
+              }
+              set_mods(mod_state);
+            }
+            return false;
+        case INV_0:
+            if (record->event.pressed) {
+              del_mods(MOD_MASK_SHIFT);
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              if (shift_mod) {
+                SEND_STRING("0");
+              } else {
+                SEND_STRING(")");
               }
               set_mods(mod_state);
             }
