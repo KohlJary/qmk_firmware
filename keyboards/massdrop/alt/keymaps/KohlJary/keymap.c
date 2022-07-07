@@ -11,9 +11,6 @@ enum alt_keycodes {
     DBG_MOU,  //DEBUG Toggle Mouse Prints
     MD_BOOT,  //Restart into bootloader after hold timeout
     //User keycodes
-    CDIR,    //Current directory
-    UPDIR,   //Up a directory
-    ELPS,    //Ellipses
     EQ_NEQ,  //Equal/not equal comparison
     AND_OR,  //And/or operator
     LAMBDA,  //Lambda operator
@@ -22,9 +19,8 @@ enum alt_keycodes {
     USR_QT,  //Single/double/back quote on one key
     USR_QTP, //Single/double/back quote pair on one key
     SLSH_BS, //Slash/backslash on one key
+    ELPS,    //Ellipses
     MK_FLSH, //Make/flash keymap
-    NXT_SEN, //Next sentence macro
-    NXT_PAR, //Next paragraph macro
     HOM_END, //Home/end on one key
     PG_UPDN, //Page up/down on one key
     INV_1, INV_2, INV_3, INV_4, INV_5, //Inverted num keys
@@ -43,30 +39,57 @@ enum layers {
 
 //Tap Dance Declarations
 enum tapdance_keycodes {
-  TD_C, //1 = semicolon, 2 = colon
+  TD_CN, //1 = semicolon, 2 = colon
+  TD_NS, //1 = next sen, 2 = next para
+  TD_DR, //1 = current dir, 2 = up dir
 };
+
+void dance_sen_par(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING(". ");
+      add_oneshot_mods(MOD_BIT(KC_LSFT));
+    } else if (state->count == 2) {
+      SEND_STRING(".");
+      SEND_STRING(SS_LSFT(SS_TAP(X_ENT) SS_TAP(X_ENT)));
+      add_oneshot_mods(MOD_BIT(KC_LSFT));
+    }
+    reset_tap_dance(state);
+}
+
+void dance_dir(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING("./");
+    } else if (state->count == 2) {
+      SEND_STRING("../");
+    }
+    reset_tap_dance(state);
+}
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
-  [TD_C]  = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN)
+  [TD_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
+  //Tap once for next sentence, twice for next paragraph
+  [TD_NS] = ACTION_TAP_DANCE_FN(dance_sen_par),
+  //Tap once for current directory, twice for up a directory
+  [TD_DR] = ACTION_TAP_DANCE_FN(dance_dir),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //Base layer
     [L_B] = LAYOUT_65_ansi_blocker(
-        LT(L_S,KC_GRV), KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,   KC_0,     KC_MINS, KC_EQL,  KC_BSPC,         G(KC_GRV),
-        GUI_T(KC_DEL),  KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    KC_O,   KC_P,     KC_LBRC, KC_RBRC, LT(L_S,KC_BSLS), KC_VOLU,
-        CTL_T(KC_ESC),  KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,   TD(TD_C), USR_QT,           ALT_T(KC_ENT),   HOM_END,
-        KC_LSFT,        KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, SLSH_BS,  LT(L_2,KC_TAB),   KC_UP,           PG_UPDN,
-        MO(L_1),        TG(L_I), KC_MEH,              KC_SPC,                      NXT_PAR,  NXT_SEN, KC_LEFT, KC_DOWN,         KC_RGHT
+        LT(L_S,KC_GRV), KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,   KC_0,      KC_MINS, KC_EQL,  KC_BSPC,         G(KC_GRV),
+        GUI_T(KC_DEL),  KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    KC_O,   KC_P,      KC_LBRC, KC_RBRC, LT(L_S,KC_BSLS), KC_VOLU,
+        CTL_T(KC_ESC),  KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,   TD(TD_CN), USR_QT,      ALT_T(KC_ENT),        HOM_END,
+        KC_LSFT,        KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, SLSH_BS,   LT(L_2,KC_TAB),       KC_UP,       PG_UPDN,
+        MO(L_1), TG(L_I), KC_MEH,                 KC_SPC,                          TD(TD_NS), TD(TD_DR),   KC_LEFT, KC_DOWN,     KC_RGHT
     ),
     //Inverted number row layer
     [L_I] = LAYOUT_65_ansi_blocker(
         _______, INV_1,   INV_2,   INV_3,   INV_4,   INV_5,   INV_6,   INV_7,   INV_8,   INV_9,   INV_0,   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
         _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
     ),
     //Gaming/compatibility layer (Keys are explicitly declared to ensure compatibility)
@@ -77,21 +100,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT, KC_Z,    KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,          KC_GRV,  KC_UP,   PG_UPDN,
         KC_GRV,  KC_LGUI, KC_LALT,                _______,                     MO(L_S), TG(L_I), KC_LEFT, KC_DOWN, KC_RGHT
     ),
-    //Modifier layer 1 (Quick symbols, macros, vim-key arrows, keyboard mouse commands)
+    //Modifier layer 1 (macros, vim-key arrows, keyboard mouse commands)
     [L_1] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, LAMBDA,  AND_OR,  EQ_NEQ,  KC_DEL,  KC_MUTE,
-        _______, S(KC_5), S(KC_6), S(KC_7), S(KC_8), KC_DOT,  KC_EQL,   _______, _______, _______, KC_F12,  BRACES,  PARBRA,  _______, KC_WH_U,
-        _______, S(KC_1), S(KC_2), S(KC_3), S(KC_4), KC_F11,  KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, KC_F5,   USR_QTP,          _______, KC_WH_D,
-        _______, KC_BSLS, KC_MINS, KC_EQL,  KC_PPLS, _______, _______,  _______, _______, ELPS,  KC_F12,           KC_BTN1, KC_MS_U, KC_BTN2,
-        _______, UPDIR,   CDIR,                               _______,                             DM_PLY1, DM_PLY2, KC_MS_L, KC_MS_D, KC_MS_R
+        _______, _______, _______, _______, _______, KC_DOT,  KC_EQL,   _______, _______, _______, KC_F12,  BRACES,  PARBRA,  _______, KC_WH_U,
+        _______, _______, _______, _______, _______, KC_F11,  KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, KC_F5,   USR_QTP,          _______, KC_WH_D,
+        _______, _______, _______, _______, _______, _______, _______,  _______, _______, ELPS,    KC_F12,           KC_BTN1, KC_MS_U, KC_BTN2,
+        _______, _______, _______,                            _______,                             DM_PLY1, DM_PLY2, KC_MS_L, KC_MS_D, KC_MS_R
     ),
     //Modifier layer 2 (F-keys, number home row, media controls)
     [L_2] = LAYOUT_65_ansi_blocker(
-        TG(L_G), KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21, KC_F22,  KC_F23,  KC_F24,  _______, _______,
-        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  _______, _______,
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_MINS,          _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, CDIR,   UPDIR,            _______, KC_VOLU, _______,
-        _______, _______, _______,                            _______,                           _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
+        TG(L_G), KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  _______, _______,
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
+        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, _______, _______,          _______, KC_VOLU, _______,
+        _______, _______, _______,                            _______,                            _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
     ),
     //Settings layer (RGB settings, reflashing commands, debug utilities)
     [L_S] = LAYOUT(
@@ -189,16 +212,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                   }
                   break;
               }
-            }
-            return false;
-        case CDIR:
-            if (record->event.pressed) {
-              SEND_STRING("./");
-            }
-            return false;
-        case UPDIR:
-            if (record->event.pressed) {
-              SEND_STRING("../");
             }
             return false;
         case ELPS:
@@ -344,19 +357,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               }
             }
             set_mods(mod_state);
-            return false;
-        case NXT_SEN:
-            if (record->event.pressed) {
-              SEND_STRING(". ");
-              add_oneshot_mods(MOD_BIT(KC_LSFT));
-            }
-            return false;
-        case NXT_PAR:
-            if (record->event.pressed) {
-              SEND_STRING(".");
-              SEND_STRING(SS_LSFT(SS_TAP(X_ENT) SS_TAP(X_ENT)));
-              add_oneshot_mods(MOD_BIT(KC_LSFT));
-            }
             return false;
         case HOM_END:
             if (record->event.pressed) {
