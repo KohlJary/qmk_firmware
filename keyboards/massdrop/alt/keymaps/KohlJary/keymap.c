@@ -2,74 +2,103 @@
 #include <stdbool.h>
 
 enum alt_keycodes {
+    //Massdrop ALT declared keycodes
     U_T_AUTO = SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
-    U_T_AGCR,              //USB Toggle Automatic GCR control
-    DBG_TOG,               //DEBUG Toggle On / Off
-    DBG_MTRX,              //DEBUG Toggle Matrix Prints
-    DBG_KBD,               //DEBUG Toggle Keyboard Prints
-    DBG_MOU,               //DEBUG Toggle Mouse Prints
-    MD_BOOT,               //Restart into bootloader after hold timeout
-    CDIR,                  //Current directory
-    UPDIR,                 //Up a directory
-    EQ_NEQ,                //Equal/not equal comparison
-    AND_OR,                //And/or operator
-    LAMBDA,                //Lambda operator
-    BRACES,                //Brace/curly brace
-    PARBRA,                //Parentheses/brackets
-    SQUOTE,                //Single/double/back quote on one key
-    SQUOTEP,               //Single/double/back quote pair on one key
-    SLSH_BS,               //Slash/backslash on one key
-    MAKE_FL,               //Make/flash keymap
-    NEXTSEN,               //Next sentence macro
-    NEXTPAR,               //Next paragraph macro
-    HOM_END,               //Home/end on one key
-    PG_UPDN,               //Page up/down on one key
-    INV_1, INV_2, INV_3,   //Inverted num keys
-    INV_4, INV_5, INV_6,
-    INV_7, INV_8, INV_9, INV_0
+    U_T_AGCR, //USB Toggle Automatic GCR control
+    DBG_TOG,  //DEBUG Toggle On / Off
+    DBG_MTRX, //DEBUG Toggle Matrix Prints
+    DBG_KBD,  //DEBUG Toggle Keyboard Prints
+    DBG_MOU,  //DEBUG Toggle Mouse Prints
+    MD_BOOT,  //Restart into bootloader after hold timeout
+    //User keycodes
+    CDIR,    //Current directory
+    UPDIR,   //Up a directory
+    ELPS,    //Ellipses
+    EQ_NEQ,  //Equal/not equal comparison
+    AND_OR,  //And/or operator
+    LAMBDA,  //Lambda operator
+    BRACES,  //Brace/curly brace
+    PARBRA,  //Parentheses/brackets
+    USR_QT,  //Single/double/back quote on one key
+    USR_QTP, //Single/double/back quote pair on one key
+    SLSH_BS, //Slash/backslash on one key
+    MK_FLSH, //Make/flash keymap
+    NXT_SEN, //Next sentence macro
+    NXT_PAR, //Next paragraph macro
+    HOM_END, //Home/end on one key
+    PG_UPDN, //Page up/down on one key
+    INV_1, INV_2, INV_3, INV_4, INV_5, //Inverted num keys
+    INV_6, INV_7, INV_8, INV_9, INV_0,
+};
+
+//Layer names
+enum layers {
+  L_B, //Base layer
+  L_I, //Inverted number row layer
+  L_G, //Gaming layer
+  L_1, //Modified layer 1 (Quick symbols, macros, vim-key arrows, keyboard mouse commands)
+  L_2, //Modified layer 2 (F-keys, number home row, media controls)
+  L_S, //Settings layer (RGB settings, reflashing commands, debug utilities)
+};
+
+//Tap Dance Declarations
+enum tapdance_keycodes {
+  TD_C, //1 = semicolon, 2 = colon
+};
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  //Tap once for semicolon, twice for colon
+  [TD_C]  = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_65_ansi_blocker(
-        LT(5, KC_GRV),   KC_1,  KC_2,           KC_3, KC_4, KC_5, KC_6,   KC_7, KC_8,    KC_9,   KC_0,    KC_MINS,       KC_EQL,  KC_BSPC,        G(KC_GRV),
-        LGUI_T(KC_DEL),  KC_Q,  KC_W,           KC_E, KC_R, KC_T, KC_Y,   KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC,       KC_RBRC, LT(5,KC_BSLS),  KC_VOLU,
-        RCTL_T(KC_ESC),  KC_A,  KC_S,           KC_D, KC_F, KC_G, KC_H,   KC_J, KC_K,    KC_L,   KC_SCLN, SQUOTE,                 LALT_T(KC_ENT), HOM_END,
-        KC_LSFT,         KC_Z,  KC_X,           KC_C, KC_V, KC_B, KC_N,   KC_M, KC_COMM, KC_DOT, SLSH_BS, LT(4,KC_TAB),           KC_UP,          PG_UPDN,
-        MO(3),           TG(1), MEH_T(KC_GRV),                    KC_SPC,                        NEXTPAR, NEXTSEN,       KC_LEFT, KC_DOWN,        KC_RGHT
+    //Base layer
+    [L_B] = LAYOUT_65_ansi_blocker(
+        LT(L_S,KC_GRV), KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,   KC_0,     KC_MINS, KC_EQL,  KC_BSPC,         G(KC_GRV),
+        GUI_T(KC_DEL),  KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    KC_O,   KC_P,     KC_LBRC, KC_RBRC, LT(L_S,KC_BSLS), KC_VOLU,
+        CTL_T(KC_ESC),  KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,   TD(TD_C), USR_QT,           ALT_T(KC_ENT),   HOM_END,
+        KC_LSFT,        KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, SLSH_BS,  LT(L_2,KC_TAB),   KC_UP,           PG_UPDN,
+        MO(L_1),        TG(L_I), KC_MEH,              KC_SPC,                      NXT_PAR,  NXT_SEN, KC_LEFT, KC_DOWN,         KC_RGHT
     ),
-    [1] = LAYOUT_65_ansi_blocker(
+    //Inverted number row layer
+    [L_I] = LAYOUT_65_ansi_blocker(
         _______, INV_1,   INV_2,   INV_3,   INV_4,   INV_5,   INV_6,   INV_7,   INV_8,   INV_9,   INV_0,   _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
         _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
     ),
-    [2] = LAYOUT_65_ansi_blocker(
-        KC_ESC,  KC_1,    KC_2,    KC_3, KC_4, KC_5, KC_6,    KC_7, KC_8,    KC_9,   KC_0,    KC_MINS,      KC_EQL,  KC_BSPC, TG(2),
-        KC_TAB,  KC_Q,    KC_W,    KC_E, KC_R, KC_T, KC_Y,    KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC,      KC_RBRC, KC_BSLS, KC_END,
-        KC_LCTL, KC_A,    KC_S,    KC_D, KC_F, KC_G, KC_H,    KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT,               KC_ENT,  KC_PGUP,
-        KC_LSFT, KC_Z,    KC_X,    KC_C, KC_V, KC_B, KC_N,    KC_M, KC_COMM, KC_DOT, KC_SLSH, LT(4,KC_TAB),          KC_PGUP, KC_PGDN,
-        KC_GRV,  KC_LGUI, KC_LALT,                   _______,                        KC_HOME, KC_END,       KC_HOME, KC_PGDN, KC_END
+    //Gaming/compatibility layer (Keys are explicitly declared to ensure compatibility)
+    [L_G] = LAYOUT_65_ansi_blocker(
+        KC_ESC,  KC_1,    KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,   KC_0,    KC_MINS, KC_EQL,  KC_BSPC, TG(L_G),
+        KC_TAB,  KC_Q,    KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_VOLU,
+        KC_LCTL, KC_A,    KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT,          KC_ENT,  HOM_END,
+        KC_LSFT, KC_Z,    KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,          KC_GRV,  KC_UP,   PG_UPDN,
+        KC_GRV,  KC_LGUI, KC_LALT,                _______,                     MO(L_S), TG(L_I), KC_LEFT, KC_DOWN, KC_RGHT
     ),
-    [3] = LAYOUT_65_ansi_blocker(
+    //Modifier layer 1 (Quick symbols, macros, vim-key arrows, keyboard mouse commands)
+    [L_1] = LAYOUT_65_ansi_blocker(
         _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, LAMBDA,  AND_OR,  EQ_NEQ,  KC_DEL,  KC_MUTE,
         _______, S(KC_5), S(KC_6), S(KC_7), S(KC_8), KC_DOT,  KC_EQL,   _______, _______, _______, KC_F12,  BRACES,  PARBRA,  _______, KC_WH_U,
-        _______, S(KC_1), S(KC_2), S(KC_3), S(KC_4), KC_F11,  KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, KC_F5,   SQUOTEP,          _______, KC_WH_D,
-        _______, KC_BSLS, KC_MINS, KC_EQL,  KC_PPLS, _______, _______,  _______, _______, NEXTPAR, NEXTSEN, KC_BTN1,          KC_MS_U, KC_BTN2,
+        _______, S(KC_1), S(KC_2), S(KC_3), S(KC_4), KC_F11,  KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT, KC_F5,   USR_QTP,          _______, KC_WH_D,
+        _______, KC_BSLS, KC_MINS, KC_EQL,  KC_PPLS, _______, _______,  _______, _______, ELPS,  KC_F12,           KC_BTN1, KC_MS_U, KC_BTN2,
         _______, UPDIR,   CDIR,                               _______,                             DM_PLY1, DM_PLY2, KC_MS_L, KC_MS_D, KC_MS_R
     ),
-    [4] = LAYOUT_65_ansi_blocker(
-        TG(2),   KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21, KC_F22,  KC_F23,  KC_F24,  _______, _______,
+    //Modifier layer 2 (F-keys, number home row, media controls)
+    [L_2] = LAYOUT_65_ansi_blocker(
+        TG(L_G), KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_F21, KC_F22,  KC_F23,  KC_F24,  _______, _______,
         _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,  _______, _______,
         _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_MINS,          _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, CDIR,   UPDIR,   _______,          KC_VOLU, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, KC_MINS, CDIR,   UPDIR,            _______, KC_VOLU, _______,
         _______, _______, _______,                            _______,                           _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
     ),
-    [5] = LAYOUT(
-        _______, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,    KC_F9,    KC_F10,  KC_F11,  KC_F12,  MAKE_FL, DM_REC1,
+    //Settings layer (RGB settings, reflashing commands, debug utilities)
+    [L_S] = LAYOUT(
+        _______, KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,    KC_F9,    KC_F10,  KC_F11,  KC_F12,  MK_FLSH, DM_REC1,
         RGB_TOG, KC_1,     KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,     KC_9,     KC_0,    KC_MINS, KC_EQL,  NK_TOGG, DM_PLY1,
         RGB_M_B, RGB_RMOD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, KC_HOME, KC_PGDN, KC_PGUP,  KC_END,   _______, _______,          MD_BOOT, DM_REC2,
-        _______, RGB_MOD,  RGB_VAD, RGB_SPD, RGB_HUD, RGB_SAD, NK_TOGG, DBG_TOG, U_T_AUTO, U_T_AGCR, _______, _______,          KC_PGUP, DM_PLY2,
+        _______, RGB_MOD,  RGB_VAD, RGB_SPD, RGB_HUD, RGB_SAD, NK_TOGG, DBG_TOG, U_T_AUTO, U_T_AGCR, _______,          _______, KC_PGUP, DM_PLY2,
         _______, _______,  _______,                            _______,                              DM_REC1, DM_REC2, KC_HOME, KC_PGDN, KC_END
     ),
     /*
@@ -172,6 +201,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               SEND_STRING("../");
             }
             return false;
+        case ELPS:
+            if (record->event.pressed) {
+              SEND_STRING("...");
+            }
+            return false;
         case EQ_NEQ:
             if (record->event.pressed) {
               clear_mods();
@@ -244,7 +278,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               set_mods(mod_state);
             }
             return false;
-        case SQUOTE:
+        case USR_QT:
             if (record->event.pressed) {
               clear_mods();
               clear_oneshot_mods();
@@ -262,7 +296,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               set_mods(mod_state);
             }
             return false;
-        case SQUOTEP:
+        case USR_QTP:
             if (record->event.pressed) {
               clear_mods();
               clear_oneshot_mods();
@@ -297,7 +331,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               set_mods(mod_state);
             }
             return false;
-        case MAKE_FL:
+        case MK_FLSH:
             clear_mods();
             clear_oneshot_mods();
             if (record->event.pressed) {
@@ -311,17 +345,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             set_mods(mod_state);
             return false;
-        case NEXTSEN:
+        case NXT_SEN:
             if (record->event.pressed) {
               SEND_STRING(". ");
               add_oneshot_mods(MOD_BIT(KC_LSFT));
             }
             return false;
-        case NEXTPAR:
+        case NXT_PAR:
             if (record->event.pressed) {
               SEND_STRING(".");
-              tap_code(KC_ENT);
-              tap_code(KC_ENT);
+              SEND_STRING(SS_LSFT(SS_TAP(X_ENT) SS_TAP(X_ENT)));
               add_oneshot_mods(MOD_BIT(KC_LSFT));
             }
             return false;
