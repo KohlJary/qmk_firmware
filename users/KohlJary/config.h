@@ -1,0 +1,4 @@
+#    define TAPPING_TOGGLE 2
+#    define TAPPING_TERM 200
+
+#    define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD

@@ -177,9 +177,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define ENABLE_RGB_MATRIX_SOLID_SPLASH
 #    define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
 
-#    define TAPPING_TOGGLE 2
-#    define TAPPING_TERM 200
-
-#    define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
-
 #include "config_led.h"
