@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 uint8_t mod_state;
 uint8_t oneshot_mod_state;
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
 
     mod_state = get_mods();
@@ -151,6 +151,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         default:
-            return process_record_user_keycodes(keycode, record); //Process all other keycodes normally
+            return true; //Process all other keycodes normally
     }
 }
