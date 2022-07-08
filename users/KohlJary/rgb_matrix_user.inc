@@ -5,6 +5,9 @@
 // Declare custom effects using the RGB_MATRIX_EFFECT macro
 // (note the lack of semicolon after the macro!)
 RGB_MATRIX_EFFECT(tech_demo_1)
+RGB_MATRIX_EFFECT(tech_demo_2)
+RGB_MATRIX_EFFECT(tech_demo_3)
+RGB_MATRIX_EFFECT(tech_demo_4)
 RGB_MATRIX_EFFECT(my_cool_effect2)
 
 // Step 2.
@@ -21,6 +24,15 @@ enum LED_GROUP {
   LED_NUMR,
   LED_HOME,
   LED_VIM,
+};
+
+enum LED_COLORS {
+  LED_COL_R = 0,
+  LED_COL_O,
+  LED_COL_Y,
+  LED_COL_G,
+  LED_COL_B,
+  LED_COL_V,
 };
 
 // Helper functions
@@ -46,6 +58,19 @@ static int rgb_get_key_row(int x) {
 
 static bool rgb_is_num_row(int x) {
   if (x >= 1 && x <= 12) {
+    return true;
+  }
+  return false;
+}
+
+static bool rgb_is_txt_grp(int x) {
+  if(x >= 16 && x <= 27) {
+    return true;
+  }
+  if(x >= 31 && x <= 41) {
+    return true;
+  }
+  if(x >= 45 && x <= 54) {
     return true;
   }
   return false;
@@ -132,6 +157,126 @@ static bool tech_demo_1(effect_params_t* params) {
     }
     RGB key_rgb = rgb_matrix_hsv_to_rgb(key_hsv);
     rgb_matrix_set_color(i, key_rgb.r, key_rgb.g, key_rgb.b);
+  }
+  return rgb_matrix_check_finished_leds(led_max);
+}
+
+static bool tech_demo_2(effect_params_t* params) {
+  RGB_MATRIX_USE_LIMITS(led_min, led_max);
+  HSV key_hsv = {HSV_WHITE};
+  int rainbow_index = 0;
+  for (uint8_t i = led_min; i < led_max; i++) {
+    /* switch (rainbow_index % 6) { */
+    switch (i % 6) {
+      case LED_COL_R:
+        key_hsv = rgb_create_hsv_struct(HSV_RED);
+        break;
+      case LED_COL_O:
+        key_hsv = rgb_create_hsv_struct(HSV_ORANGE);
+        break;
+      case LED_COL_Y:
+        key_hsv = rgb_create_hsv_struct(HSV_YELLOW);
+        break;
+      case LED_COL_G:
+        key_hsv = rgb_create_hsv_struct(HSV_GREEN);
+        break;
+      case LED_COL_B:
+        key_hsv = rgb_create_hsv_struct(HSV_BLUE);
+        break;
+      case LED_COL_V:
+        key_hsv = rgb_create_hsv_struct(HSV_PURPLE);
+        break;
+    }
+    rainbow_index++;
+    if(rainbow_index > LED_COL_V) {
+      rainbow_index = 0;
+    }
+    key_hsv = rgb_update_breathe_v(key_hsv, params);
+    RGB key_rgb = rgb_matrix_hsv_to_rgb(key_hsv);
+    rgb_matrix_set_color(i, key_rgb.r, key_rgb.g, key_rgb.b);
+  }
+  return rgb_matrix_check_finished_leds(led_max);
+}
+
+static bool tech_demo_3(effect_params_t* params) {
+  RGB_MATRIX_USE_LIMITS(led_min, led_max);
+  HSV key_hsv = {HSV_WHITE};
+  /* int rainbow_index = 0; */
+  for (uint8_t i = led_min; i < led_max; i++) {
+    if(!rgb_is_txt_grp(i)) {
+      switch (i % 6) {
+        case LED_COL_R:
+          key_hsv = rgb_create_hsv_struct(HSV_RED);
+          break;
+        case LED_COL_O:
+          key_hsv = rgb_create_hsv_struct(HSV_ORANGE);
+          break;
+        case LED_COL_Y:
+          key_hsv = rgb_create_hsv_struct(HSV_YELLOW);
+          break;
+        case LED_COL_G:
+          key_hsv = rgb_create_hsv_struct(HSV_GREEN);
+          break;
+        case LED_COL_B:
+          key_hsv = rgb_create_hsv_struct(HSV_BLUE);
+          break;
+        case LED_COL_V:
+          key_hsv = rgb_create_hsv_struct(HSV_PURPLE);
+          break;
+      }
+      /* rainbow_index++; */
+      /* if(rainbow_index > LED_COL_V) { */
+      /*   rainbow_index = 0; */
+      /* } */
+      /* effect_runner_dx_dy_dist_per_key(i, params, &CYCLE_LEFT_RIGHT_math); */
+      key_hsv = rgb_update_breathe_v(key_hsv, params);
+      RGB key_rgb = rgb_matrix_hsv_to_rgb(key_hsv);
+      rgb_matrix_set_color(i, key_rgb.r, key_rgb.g, key_rgb.b);
+    }
+    else {
+      effect_runner_dx_dy_dist_per_key(i, params, &CYCLE_SPIRAL_math);
+    }
+  }
+  return rgb_matrix_check_finished_leds(led_max);
+}
+
+static bool tech_demo_4(effect_params_t* params) {
+  RGB_MATRIX_USE_LIMITS(led_min, led_max);
+  HSV key_hsv = {HSV_WHITE};
+  int rainbow_index = 0;
+  for (uint8_t i = led_min; i < led_max; i++) {
+    if(!rgb_is_txt_grp(i)) {
+      switch (i % 6) {
+        case LED_COL_R:
+          key_hsv = rgb_create_hsv_struct(HSV_RED);
+          break;
+        case LED_COL_O:
+          key_hsv = rgb_create_hsv_struct(HSV_ORANGE);
+          break;
+        case LED_COL_Y:
+          key_hsv = rgb_create_hsv_struct(HSV_YELLOW);
+          break;
+        case LED_COL_G:
+          key_hsv = rgb_create_hsv_struct(HSV_GREEN);
+          break;
+        case LED_COL_B:
+          key_hsv = rgb_create_hsv_struct(HSV_BLUE);
+          break;
+        case LED_COL_V:
+          key_hsv = rgb_create_hsv_struct(HSV_PURPLE);
+          break;
+      }
+      rainbow_index++;
+      if(rainbow_index > LED_COL_V) {
+        rainbow_index = 0;
+      }
+      key_hsv = rgb_update_breathe_v(key_hsv, params);
+      RGB key_rgb = rgb_matrix_hsv_to_rgb(key_hsv);
+      rgb_matrix_set_color(i, key_rgb.r, key_rgb.g, key_rgb.b);
+    }
+    else {
+      effect_runner_dx_dy_dist_per_key(i, params, &CYCLE_OUT_IN_math);
+    }
   }
   return rgb_matrix_check_finished_leds(led_max);
 }

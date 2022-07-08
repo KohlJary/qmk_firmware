@@ -13,3 +13,11 @@ bool effect_runner_i(effect_params_t* params, i_f effect_func) {
     }
     return rgb_matrix_check_finished_leds(led_max);
 }
+
+void effect_runner_i_per_key(int i, effect_params_t* params, i_f effect_func) {
+    RGB_MATRIX_USE_LIMITS(led_min, led_max);
+
+    uint8_t time = scale16by8(g_rgb_timer, qadd8(rgb_matrix_config.speed / 4, 1));
+    RGB rgb = rgb_matrix_hsv_to_rgb(effect_func(rgb_matrix_config.hsv, i, time));
+    rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+}
