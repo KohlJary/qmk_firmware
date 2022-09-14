@@ -16,6 +16,7 @@ RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 VIRTSER_ENABLE = no         # USB Serial Driver
 RAW_ENABLE = no             # Raw device
+MOUSEKEY_ENABLE = yes 			# Mouse emulation
 
 # Custom RGB matrix handling
 RGB_MATRIX_ENABLE = yes

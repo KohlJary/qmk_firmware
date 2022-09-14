@@ -8,6 +8,7 @@
 
 uint8_t mod_state;
 uint8_t oneshot_mod_state;
+uint8_t bit_state = 0x00;
 
 __attribute__ ((weak))
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -98,16 +99,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case USR_QT:
       if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
         if (ctrl_mod) {
           if (shift_mod) {
-            SEND_STRING("~");
+           SEND_STRING("~");
           } else {
             SEND_STRING("`");
           }
         } else if (shift_mod) {
-          SEND_STRING("\"");
+          SEND_STRING(SS_LSFT("\""));
         } else {
           SEND_STRING("'");
         }
@@ -131,8 +134,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case SLSH_BS:
       if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
         if (ctrl_mod) {
           if (shift_mod) {
             SEND_STRING("|");
@@ -282,6 +287,100 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         set_mods(mod_state);
       }
+      break;
+  }
+  return process_record_user_bit(keycode, record);
+}
+
+bool process_record_user_bit(uint16_t keycode, keyrecord_t *record) {
+  /* static uint32_t bit_timer[8]; */
+  /* static bool bit_set; */
+
+  switch(keycode) {
+    case BIT_0:
+      if (record->event.pressed) {
+        bit_state = bit_state + 1;
+        /* bit_timer[0] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 1;
+        /* bit_timer[0] = 0; */
+      }
+      break;
+    case BIT_1:
+      if (record->event.pressed) {
+        bit_state = bit_state + 2;
+        /* bit_timer[1] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 2;
+        /* bit_timer[1] = 0; */
+      }
+      break;
+    case BIT_2:
+      if (record->event.pressed) {
+        bit_state = bit_state + 4;
+        /* bit_timer[2] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 4;
+        /* bit_timer[2] = 0; */
+      }
+      break;
+    case BIT_3:
+      if (record->event.pressed) {
+        bit_state = bit_state + 8;
+        /* bit_timer[3] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 8;
+        /* bit_timer[3] = 0; */
+      }
+      break;
+    case BIT_4:
+      if (record->event.pressed) {
+        bit_state = bit_state + 16;
+        /* bit_timer[4] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 16;
+        /* bit_timer[4] = 0; */
+      }
+      break;
+    case BIT_5:
+      if (record->event.pressed) {
+        bit_state = bit_state + 32;
+        /* bit_timer[5] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 32;
+        /* bit_timer[5] = 0; */
+      }
+      break;
+    case BIT_6:
+      if (record->event.pressed) {
+        bit_state = bit_state + 64;
+        /* bit_timer[6] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 64;
+        /* bit_timer[6] = 0; */
+      }
+      break;
+    case BIT_7:
+      if (record->event.pressed) {
+        bit_state = bit_state + 128;
+        /* bit_timer[7] = timer_read32(); */
+      }
+      else {
+        bit_state = bit_state - 128;
+        /* bit_timer[7] = 0; */
+      }
+      break;
+    case BIT_ENT:
+      tap_code(bit_state);
+      tap_code(KC_ENT);
+      bit_state = 0x00;
       break;
   }
   return process_record_keymap(keycode, record);

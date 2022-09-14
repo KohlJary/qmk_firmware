@@ -40,6 +40,15 @@ void dance_pg_up_dn(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
+void dance_pg_cut_copy(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING(SS_LCTL("c"));
+    } else if (state->count == 2) {
+      SEND_STRING(SS_LCTL("x"));
+    }
+    reset_tap_dance(state);
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
   [T_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
@@ -51,4 +60,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [T_HE] = ACTION_TAP_DANCE_FN(dance_hom_end),
   //Tap once for page up, twice for page down
   [T_UD] = ACTION_TAP_DANCE_FN(dance_pg_up_dn),
+  //Tap once for copy selection, twice for cut selection
+  [T_CC] = ACTION_TAP_DANCE_FN(dance_pg_cut_copy),
 };

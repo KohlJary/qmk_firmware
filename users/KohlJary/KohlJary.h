@@ -14,6 +14,7 @@ enum LAYERS {
   L_1, //Modified layer 1 (Quick symbols, macros, vim-key arrows, keyboard mouse commands)
   L_2, //Modified layer 2 (F-keys, number home row, media controls)
   L_S, //Settings layer (RGB settings, reflashing commands, debug utilities)
+  L_8, //Byteboard prototyping layer
 };
 
 extern enum LAYERS layers;

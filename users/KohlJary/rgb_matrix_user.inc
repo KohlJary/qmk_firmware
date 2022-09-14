@@ -36,8 +36,8 @@ enum LED_COLORS {
 };
 
 // Helper functions
-
-static int rgb_get_key_row(int x) {
+__attribute__ ((weak))
+int rgb_get_key_row(int x) {
   if (x >= 0 && x <= 14) {
     return LED_R1;
   }
@@ -56,14 +56,16 @@ static int rgb_get_key_row(int x) {
   return -1;
 }
 
-static bool rgb_is_num_row(int x) {
+__attribute__ ((weak))
+bool rgb_is_num_row(int x) {
   if (x >= 1 && x <= 12) {
     return true;
   }
   return false;
 }
 
-static bool rgb_is_txt_grp(int x) {
+__attribute__ ((weak))
+bool rgb_is_txt_grp(int x) {
   if(x >= 16 && x <= 27) {
     return true;
   }
@@ -76,7 +78,8 @@ static bool rgb_is_txt_grp(int x) {
   return false;
 }
 
-static bool rgb_is_home(int x) {
+__attribute__ ((weak))
+bool rgb_is_home(int x) {
   //asdf
   if (x >= 31 && x <= 34) {
     return true;
@@ -88,7 +91,8 @@ static bool rgb_is_home(int x) {
   return false;
 }
 
-static bool rgb_is_vim(int x) {
+__attribute__ ((weak))
+bool rgb_is_vim(int x) {
   //hjkl
   if (x >= 36 && x <= 39) {
     return true;
@@ -245,6 +249,7 @@ static bool tech_demo_4(effect_params_t* params) {
   HSV key_hsv = {HSV_WHITE};
   int rainbow_index = 0;
   for (uint8_t i = led_min; i < led_max; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
     if(!rgb_is_txt_grp(i)) {
       switch (i % 6) {
         case LED_COL_R:
