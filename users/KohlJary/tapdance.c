@@ -18,6 +18,8 @@ void dance_dir(qk_tap_dance_state_t *state, void *user_data) {
       SEND_STRING("./");
     } else if (state->count == 2) {
       SEND_STRING("../");
+    } else if (state->count == 3) {
+      SEND_STRING("~/");
     }
     reset_tap_dance(state);
 }
@@ -49,6 +51,33 @@ void dance_pg_cut_copy(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
+void dance_eq_neq(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING("==");
+    } else if (state->count == 2) {
+      SEND_STRING("!=");
+    }
+    reset_tap_dance(state);
+}
+
+void dance_dec_inc(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING("--");
+    } else if (state->count == 2) {
+      SEND_STRING("++");
+    }
+    reset_tap_dance(state);
+}
+
+void dance_and_or(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      SEND_STRING("&&");
+    } else if (state->count == 2) {
+      SEND_STRING("||");
+    }
+    reset_tap_dance(state);
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
   [T_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
@@ -62,4 +91,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [T_UD] = ACTION_TAP_DANCE_FN(dance_pg_up_dn),
   //Tap once for copy selection, twice for cut selection
   [T_CC] = ACTION_TAP_DANCE_FN(dance_pg_cut_copy),
+  //Tap once for equals, twice for not equals
+  [T_EQ] = ACTION_TAP_DANCE_FN(dance_eq_neq),
+  //Tap once for decrement, twice for increment
+  [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
+  //Tap once for and, twice for or
+  [T_AO] = ACTION_TAP_DANCE_FN(dance_and_or),
 };
