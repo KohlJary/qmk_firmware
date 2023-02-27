@@ -1,3 +1,4 @@
+SRC += leader.c
 SRC += tapdance.c
 SRC += keycodes.c
 
@@ -14,6 +15,7 @@ AUTO_SHIFT_ENABLE = no      # Auto Shift
 DYNAMIC_MACRO_ENABLE = yes  # Dynamic macro support
 CAPS_WORD_ENABLE = yes      # Caps Word support
 TAP_DANCE_ENABLE = yes			# Tap dance
+LEADER_ENABLE = yes         # Leader key
 
 # Userspace RGB matrix effects
 RGB_MATRIX_CUSTOM_USER = yes

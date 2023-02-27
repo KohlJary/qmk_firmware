@@ -1,6 +1,20 @@
 #include QMK_KEYBOARD_H
 #include "tapdance.h"
 
+// Create a global instance of the tapdance state type
+static td_state_t td_state = TD_NONE;
+
+// Determine the tapdance state to return
+td_state_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->pressed) return TD_SINGLE_TAP;
+        else return TD_SINGLE_HOLD;
+    }
+
+    if (state->count == 2) return TD_DOUBLE_SINGLE_TAP;
+    else return TD_UNKNOWN; // Any number higher than the maximum state value you return above
+}
+
 void dance_sen_par(qk_tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING(". ");
@@ -43,12 +57,12 @@ void dance_pg_up_dn(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void dance_pg_cut_copy(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
+  if (state->count == 1) {
       SEND_STRING(SS_LCTL("c"));
-    } else if (state->count == 2) {
+  } else if (state->count == 2) {
       SEND_STRING(SS_LCTL("x"));
-    }
-    reset_tap_dance(state);
+  }
+  reset_tap_dance(state);
 }
 
 void dance_eq_neq(qk_tap_dance_state_t *state, void *user_data) {
@@ -78,6 +92,95 @@ void dance_and_or(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
+void guilead_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            register_code16(KC_EQL);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_SINGLE_TAP:
+            qk_leader_start();
+            break;
+        default:
+            break;
+    }
+}
+
+void guilead_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            unregister_code16(KC_EQL);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void shiftlead_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            qk_leader_start();
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_SINGLE_TAP:
+            caps_word_toggle();
+            break;
+        default:
+            break;
+    }
+}
+
+void shiftlead_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void altlead_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            register_code16(KC_ENT);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_SINGLE_TAP:
+            qk_leader_start();
+            break;
+        default:
+            break;
+    }
+}
+
+void altlead_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            unregister_code16(KC_ENT);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
   [T_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
@@ -97,4 +200,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
   //Tap once for and, twice for or
   [T_AO] = ACTION_TAP_DANCE_FN(dance_and_or),
+  //Hold for GUI, tap for leader
+  [T_GL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guilead_finished, guilead_reset),
+  //Hold for Shift, tap for leader
+  [T_SL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftlead_finished, shiftlead_reset),
+  //Hold for Alt, tap for leader
+  [T_AL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altlead_finished, altlead_reset)
 };

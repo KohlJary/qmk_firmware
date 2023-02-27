@@ -15,6 +15,9 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+static uint8_t bspc_tracker;
+static uint8_t del_tracker;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
 
@@ -22,6 +25,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   oneshot_mod_state = get_oneshot_mods();
 
   bool ctrl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
+  bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT);
   bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
 
   switch (keycode) {
@@ -47,12 +51,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case AND_OR:
       if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING("||");
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
+        if (ctrl_mod) {
+          if (shift_mod) {
+            SEND_STRING("?");
+          } else {
+            SEND_STRING("!");
+          }
         } else {
-          SEND_STRING("&&");
+          if (shift_mod) {
+            SEND_STRING("|");
+          } else {
+            SEND_STRING("&");
+          }
         }
         set_mods(mod_state);
       }
@@ -117,18 +131,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       break;
-    case USR_QTP:
+    case CUT_COP:
       if (record->event.pressed) {
         clear_mods();
         clear_oneshot_mods();
-        if (ctrl_mod) {
-          SEND_STRING("``");
+        if (alt_mod) {
+          SEND_STRING(SS_LCTL("a"));
+        } else if (ctrl_mod) {
+          SEND_STRING(SS_LCTL("x"));
         } else if (shift_mod) {
-          SEND_STRING("\"\"");
+          SEND_STRING(SS_LCTL("v"));
         } else {
-          SEND_STRING("''");
+          SEND_STRING(SS_LCTL("c"));
         }
-        tap_code(KC_LEFT);
         set_mods(mod_state);
       }
       break;
@@ -152,6 +167,73 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
         }
         set_mods(mod_state);
+      }
+      break;
+    case DOT_EXC:
+      if (record->event.pressed) {
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
+        if (ctrl_mod) {
+          if (shift_mod) {
+            SEND_STRING("?");
+          } else {
+            SEND_STRING("!");
+          }
+        } else {
+          if (shift_mod) {
+            SEND_STRING(">");
+          } else {
+            SEND_STRING(".");
+          }
+        }
+        set_mods(mod_state);
+      }
+      break;
+    case CLN_DSH:
+      if (record->event.pressed) {
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
+        if (ctrl_mod) {
+          if (shift_mod) {
+            SEND_STRING("_");
+          } else {
+            SEND_STRING("-");
+          }
+        } else {
+          if (shift_mod) {
+            SEND_STRING(":");
+          } else {
+            SEND_STRING(";");
+          }
+        }
+        set_mods(mod_state);
+      }
+      break;
+    case BSP_DEL:
+      if (record->event.pressed) {
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+          if (shift_mod) {
+            register_code(KC_DEL);
+            del_tracker++;
+          } else {
+            register_code(KC_BSPC);
+            bspc_tracker++;
+          }
+        set_mods(mod_state);
+      } else {
+        if (bspc_tracker) {
+          unregister_code(KC_BSPC);
+          bspc_tracker--;
+        }
+        if (del_tracker) {
+          unregister_code(KC_DEL);
+          del_tracker--;
+        }
       }
       break;
     case MK_FLSH:

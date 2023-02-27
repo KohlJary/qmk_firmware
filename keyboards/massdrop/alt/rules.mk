@@ -17,6 +17,7 @@ AUDIO_ENABLE = no           # Audio output
 VIRTSER_ENABLE = no         # USB Serial Driver
 RAW_ENABLE = no             # Raw device
 MOUSEKEY_ENABLE = yes 			# Mouse emulation
+LEADER_ENABLE = yes
 
 # Custom RGB matrix handling
 RGB_MATRIX_ENABLE = yes

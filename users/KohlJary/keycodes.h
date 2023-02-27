@@ -11,8 +11,11 @@ enum USR_KEYCODES {
     BRACES,  //Brace/curly brace
     PARBRA,  //Parentheses/brackets
     USR_QT,  //Single/double/back quote on one key
-    USR_QTP, //Single/double/back quote pair on one key
+    CUT_COP, //Cut/copy/paste/select all on one key
     SLSH_BS, //Slash/backslash on one key
+    DOT_EXC, //Period/>/? on one key
+    CLN_DSH, //Semicolon/colon/-/_ on one key
+    BSP_DEL, //Backspace/delete on one key
     ELPS,    //Ellipses
     MK_FLSH, //Make/flash keymap
     T_RSTRT, //Restart terminal process shortcut

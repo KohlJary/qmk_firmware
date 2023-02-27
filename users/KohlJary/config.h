@@ -1,4 +1,7 @@
 #    define TAPPING_TOGGLE 2
-#    define TAPPING_TERM 200
-
-#    define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
+#    define TAPPING_TERM 250
+#    define RETRO_TAPPING_PER_KEY
+#    define PERMISSIVE_HOLD
+#    define LEADER_TIMEOUT 300
+#    define LEADER_PER_KEY_TIMING
+#    define LEADER_NO_TIMEOUT

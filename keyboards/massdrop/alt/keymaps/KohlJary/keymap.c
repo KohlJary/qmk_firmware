@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "KohlJary.h"
 
+LEADER_EXTERNS();
+
 enum alt_keycodes {
     //Massdrop ALT declared keycodes
     U_T_AUTO = NEW_SAFE_RANGE, //USB Extra Port Toggle Auto Detect / Always Active
@@ -17,11 +19,11 @@ enum alt_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //Base layer
     [L_B] = LAYOUT_65_ansi_blocker(
-        G(KC_GRV),     KC_1,         KC_2,         KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,           KC_0,            A(KC_BSPC), A(KC_DEL), C(KC_BSPC), C(KC_DEL),
-        GUI_T(KC_F5),  KC_Q,         KC_W,         KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    KC_O,           KC_P,            KC_BSPC,    KC_DEL,    C(KC_DEL),  KC_MPLY,
-        CTL_T(KC_ESC), KC_A,         KC_S,         KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,           KC_SCLN,         USR_QT,     ALT_T(KC_ENT),         TD(T_HE),
-        KC_LSFT,       LT(L_1,KC_Z), LT(L_2,KC_X), KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, LT(L_2,KC_DOT), LT(L_1,KC_SLSH), RSFT_T(KC_TAB),        CAPSWRD,    KC_UP,
-        MO(L_S),       OSM(MOD_MEH), DM_REC1,                  KC_SPC,                                    DM_PLY1,    OSM(MOD_MEH),    KC_LEFT,   KC_RGHT,    KC_DOWN
+        G(KC_GRV),     KC_1,         KC_2,         KC_3, KC_4, KC_5, KC_6, KC_7, KC_8,    KC_9,         KC_0,         TD(T_AO),     TD(T_EQ), CAPSWRD, TG(L_G),
+        GUI_T(KC_EQL), KC_Q,         KC_W,         KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I,    LT(L_2,KC_O), LT(L_1,KC_P), BSP_DEL,      AND_OR,   KC_MINS, TG(L_I),
+        CTL_T(KC_ESC), KC_A,         KC_S,         KC_D, KC_F, KC_G, KC_H, KC_J, KC_K,    KC_L,         CLN_DSH,      USR_QT,       TD(T_AL),          OSL(L_F),
+        KC_LSFT,       LT(L_1,KC_Z), LT(L_2,KC_X), KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, DOT_EXC,      SLSH_BS,      RSFT_T(KC_TAB),         KC_UP,   OSM(MOD_LCTL|MOD_LSFT),
+        MO(L_S),       OSM(MOD_MEH), TG(L_1),                  KC_SPC,                                  TG(L_2),      OSM(MOD_MEH), KC_LEFT,  KC_DOWN, KC_RGHT
     ),
     //Japanese input layer
     [L_J] = LAYOUT_65_ansi_blocker(
@@ -39,21 +41,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT, KC_Z,    KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,      KC_RSFT,     KC_UP,   KC_VOLD,
         KC_GRV,  KC_LGUI, KC_LALT,                _______,                     TG(L_G), _______, KC_LEFT, KC_DOWN, KC_RGHT
     ),
+    //Inverted number key layout
+    [L_I] = LAYOUT_65_ansi_blocker(
+        _______, INV_1,   INV_2,   INV_3,   INV_4,   INV_5,   INV_6,   INV_7,   INV_8,   INV_9,   INV_0,   _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
+    ),
+    //F-key number key layout
+    [L_F] = LAYOUT_65_ansi_blocker(
+        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,
+        _______, _______, _______,                            _______,                            _______, _______, _______, _______, _______
+    ),
     //Modifier layer 1 (macros, symbols, vim-key arrows, keyboard mouse commands)
     [L_1] = LAYOUT_65_ansi_blocker(
-        _______, _______,  _______,    _______,  _______,    _______,    _______,  _______, _______, _______,   _______,   _______,    _______, _______, _______,
-        _______, S(KC_1),  S(KC_2),    S(KC_3),  S(KC_LBRC), S(KC_RBRC), TD(T_EQ), S(KC_1), KC_EQL,  S(KC_GRV), S(KC_EQL), S(KC_8),    _______, _______, _______,
-        _______, S(KC_6),  S(KC_5),    S(KC_4),  S(KC_9),    S(KC_0),    KC_LEFT,  KC_DOWN, KC_UP,   KC_RGHT,   KC_MINS,   S(KC_MINS),          _______, TD(T_UD),
-        _______, S(KC_7),  S(KC_BSLS), TD(T_AO), KC_LBRC,    KC_RBRC,    _______,  _______, _______, KC_BSLS,   TD(T_IN),              _______, KC_MS_U, KC_BTN1,
-        _______, TD(T_CC), C(KC_V),                                      _______,                               TG(L_G),   TG(L_J),    KC_MS_L, KC_MS_D, KC_MS_R
+        _______, KC_F1,   KC_F2,   KC_F3,     KC_F4,      KC_F5,      KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10,    KC_F11,  KC_F12,   _______,  _______,
+        _______, S(KC_1), S(KC_2), S(KC_3),   S(KC_LBRC), S(KC_RBRC), LAMBDA,  TD(T_EQ), LAMBDA,  S(KC_8), S(KC_EQL), _______, TD(T_AO), TD(T_IN), _______,
+        CAPSWRD, S(KC_6), S(KC_5), S(KC_4),   S(KC_9),    S(KC_0),    KC_LEFT, KC_DOWN,  KC_UP,   KC_RGHT, KC_EQL,    S(KC_MINS),        _______,  _______,
+        _______, S(KC_7), S(KC_8), S(KC_GRV), KC_LBRC,    KC_RBRC,    _______, _______,  _______, _______, _______,            _______,  KC_MS_U,  _______,
+        _______, _______, _______,                                    _______,                             _______,   _______, KC_MS_L,  KC_MS_D,  KC_MS_R
     ),
     //Modifier layer 2 (F-keys, numbers, media controls)
     [L_2] = LAYOUT_65_ansi_blocker(
         _______, S(KC_TAB), KC_TAB, KC_SLSH, S(KC_8), KC_F13,    KC_F14,  KC_F15,  KC_F16,  KC_F17, KC_F18,   KC_F19,  KC_F20,  _______, _______,
-        _______, S(KC_8),   KC_7,   KC_8,    KC_9,    S(KC_EQL), KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,   KC_F11,  _______, _______, _______,
+        _______, S(KC_8),   KC_7,   KC_8,    KC_9,    S(KC_EQL), KC_F7,   KC_F8,   KC_F9,   KC_F10, KC_F11,   _______, _______, _______, _______,
         _______, KC_SLSH,   KC_4,   KC_5,    KC_6,    KC_MINS,   KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_F5,    KC_F12,           _______, _______,
-        _______, KC_0,      KC_1,   KC_2,    KC_3,    KC_TAB,    KC_F1,   KC_F2,   KC_F3,   KC_F4,  TD(T_DR),          _______, KC_PGUP, KC_VOLD,
-        _______, KC_DOT,    KC_EQL,                              _______,                           _______,  _______, KC_HOME, KC_PGDN, KC_END
+        _______, KC_0,      KC_1,   KC_2,    KC_3,    KC_EQL,    KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F6,             _______, KC_PGUP, _______,
+        _______, KC_DOT,    _______,                             _______,                           _______,  _______, KC_HOME, KC_END,  KC_PGDN
     ),
     //Settings layer (RGB settings, reflashing commands, debug utilities)
     [L_S] = LAYOUT(
@@ -61,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         U_T_AUTO, _______,  _______,  _______, _______, _______, _______, AND_OR,  EQ_NEQ,  LAMBDA,  _______,  _______, _______, NK_TOGG, DM_PLY1,
         U_T_AGCR, _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______,          MD_BOOT, DM_REC2,
         TG(L_8),  _______,  _______,  _______, _______, _______, _______, _______, _______, _______, TD(T_DR),          _______, KC_PGUP, DM_PLY2,
-        _______,  _______,  _______,                             _______,                            _______,  _______, KC_HOME, KC_PGDN, KC_END
+        _______,  _______,  TG(L_G),                             _______,                            TG(L_J),  _______, KC_HOME, KC_PGDN, KC_END
     ),
     [L_8] = LAYOUT(
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -80,6 +98,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     */
 };
+
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+  switch(keycode) {
+    case MT(MOD_LCTL, KC_ESC):
+      return true;
+    case MT(MOD_RSFT, KC_TAB):
+      return true;
+    default:
+      return false;
+  }
+}
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
