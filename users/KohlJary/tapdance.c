@@ -5,7 +5,7 @@
 static td_state_t td_state = TD_NONE;
 
 // Determine the tapdance state to return
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
+td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (!state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
@@ -15,7 +15,7 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
     else return TD_UNKNOWN; // Any number higher than the maximum state value you return above
 }
 
-void dance_sen_par(qk_tap_dance_state_t *state, void *user_data) {
+void dance_sen_par(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING(". ");
       add_oneshot_mods(MOD_BIT(KC_LSFT));
@@ -27,7 +27,7 @@ void dance_sen_par(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_dir(qk_tap_dance_state_t *state, void *user_data) {
+void dance_dir(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING("./");
     } else if (state->count == 2) {
@@ -38,7 +38,7 @@ void dance_dir(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_hom_end(qk_tap_dance_state_t *state, void *user_data) {
+void dance_hom_end(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING(SS_TAP(X_HOME));
     } else if (state->count == 2) {
@@ -47,7 +47,7 @@ void dance_hom_end(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_pg_up_dn(qk_tap_dance_state_t *state, void *user_data) {
+void dance_pg_up_dn(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING(SS_TAP(X_PGUP));
     } else if (state->count == 2) {
@@ -56,7 +56,7 @@ void dance_pg_up_dn(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_pg_cut_copy(qk_tap_dance_state_t *state, void *user_data) {
+void dance_pg_cut_copy(tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
       SEND_STRING(SS_LCTL("c"));
   } else if (state->count == 2) {
@@ -65,7 +65,7 @@ void dance_pg_cut_copy(qk_tap_dance_state_t *state, void *user_data) {
   reset_tap_dance(state);
 }
 
-void dance_eq_neq(qk_tap_dance_state_t *state, void *user_data) {
+void dance_eq_neq(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING("==");
     } else if (state->count == 2) {
@@ -74,7 +74,7 @@ void dance_eq_neq(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_dec_inc(qk_tap_dance_state_t *state, void *user_data) {
+void dance_dec_inc(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING("--");
     } else if (state->count == 2) {
@@ -83,7 +83,7 @@ void dance_dec_inc(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_and_or(qk_tap_dance_state_t *state, void *user_data) {
+void dance_and_or(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       SEND_STRING("&&");
     } else if (state->count == 2) {
@@ -92,7 +92,7 @@ void dance_and_or(qk_tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void guilead_finished(qk_tap_dance_state_t *state, void *user_data) {
+void guilead_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
@@ -102,14 +102,14 @@ void guilead_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_SINGLE_TAP:
-            qk_leader_start();
+            leader_start();
             break;
         default:
             break;
     }
 }
 
-void guilead_reset(qk_tap_dance_state_t *state, void *user_data) {
+void guilead_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
             unregister_code16(KC_EQL);
@@ -122,11 +122,11 @@ void guilead_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void shiftlead_finished(qk_tap_dance_state_t *state, void *user_data) {
+void shiftlead_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            qk_leader_start();
+            leader_start();
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -139,7 +139,7 @@ void shiftlead_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void shiftlead_reset(qk_tap_dance_state_t *state, void *user_data) {
+void shiftlead_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
             break;
@@ -151,7 +151,7 @@ void shiftlead_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void altlead_finished(qk_tap_dance_state_t *state, void *user_data) {
+void altlead_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
@@ -161,14 +161,14 @@ void altlead_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_SINGLE_TAP:
-            qk_leader_start();
+            leader_start();
             break;
         default:
             break;
     }
 }
 
-void altlead_reset(qk_tap_dance_state_t *state, void *user_data) {
+void altlead_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
             unregister_code16(KC_ENT);
@@ -181,7 +181,7 @@ void altlead_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
   [T_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
   //Tap once for next sentence, twice for next paragraph

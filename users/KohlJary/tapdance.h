@@ -26,23 +26,23 @@ typedef enum {
 
 extern enum TD_KEYCODES td_keycodes;
 
-void dance_sen_par(qk_tap_dance_state_t *state, void *user_data);
-void dance_dir(qk_tap_dance_state_t *state, void *user_data);
-void dance_hom_end(qk_tap_dance_state_t *state, void *user_data);
-void dance_pg_up_dn(qk_tap_dance_state_t *state, void *user_data);
-void dance_cut_copy(qk_tap_dance_state_t *state, void *user_data);
-void dance_eq_neq(qk_tap_dance_state_t *state, void *user_data);
-void dance_dec_inc(qk_tap_dance_state_t *state, void *user_data);
-void dance_and_or(qk_tap_dance_state_t *state, void *user_data);
+void dance_sen_par(tap_dance_state_t *state, void *user_data);
+void dance_dir(tap_dance_state_t *state, void *user_data);
+void dance_hom_end(tap_dance_state_t *state, void *user_data);
+void dance_pg_up_dn(tap_dance_state_t *state, void *user_data);
+void dance_cut_copy(tap_dance_state_t *state, void *user_data);
+void dance_eq_neq(tap_dance_state_t *state, void *user_data);
+void dance_dec_inc(tap_dance_state_t *state, void *user_data);
+void dance_and_or(tap_dance_state_t *state, void *user_data);
 
 // Function to determine the current tapdance state
-td_state_t cur_dance(qk_tap_dance_state_t *state);
+td_state_t cur_dance(tap_dance_state_t *state);
 
-void guilead_finished(qk_tap_dance_state_t *state, void *user_data);
-void guilead_reset(qk_tap_dance_state_t *state, void *user_data);
+void guilead_finished(tap_dance_state_t *state, void *user_data);
+void guilead_reset(tap_dance_state_t *state, void *user_data);
 
-void shiftlead_finished(qk_tap_dance_state_t *state, void *user_data);
-void shiftlead_reset(qk_tap_dance_state_t *state, void *user_data);
+void shiftlead_finished(tap_dance_state_t *state, void *user_data);
+void shiftlead_reset(tap_dance_state_t *state, void *user_data);
 
-void altlead_finished(qk_tap_dance_state_t *state, void *user_data);
-void altlead_reset(qk_tap_dance_state_t *state, void *user_data);
+void altlead_finished(tap_dance_state_t *state, void *user_data);
+void altlead_reset(tap_dance_state_t *state, void *user_data);
