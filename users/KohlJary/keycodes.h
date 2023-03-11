@@ -6,6 +6,8 @@ bool process_record_user_bit(uint16_t keycode, keyrecord_t *record);
 enum USR_KEYCODES {
     //User keycodes
     EQ_NEQ = SAFE_RANGE,  //Equal/not equal comparison
+    LTE_GTE, //Less than equal to/greater than equal to
+    INC_DEC, //Increment/decrement operator
     AND_OR,  //And/or operator
     LAMBDA,  //Lambda operator
     BRACES,  //Brace/curly brace

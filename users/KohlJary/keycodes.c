@@ -43,8 +43,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
           SEND_STRING("==");
         }
-        if (ctrl_mod) {
-          SEND_STRING("=");
+        set_mods(mod_state);
+      }
+      break;
+    case LTE_GTE:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING(">=");
+        } else {
+          SEND_STRING("<=");
+        }
+        set_mods(mod_state);
+      }
+      break;
+    case INC_DEC:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING("++");
+        } else {
+          SEND_STRING("--");
         }
         set_mods(mod_state);
       }
@@ -53,20 +74,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);
         del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
-          if (shift_mod) {
-            SEND_STRING("?");
-          } else {
-            SEND_STRING("!");
-          }
+        if (shift_mod) {
+          SEND_STRING("|");
         } else {
-          if (shift_mod) {
-            SEND_STRING("|");
-          } else {
-            SEND_STRING("&");
-          }
+          SEND_STRING("&");
         }
         set_mods(mod_state);
       }
@@ -75,9 +86,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         clear_mods();
         clear_oneshot_mods();
-        if (ctrl_mod) {
-          SEND_STRING("() => {}");
-        } else if (shift_mod) {
+        if (shift_mod) {
           SEND_STRING("->");
         } else {
           SEND_STRING("=>");
@@ -113,22 +122,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case USR_QT:
       if (record->event.pressed) {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
-          if (shift_mod) {
-           SEND_STRING("~");
+        key_timer = timer_read();
+        register_code(KC_RALT);
+      } else {
+        if(timer_elapsed(key_timer) < TAPPING_TERM) {
+          unregister_code(KC_RALT);
+          del_mods(MOD_MASK_CTRL);
+          del_oneshot_mods(MOD_MASK_CTRL);
+          if(ctrl_mod) {
+            tap_code(KC_GRV);
           } else {
-            SEND_STRING("`");
+            tap_code(KC_QUOT);
           }
-        } else if (shift_mod) {
-          SEND_STRING(SS_LSFT("\""));
-        } else {
-          SEND_STRING("'");
+          set_mods(mod_state);
         }
-        set_mods(mod_state);
+        unregister_code(KC_RALT);
       }
       break;
     case CUT_COP:

@@ -19,3 +19,4 @@
 #pragma once
 
 #define ORYX_CONFIGURATOR
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD

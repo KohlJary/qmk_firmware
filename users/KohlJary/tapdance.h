@@ -13,6 +13,9 @@ enum TD_KEYCODES{
   T_GL, //Hold: GUI, 1: Leader
   T_SL, //Hold: Shift, 1: Leader
   T_AL, //Hold: Alt, 1: Enter, 2: Leader
+  T_2L, //Hold: Layer 2, 1: Leader
+  T_LS, //Hold: Left Shift, 1: OSM Shift, 2: Open Paren
+  T_RS, //Hold: Right Shift, 1: Caps Word, 2: Close Paren
 };
 
 // Define a type containing as many tapdance states as you need
@@ -21,7 +24,8 @@ typedef enum {
     TD_UNKNOWN,
     TD_SINGLE_TAP,
     TD_SINGLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD
 } td_state_t;
 
 extern enum TD_KEYCODES td_keycodes;
@@ -46,3 +50,12 @@ void shiftlead_reset(tap_dance_state_t *state, void *user_data);
 
 void altlead_finished(tap_dance_state_t *state, void *user_data);
 void altlead_reset(tap_dance_state_t *state, void *user_data);
+
+void twolead_finished(tap_dance_state_t *state, void *user_data);
+void twolead_reset(tap_dance_state_t *state, void *user_data);
+
+void leftshift_finished(tap_dance_state_t *state, void *user_data);
+void leftshift_reset(tap_dance_state_t *state, void *user_data);
+
+void rightshift_finished(tap_dance_state_t *state, void *user_data);
+void rightshift_reset(tap_dance_state_t *state, void *user_data);
