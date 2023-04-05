@@ -38,6 +38,7 @@
  * TD(T_RS): Single tap; caps word toggle, Hold; shift modifier, Double tap; closing parnenthesis
  * TD(T_2L): Single tap; leader key, Hold; activate layer 2 momentary
  *
+ * TD(T_CE): Single tap; Escape, Hold: Control, Double tap hold; Control+Alt
  * TD(T_EQ): Single tap; ==, Long tap; !=
  * TD(T_IN): Single tap; ++, Double tap; --
  * TD(T_AO): Single tap; &&, Double tap; ||
@@ -80,12 +81,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_1] = LAYOUT_moonlander(
-        TG(L_F), G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), TG(L_G),           TG(L_F), G(KC_6), G(KC_7), G(KC_8), G(KC_9), G(KC_0), QK_BOOT,
-        _______, KC_EXLM, KC_AT,   KC_HASH, KC_LABK, KC_RABK, KC_PLUS,           KC_WH_U, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_PLUS, _______,
-        _______, KC_CIRC, KC_PERC, KC_DLR,  KC_LCBR, KC_RCBR, KC_MINS,           KC_WH_D, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,_______, _______,
-        _______, AND_OR,  KC_ASTR, KC_TILD, KC_LBRC, KC_RBRC,                             KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-        _______, DM_REC1, DM_REC2, DM_PLY1, DM_PLY2,          _______,           _______,          _______, _______, _______, _______, _______,
-                                            C(KC_V), C(KC_C), C(KC_X),           _______, KC_MS_BTN1, KC_MS_BTN2
+        TG(L_F), LCA(KC_F1), LCA(KC_F2), LCA(KC_3), LCA(KC_F4), LCA(KC_F5), TG(L_G),           TG(L_F), LCA(KC_F6), LCA(KC_F7), LCA(KC_F8), LCA(KC_F9), LCA(KC_F10),QK_BOOT,
+        _______, KC_EXLM,    KC_AT,      KC_HASH,   KC_LABK,    KC_RABK,    KC_PLUS,           KC_WH_U, KC_HOME,    KC_PGDN,    KC_PGUP,    KC_END,     KC_PLUS,  _______,
+        _______, KC_CIRC,    KC_PERC,    KC_DLR,    KC_LCBR,    KC_RCBR,    KC_MINS,           KC_WH_D, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,   _______,  _______,
+        _______, AND_OR,     KC_ASTR,    KC_TILD,   KC_LBRC,    KC_RBRC,                                KC_MS_L,    KC_MS_D,    KC_MS_U,    KC_MS_R,    _______,  _______,
+        _______, DM_REC1,    DM_REC2,    DM_PLY1,   DM_PLY2,                _______,           _______,             _______,    _______,    _______,    _______,  _______,
+                                                    C(KC_V),    C(KC_C),    C(KC_X),           _______, KC_MS_BTN1, KC_MS_BTN2
     ),
 
     [L_2] = LAYOUT_moonlander(

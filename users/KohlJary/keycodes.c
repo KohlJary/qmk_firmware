@@ -22,7 +22,7 @@ static bool user_return;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
-  static uint32_t usrqt_key_timer;
+  /* static uint32_t usrqt_key_timer; */
   static uint32_t eq_key_timer;
   static uint32_t ao_key_timer;
   static uint32_t incdec_key_timer;
@@ -149,13 +149,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case USR_QT:
       if (record->event.pressed) {
-        usrqt_key_timer = timer_read();
-      } else {
-        if(timer_elapsed(usrqt_key_timer) > TAPPING_TERM) {
-          tap_code(KC_GRV);
+        del_mods(MOD_MASK_SHIFT);
+        del_oneshot_mods(MOD_MASK_SHIFT);
+        del_mods(MOD_MASK_CTRL);
+        del_oneshot_mods(MOD_MASK_CTRL);
+        if (ctrl_mod) {
+          if (shift_mod) {
+            SEND_STRING("~");
+          } else {
+            SEND_STRING("`");
+          }
         } else {
-          tap_code(KC_QUOT);
+          if (shift_mod) {
+            SEND_STRING("\"");
+          } else {
+            SEND_STRING("'");
+          }
         }
+        set_mods(mod_state);
       }
       break;
     case CUT_COP:
