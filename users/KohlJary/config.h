@@ -1,5 +1,6 @@
 #    define TAPPING_TOGGLE 2
 #    define TAPPING_TERM 250
+#    define QUICK_TAPPING_TERM 200
 #    define RETRO_TAPPING_PER_KEY
 #    define PERMISSIVE_HOLD
 #    define LEADER_TIMEOUT 300

@@ -1,9 +1,14 @@
 #include QMK_KEYBOARD_H
 #include "layers.h"
 #include "tapdance.h"
+#include "keycodes.h"
 
 // Create a global instance of the tapdance state type
 static td_state_t td_state = TD_NONE;
+static td_state_t ctrlesc_td_state = TD_NONE;
+static td_state_t bspdel_td_state = TD_NONE;
+
+static bool bspdel_registered;
 
 // Determine the tapdance state to return
 td_state_t cur_dance(tap_dance_state_t *state) {
@@ -224,11 +229,19 @@ void leftshift_finished(tap_dance_state_t *state, void *user_data) {
             add_oneshot_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_TAP:
-            SEND_STRING("(");
+            if (IS_LAYER_ON(L_2)) {
+              SEND_STRING("[");
+            } else if (IS_LAYER_ON(L_1)) {
+              SEND_STRING("{");
+            } else {
+              SEND_STRING("(");
+            }
             break;
         case TD_SINGLE_HOLD:
-        case TD_DOUBLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         default:
             break;
@@ -238,8 +251,10 @@ void leftshift_finished(tap_dance_state_t *state, void *user_data) {
 void leftshift_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
-        case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
             break;
@@ -250,14 +265,25 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            caps_word_toggle();
+            caps_word_on();
             break;
         case TD_DOUBLE_TAP:
-            SEND_STRING(")");
+            caps_word_off();
+            if (IS_LAYER_ON(L_2)) {
+              SEND_STRING("]");
+            } else if (IS_LAYER_ON(L_1)) {
+              SEND_STRING("}");
+            } else {
+              SEND_STRING(")");
+            }
             break;
         case TD_SINGLE_HOLD:
-        case TD_DOUBLE_HOLD:
+            caps_word_off();
             register_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            caps_word_off();
+            register_mods(MOD_BIT(KC_RCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         default:
             break;
@@ -267,9 +293,152 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
 void rightshift_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
-        case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_RCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void ctrlesc_finished(tap_dance_state_t *state, void *user_data) {
+    ctrlesc_td_state = cur_dance(state);
+    switch (ctrlesc_td_state) {
+        case TD_DOUBLE_TAP:
+        case TD_SINGLE_TAP:
+            tap_code(KC_ESC);
+            break;
+        case TD_DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LCTL));
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void ctrlesc_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ctrlesc_td_state) {
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void onetab_finished(tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_DOUBLE_TAP:
+            SEND_STRING(SS_LSFT("\t"));
+            break;
+        case TD_SINGLE_TAP:
+            tap_code(KC_TAB);
+            break;
+        case TD_SINGLE_HOLD:
+        case TD_DOUBLE_HOLD:
+            layer_on(L_1); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void onetab_reset(tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case TD_SINGLE_HOLD:
+        case TD_DOUBLE_HOLD:
+            layer_off(L_1); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void bspdel_finished(tap_dance_state_t *state, void *user_data) {
+    const uint8_t mod_state = get_mods();
+    /* const uint8_t oneshot_mod_state = get_oneshot_mods(); */
+    const uint8_t mods = get_mods() | get_oneshot_mods();
+    bspdel_td_state = cur_dance(state);
+    switch (bspdel_td_state) {
+        case TD_DOUBLE_TAP:
+        case TD_SINGLE_TAP:
+            if(mods & MOD_MASK_SHIFT) {
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              unregister_mods(MOD_MASK_SHIFT);
+              tap_code(KC_DEL);
+              register_mods(mod_state);
+            } else {
+              tap_code(KC_BSPC);
+            }
+            break;
+        case TD_SINGLE_HOLD:
+            layer_on(L_1); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            if(mods & MOD_MASK_SHIFT) {
+              del_oneshot_mods(MOD_MASK_SHIFT);
+              unregister_mods(MOD_MASK_SHIFT);
+              bspdel_registered = true;
+              register_code(KC_DEL);
+              register_mods(mod_state);
+            } else {
+              bspdel_registered = false;
+              register_code(KC_BSPC);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void bspdel_reset(tap_dance_state_t *state, void *user_data) {
+    switch (bspdel_td_state) {
+        case TD_SINGLE_HOLD:
+            layer_off(L_1); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            if(bspdel_registered) {
+              unregister_code(KC_DEL);
+            } else {
+              unregister_code(KC_BSPC);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void copypaste_finished(tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_DOUBLE_TAP:
+            SEND_STRING(SS_LCTL("x"));
+            break;
+        case TD_SINGLE_TAP:
+            SEND_STRING(SS_LCTL("c"));
+            break;
+        case TD_SINGLE_HOLD:
+        case TD_DOUBLE_HOLD:
+            SEND_STRING(SS_LCTL("v"));
+            break;
+        default:
+            break;
+    }
+}
+
+void copypaste_reset(tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
         default:
             break;
     }
@@ -306,4 +475,12 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_LS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, leftshift_finished, leftshift_reset),
   //Hold for shift, single tap for Caps Word, double tap for close paren
   [T_RS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rightshift_finished, rightshift_reset),
+  //Hold for Control, single tap for escape, double tap and hold for Control+Alt
+  [T_CE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlesc_finished, ctrlesc_reset),
+  //Hold for Layer 1, tap for tab, double tap for shift+tab
+  [T_1T] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, onetab_finished, onetab_reset),
+  //Hold for Layer 1, double tap and hold for backspace/delete
+  [T_BD] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, bspdel_finished, bspdel_reset),
+  //Hold for paste, single tap for copy, double tap for cut
+  [T_CP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copypaste_finished, copypaste_reset),
 };

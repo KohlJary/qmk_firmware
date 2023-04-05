@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
 #include <stdbool.h>
 #include "keycodes.h"
+#include "layers.h"
 
 #define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
 #define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
@@ -17,10 +18,18 @@ bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
 
 static uint8_t bspc_tracker;
 static uint8_t del_tracker;
+static bool user_return;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
+  static uint32_t usrqt_key_timer;
+  static uint32_t eq_key_timer;
+  static uint32_t ao_key_timer;
+  static uint32_t incdec_key_timer;
+  /* static uint32_t bsp_key_timer; */
+  /* static uint8_t usrqt_tap_count; */
 
+  user_return = false;
   mod_state = get_mods();
   oneshot_mod_state = get_oneshot_mods();
 
@@ -36,12 +45,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case EQ_NEQ:
       if (record->event.pressed) {
+        eq_key_timer = timer_read();
+      } else {
         clear_mods();
         clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING("!=");
-        } else {
+        if(timer_elapsed(eq_key_timer) < TAPPING_TERM) {
           SEND_STRING("==");
+        } else {
+          SEND_STRING("!=");
         }
         set_mods(mod_state);
       }
@@ -57,31 +68,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         set_mods(mod_state);
       }
-      break;
+      return false;
     case INC_DEC:
       if (record->event.pressed) {
+        incdec_key_timer = timer_read();
+      } else {
         clear_mods();
         clear_oneshot_mods();
         if (shift_mod) {
-          SEND_STRING("++");
+          SEND_STRING("-");
+          if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
+            SEND_STRING("-");
+          }
         } else {
-          SEND_STRING("--");
+          SEND_STRING("+");
+          if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
+            SEND_STRING("+");
+          }
         }
         set_mods(mod_state);
       }
       break;
     case AND_OR:
       if (record->event.pressed) {
+        ao_key_timer = timer_read();
+      } else {
         del_mods(MOD_MASK_SHIFT);
         del_oneshot_mods(MOD_MASK_SHIFT);
         if (shift_mod) {
           SEND_STRING("|");
+          if(timer_elapsed(ao_key_timer) > TAPPING_TERM) {
+            SEND_STRING("|");
+          }
         } else {
           SEND_STRING("&");
+          if(timer_elapsed(ao_key_timer) > TAPPING_TERM) {
+            SEND_STRING("&");
+          }
         }
         set_mods(mod_state);
       }
-      break;
+      return false;
     case LAMBDA:
       if (record->event.pressed) {
         clear_mods();
@@ -91,7 +118,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
           SEND_STRING("=>");
         }
-        set_mods(mod_state);
+        return false;
       }
       break;
     case BRACES:
@@ -122,21 +149,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case USR_QT:
       if (record->event.pressed) {
-        key_timer = timer_read();
-        register_code(KC_RALT);
+        usrqt_key_timer = timer_read();
       } else {
-        if(timer_elapsed(key_timer) < TAPPING_TERM) {
-          unregister_code(KC_RALT);
-          del_mods(MOD_MASK_CTRL);
-          del_oneshot_mods(MOD_MASK_CTRL);
-          if(ctrl_mod) {
-            tap_code(KC_GRV);
-          } else {
-            tap_code(KC_QUOT);
-          }
-          set_mods(mod_state);
+        if(timer_elapsed(usrqt_key_timer) > TAPPING_TERM) {
+          tap_code(KC_GRV);
+        } else {
+          tap_code(KC_QUOT);
         }
-        unregister_code(KC_RALT);
       }
       break;
     case CUT_COP:
@@ -198,7 +217,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         set_mods(mod_state);
       }
-      break;
+      return false;
     case CLN_DSH:
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);
@@ -220,18 +239,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         set_mods(mod_state);
       }
-      break;
+      return false;
     case BSP_DEL:
       if (record->event.pressed) {
+        /* bsp_key_timer = timer_read(); */
         del_mods(MOD_MASK_SHIFT);
         del_oneshot_mods(MOD_MASK_SHIFT);
-          if (shift_mod) {
-            register_code(KC_DEL);
-            del_tracker++;
-          } else {
-            register_code(KC_BSPC);
-            bspc_tracker++;
-          }
+        if (shift_mod) {
+          register_code(KC_DEL);
+          del_tracker++;
+        } else {
+          register_code(KC_BSPC);
+          bspc_tracker++;
+        }
         set_mods(mod_state);
       } else {
         if (bspc_tracker) {
@@ -243,7 +263,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           del_tracker--;
         }
       }
-      break;
+      return false;
+    // Shift+backspace for delete
+    case KC_BSPC:
+    case LT(L_1,KC_BSPC):
+    {
+        // Initialize a boolean variable that keeps track
+        // of the delete key status: registered or not?
+        static bool delkey_registered;
+        if (record->event.pressed) {
+            // Detect the activation of either shift keys
+            if (mod_state & MOD_MASK_SHIFT) {
+                // First temporarily canceling both shifts so that
+                // shift isn't applied to the KC_DEL keycode
+                del_mods(MOD_MASK_SHIFT);
+                register_code(KC_DEL);
+                // Update the boolean variable to reflect the status of KC_DEL
+                delkey_registered = true;
+                // Reapplying modifier state so that the held shift key(s)
+                // still work even after having tapped the Backspace/Delete key.
+                set_mods(mod_state);
+                return false;
+            }
+        } else { // on release of KC_BSPC
+            // In case KC_DEL is still being sent even after the release of KC_BSPC
+            if (delkey_registered) {
+                unregister_code(KC_DEL);
+                delkey_registered = false;
+                return false;
+            }
+        }
+        // Let QMK process the KC_BSPC keycode as usual outside of shift
+        return true;
+    }
     case MK_FLSH:
       clear_mods();
       clear_oneshot_mods();
@@ -255,6 +307,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (timer_elapsed32(key_timer) >= 500) {
           reset_keyboard();
         }
+      }
+      set_mods(mod_state);
+      break;
+    case T_RSTRT:
+      clear_mods();
+      clear_oneshot_mods();
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL("c"));
+      } else {
+        tap_code(KC_UP);
+        tap_code(KC_ENT);
       }
       set_mods(mod_state);
       break;
@@ -378,6 +441,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       break;
+    default:
+      if(user_return == true) {
+        return false;
+      }
+      return process_record_user_bit(keycode, record);
+  }
+  if(user_return == true) {
+    return false;
   }
   return process_record_user_bit(keycode, record);
 }
@@ -474,4 +545,25 @@ bool process_record_user_bit(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return process_record_keymap(keycode, record);
+}
+
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+        case KC_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case BSP_DEL:
+        case KC_UNDS:
+            return true;
+
+        default:
+            return false;  // Deactivate Caps Word.
+    }
 }

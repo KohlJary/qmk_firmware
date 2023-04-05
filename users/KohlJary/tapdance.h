@@ -16,6 +16,10 @@ enum TD_KEYCODES{
   T_2L, //Hold: Layer 2, 1: Leader
   T_LS, //Hold: Left Shift, 1: OSM Shift, 2: Open Paren
   T_RS, //Hold: Right Shift, 1: Caps Word, 2: Close Paren
+  T_CE, //Hold: Control, 1: Escape, Double Hold: Control+Alt 
+  T_1T, //Hold: Layer 1, 1: Tab, 2: Shift+Tab
+  T_BD, //Hold: Layer 1, Tap || Double Hold: Backspace/Delete
+  T_CP, //Hold: Paste, 1: Copy, 2: Cut
 };
 
 // Define a type containing as many tapdance states as you need
@@ -59,3 +63,15 @@ void leftshift_reset(tap_dance_state_t *state, void *user_data);
 
 void rightshift_finished(tap_dance_state_t *state, void *user_data);
 void rightshift_reset(tap_dance_state_t *state, void *user_data);
+
+void ctrlesc_finished(tap_dance_state_t *state, void *user_data);
+void ctrlesc_reset(tap_dance_state_t *state, void *user_data);
+
+void onetab_finished(tap_dance_state_t *state, void *user_data);
+void onetab_reset(tap_dance_state_t *state, void *user_data);
+
+void bspdel_finished(tap_dance_state_t *state, void *user_data);
+void bspdel_reset(tap_dance_state_t *state, void *user_data);
+
+void copypaste_finished(tap_dance_state_t *state, void *user_data);
+void copypaste_reset(tap_dance_state_t *state, void *user_data);
