@@ -10,6 +10,9 @@ static td_state_t bspdel_td_state = TD_NONE;
 
 static bool bspdel_registered;
 
+uint8_t mod_state;
+uint8_t oneshot_mod_state;
+
 // Determine the tapdance state to return
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -101,28 +104,39 @@ void dance_and_or(tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void guilead_finished(tap_dance_state_t *state, void *user_data) {
+void guiquote_finished(tap_dance_state_t *state, void *user_data) {
+    mod_state = get_mods();
+    oneshot_mod_state = get_oneshot_mods();
+    bool ctrl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_EQL);
+        case TD_DOUBLE_TAP:
+            if (ctrl_mod) {
+                del_mods(MOD_MASK_CTRL);
+                del_oneshot_mods(MOD_MASK_CTRL);
+                register_code16(KC_GRV);
+                set_mods(mod_state);
+                set_oneshot_mods(oneshot_mod_state);
+            } else {
+                register_code16(KC_QUOT);
+            }
             break;
         case TD_SINGLE_HOLD:
         case TD_DOUBLE_HOLD:
             register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            break;
-        case TD_DOUBLE_TAP:
-            leader_start();
             break;
         default:
             break;
     }
 }
 
-void guilead_reset(tap_dance_state_t *state, void *user_data) {
+void guiquote_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
-            unregister_code16(KC_EQL);
+        case TD_DOUBLE_TAP:
+            unregister_code16(KC_GRV);
+            unregister_code16(KC_QUOT);
             break;
         case TD_SINGLE_HOLD:
         case TD_DOUBLE_HOLD:
@@ -464,7 +478,7 @@ tap_dance_action_t tap_dance_actions[] = {
   //Tap once for and, twice for or
   [T_AO] = ACTION_TAP_DANCE_FN(dance_and_or),
   //Hold for GUI, tap for leader
-  [T_GL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guilead_finished, guilead_reset),
+  [T_GQ] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guiquote_finished, guiquote_reset),
   //Hold for Shift, tap for leader
   [T_SL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, shiftlead_finished, shiftlead_reset),
   //Hold for Alt, tap for leader

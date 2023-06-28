@@ -207,25 +207,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       break;
-    case DOT_EXC:
+    case QUE_EXC:
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);
         del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
           if (shift_mod) {
             SEND_STRING("?");
           } else {
             SEND_STRING("!");
           }
-        } else {
-          if (shift_mod) {
-            SEND_STRING(">");
-          } else {
-            SEND_STRING(".");
-          }
-        }
         set_mods(mod_state);
       }
       return false;
@@ -305,6 +295,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
         // Let QMK process the KC_BSPC keycode as usual outside of shift
+        return true;
+    }
+    case ALT_T(KC_QUOT):
+    {
+        static bool grvkey_registered;
+        if (record->event.pressed) {
+            if (mod_state & MOD_MASK_CTRL) {
+                del_mods(MOD_MASK_CTRL);
+                register_code(KC_GRV);
+                grvkey_registered = true;
+                set_mods(mod_state);
+                return false;
+            }
+        } else {
+            if (grvkey_registered) {
+                unregister_code(KC_GRV);
+                grvkey_registered = false;
+                return false;
+            }
+        }
         return true;
     }
     case MK_FLSH:
