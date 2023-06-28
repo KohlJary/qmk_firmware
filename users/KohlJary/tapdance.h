@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+#pragma once
+
 enum TD_KEYCODES{
   T_CN, //1: scln, 2: cln
   T_NS, //1: nxt sen, 2: nxt par
@@ -14,12 +16,13 @@ enum TD_KEYCODES{
   T_SL, //Hold: Shift, 1: Leader
   T_AL, //Hold: Alt, 1: Enter, 2: Leader
   T_2L, //Hold: Layer 2, 1: Leader
-  T_LS, //Hold: Left Shift, 1: OSM Shift, 2: Open Paren
-  T_RS, //Hold: Right Shift, 1: Caps Word, 2: Close Paren
+  T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shft, 1: Open par/bra, 2: Close par/bra
+  T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shft, 1: Oneshot Shft, 2: Caps Word
   T_CE, //Hold: Control, 1: Escape, Double Hold: Control+Alt
   T_1T, //Hold: Layer 1, 1: Tab, 2: Shift+Tab
   T_BD, //Hold: Layer 1, Tap || Double Hold: Backspace/Delete
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
+  T_BR, //Hold: Paste, 1: Open par/bra, 2: Close par/bra
 };
 
 // Define a type containing as many tapdance states as you need
@@ -75,3 +78,6 @@ void bspdel_reset(tap_dance_state_t *state, void *user_data);
 
 void copypaste_finished(tap_dance_state_t *state, void *user_data);
 void copypaste_reset(tap_dance_state_t *state, void *user_data);
+
+void bracedance_finished(tap_dance_state_t *state, void *user_data);
+void bracedance_reset(tap_dance_state_t *state, void *user_data);
