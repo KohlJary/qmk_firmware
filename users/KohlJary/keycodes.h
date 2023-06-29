@@ -15,6 +15,7 @@ enum keyboard_keycodes {
     AT_HASH, //@/# on one key
     DOL_CIR, //$/^ on one key
     PER_AST, //%/* on one key
+    LED_VLD, //leader/vim leader on one key
     CLN_DSH, //Semicolon/colon/-/_ on one key
     BSP_DEL, //Backspace/delete on one key
     MK_FLSH, //Make/flash keymap

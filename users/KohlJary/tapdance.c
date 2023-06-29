@@ -244,8 +244,8 @@ void leftshift_finished(tap_dance_state_t *state, void *user_data) {
             add_oneshot_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_TAP:
-            add_oneshot_mods(MOD_BIT(KC_LGUI));
             add_oneshot_mods(MOD_BIT(KC_LSFT));
+            add_oneshot_mods(MOD_BIT(KC_LGUI));
             tap_code(KC_S);
             break;
         case TD_SINGLE_HOLD:

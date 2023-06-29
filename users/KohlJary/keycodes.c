@@ -25,6 +25,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t dc_key_timer;
   static uint32_t eq_key_timer;
   static uint32_t lg_key_timer;
+  static uint32_t lv_key_timer;
   static uint32_t ao_key_timer;
   static uint32_t ah_key_timer;
   static uint32_t pa_key_timer;
@@ -215,6 +216,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           SEND_STRING("*");
         }
         set_mods(mod_state);
+      }
+      break;
+    case LED_VLD:
+      if (record->event.pressed) {
+        lv_key_timer = timer_read();
+      } else {
+        if(timer_elapsed(lv_key_timer) < TAPPING_TERM) {
+          leader_start();
+        } else {
+          tap_code(KC_F24);
+        }
       }
       break;
     case CLN_DSH:
