@@ -9,15 +9,14 @@ enum keyboard_keycodes {
     INC_DEC, //Increment/decrement operator
     AND_OR,  //And/or operator
     LAMBDA,  //Lambda operator
-    BRACES,  //Brace/curly brace
-    PARBRA,  //Parentheses/brackets
     USR_QT,  //Single/double/back quote on one key
-    CUT_COP, //Cut/copy/paste/select all on one key
     SLSH_BS, //Slash/backslash on one key
     QUE_EXC, //!/? on one key
+    AT_HASH, //@/# on one key
+    DOL_CIR, //$/^ on one key
+    PER_AST, //%/* on one key
     CLN_DSH, //Semicolon/colon/-/_ on one key
     BSP_DEL, //Backspace/delete on one key
-    ELPS,    //Ellipses
     MK_FLSH, //Make/flash keymap
     T_RSTRT, //Restart terminal process shortcut
     INV_1, INV_2, INV_3, INV_4, INV_5, //Inverted num keys

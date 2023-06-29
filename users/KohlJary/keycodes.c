@@ -22,8 +22,12 @@ static bool user_return;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
+  static uint32_t dc_key_timer;
   static uint32_t eq_key_timer;
+  static uint32_t lg_key_timer;
   static uint32_t ao_key_timer;
+  static uint32_t ah_key_timer;
+  static uint32_t pa_key_timer;
   static uint32_t incdec_key_timer;
 
   user_return = false;
@@ -31,15 +35,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   oneshot_mod_state = get_oneshot_mods();
 
   bool ctrl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
-  bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT);
+  /* bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT); */
   bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
 
   switch (keycode) {
-    case ELPS:
-      if (record->event.pressed) {
-        SEND_STRING("...");
-      }
-      break;
     case EQ_NEQ:
       if (record->event.pressed) {
         eq_key_timer = timer_read();
@@ -56,16 +55,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case LTE_GTE:
       if (record->event.pressed) {
+        lg_key_timer = timer_read();
+      } else {
         clear_mods();
         clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING(">=");
-        } else {
+        if(timer_elapsed(lg_key_timer) < TAPPING_TERM) {
           SEND_STRING("<=");
+        } else {
+          SEND_STRING(">=");
         }
         set_mods(mod_state);
       }
-      return false;
+      break;
     case INC_DEC:
       if (record->event.pressed) {
         incdec_key_timer = timer_read();
@@ -118,32 +119,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
-    case BRACES:
-      if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING("{}");
-        } else {
-          SEND_STRING("[]");
-        }
-        tap_code(KC_LEFT);
-        set_mods(mod_state);
-      }
-      break;
-    case PARBRA:
-      if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING("<>");
-        } else {
-          SEND_STRING("()");
-        }
-        tap_code(KC_LEFT);
-        set_mods(mod_state);
-      }
-      break;
     case USR_QT:
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);
@@ -162,22 +137,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           } else {
             SEND_STRING("'");
           }
-        }
-        set_mods(mod_state);
-      }
-      break;
-    case CUT_COP:
-      if (record->event.pressed) {
-        clear_mods();
-        clear_oneshot_mods();
-        if (alt_mod) {
-          SEND_STRING(SS_LCTL("a"));
-        } else if (ctrl_mod) {
-          SEND_STRING(SS_LCTL("x"));
-        } else if (shift_mod) {
-          SEND_STRING(SS_LCTL("v"));
-        } else {
-          SEND_STRING(SS_LCTL("c"));
         }
         set_mods(mod_state);
       }
@@ -216,6 +175,48 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       return false;
+    case AT_HASH:
+      if (record->event.pressed) {
+        ah_key_timer = timer_read();
+      } else {
+        clear_mods();
+        clear_oneshot_mods();
+        if(timer_elapsed(ah_key_timer) < TAPPING_TERM) {
+          SEND_STRING("@");
+        } else {
+          SEND_STRING("#");
+        }
+        set_mods(mod_state);
+      }
+      break;
+    case DOL_CIR:
+      if (record->event.pressed) {
+        dc_key_timer = timer_read();
+      } else {
+        clear_mods();
+        clear_oneshot_mods();
+        if(timer_elapsed(dc_key_timer) < TAPPING_TERM) {
+          SEND_STRING("$");
+        } else {
+          SEND_STRING("^");
+        }
+        set_mods(mod_state);
+      }
+      break;
+    case PER_AST:
+      if (record->event.pressed) {
+        pa_key_timer = timer_read();
+      } else {
+        clear_mods();
+        clear_oneshot_mods();
+        if(timer_elapsed(pa_key_timer) < TAPPING_TERM) {
+          SEND_STRING("%");
+        } else {
+          SEND_STRING("*");
+        }
+        set_mods(mod_state);
+      }
+      break;
     case CLN_DSH:
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);

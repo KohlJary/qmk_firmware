@@ -23,6 +23,9 @@ enum TD_KEYCODES{
   T_BD, //Hold: Layer 1, Tap || Double Hold: Backspace/Delete
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
   T_BR, //Hold: Paste, 1: Open par/bra, 2: Close par/bra
+  T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
+  T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
+  T_GE,
 };
 
 // Define a type containing as many tapdance states as you need
@@ -81,3 +84,12 @@ void copypaste_reset(tap_dance_state_t *state, void *user_data);
 
 void bracedance_finished(tap_dance_state_t *state, void *user_data);
 void bracedance_reset(tap_dance_state_t *state, void *user_data);
+
+void openbrace_finished(tap_dance_state_t *state, void *user_data);
+void openbrace_reset(tap_dance_state_t *state, void *user_data);
+
+void closebrace_finished(tap_dance_state_t *state, void *user_data);
+void closebrace_reset(tap_dance_state_t *state, void *user_data);
+
+void guieq_finished(tap_dance_state_t *state, void *user_data);
+void guieq_reset(tap_dance_state_t *state, void *user_data);

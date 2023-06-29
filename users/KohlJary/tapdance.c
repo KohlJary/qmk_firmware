@@ -7,6 +7,7 @@
 static td_state_t td_state = TD_NONE;
 static td_state_t ctrlesc_td_state = TD_NONE;
 static td_state_t bspdel_td_state = TD_NONE;
+static td_state_t guieq_td_state = TD_NONE;
 
 static bool bspdel_registered;
 
@@ -243,8 +244,8 @@ void leftshift_finished(tap_dance_state_t *state, void *user_data) {
             add_oneshot_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_TAP:
-            add_oneshot_mods(MOD_BIT(KC_LSFT));
             add_oneshot_mods(MOD_BIT(KC_LGUI));
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
             tap_code(KC_S);
             break;
         case TD_SINGLE_HOLD:
@@ -281,7 +282,7 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_TAP:
             caps_word_off();
-            add_oneshot_mods(MOD_BIT(KC_RGUI));
+            add_oneshot_mods(MOD_BIT(KC_LGUI));
             tap_code(KC_EQL);
             break;
         case TD_SINGLE_HOLD:
@@ -491,6 +492,92 @@ void bracedance_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void openbrace_finished(tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            SEND_STRING("{");
+            break;
+        case TD_DOUBLE_TAP:
+            SEND_STRING("[");
+            break;
+        case TD_SINGLE_HOLD:
+            SEND_STRING("(");
+            break;
+        case TD_DOUBLE_HOLD:
+            SEND_STRING("<");
+            break;
+        default:
+            break;
+    }
+}
+
+void openbrace_reset(tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        default:
+            break;
+    }
+}
+
+void closebrace_finished(tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+    switch (td_state) {
+        case TD_SINGLE_TAP:
+            SEND_STRING("}");
+            break;
+        case TD_DOUBLE_TAP:
+            SEND_STRING("]");
+            break;
+        case TD_SINGLE_HOLD:
+            SEND_STRING(")");
+            break;
+        case TD_DOUBLE_HOLD:
+            SEND_STRING(">");
+            break;
+        default:
+            break;
+    }
+}
+
+void closebrace_reset(tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        default:
+            break;
+    }
+}
+
+void guieq_finished(tap_dance_state_t *state, void *user_data) {
+    guieq_td_state = cur_dance(state);
+    switch (guieq_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_EQL);
+            break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_EQL);
+            tap_code(KC_EQL);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI));
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            SEND_STRING("!=");
+            break;
+        default:
+            break;
+    }
+}
+
+void guieq_reset(tap_dance_state_t *state, void *user_data) {
+    switch (guieq_td_state) {
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            break;
+        default:
+            break;
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
   //Tap once for semicolon, twice for colon
   [T_CN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),
@@ -532,4 +619,11 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_CP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copypaste_finished, copypaste_reset),
   //Hold for paste, single tap for open par/bra, double tap for close par/bra
   [T_BR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, bracedance_finished, bracedance_reset),
+  //Hold for open curly, single tap for open paren, double tap for open brace, double hold for open angle brack
+  [T_OB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, openbrace_finished, openbrace_reset),
+  //Hold for close curly, single tap for close paren, double tap for close brace, double hold for close angle brack
+  [T_CB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, closebrace_finished, closebrace_reset),
+  //Hold for close curly, single tap for close paren, double tap for close brace, double hold for close angle brack
+  //Hold for GUI, tap for =, double hold for !=
+  [T_GE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guieq_finished, guieq_reset),
 };
