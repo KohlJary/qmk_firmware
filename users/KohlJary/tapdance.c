@@ -441,8 +441,12 @@ void copypaste_finished(tap_dance_state_t *state, void *user_data) {
             SEND_STRING(SS_LCTL("c"));
             break;
         case TD_SINGLE_HOLD:
-        case TD_DOUBLE_HOLD:
             SEND_STRING(SS_LCTL("v"));
+            break;
+        case TD_DOUBLE_HOLD:
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            add_oneshot_mods(MOD_BIT(KC_LGUI));
+            tap_code(KC_S);
             break;
         default:
             break;
