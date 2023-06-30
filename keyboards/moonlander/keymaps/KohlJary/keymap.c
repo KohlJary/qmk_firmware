@@ -57,11 +57,11 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_B] = LAYOUT_moonlander(
         G(KC_GRV), KC_1,    KC_2,    KC_3,    KC_4,    KC_5, G(KC_P),            G(KC_N),   KC_6,     KC_7,    KC_8,    KC_9,   KC_0,    OSL(L_F),
-        TD(T_GE),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, TD(T_CB),           QK_REP,    KC_Y,     KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
-        TD(T_CE),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G, TD(T_OB),           LED_VLD,   KC_H,     KC_J,    KC_K,    KC_L,   KC_SCLN, ALT_T(KC_QUOT),
+        TD(T_GE),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, QK_AREP,            QK_REP,    KC_Y,     KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
+        TD(T_CE),  KC_A,    KC_S,    KC_D,    KC_F,    KC_G, QK_LEAD,            KC_MPLY,   KC_H,     KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
         TD(T_LS),  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                KC_N,     KC_M,    KC_COMM, KC_DOT, SLSH_BS, TD(T_RS),
         KC_CALC,   _______, _______, _______, _______,       G(KC_SPC),          G(KC_ENT),           KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, T_RSTRT,
-                       LT(L_2,KC_SPC), LT(L_1,KC_TAB), G(KC_TAB),                           TD(T_CP), LT(L_2, KC_ENT),  LT(L_1,KC_BSPC)
+                       LT(L_2,KC_SPC), LT(L_1,KC_TAB), TD(T_LV),                            TD(T_CP), LT(L_2, KC_ENT),  LT(L_1,KC_BSPC)
     ),
 
     [L_G] = LAYOUT_moonlander(
@@ -83,19 +83,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [L_1] = LAYOUT_moonlander(
-        _______, KC_F1,   KC_F2,   KC_3,    KC_F4,   KC_F5,    KC_F11,          KC_F12,  KC_F6,   KC_F7,   KC_F8,   KC_F9,    KC_F10,  QK_BOOT,
-        _______, _______, _______, LAMBDA,  LTE_GTE, KC_TILD,  INC_DEC,         QK_AREP, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,  KC_PGUP, _______,
-        _______, _______, PER_AST, DOL_CIR, AT_HASH, KC_EXLM,  AND_OR,          KC_HOME, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_END,  _______,
-        _______, _______, _______, _______, _______, _______,                            _______, _______, _______, TD(T_DR), KC_PGDN, _______,
-        _______, _______, KC_MPRV, KC_MPLY, KC_MNXT,           _______,         _______,          KC_VOLD, KC_MUTE, KC_VOLU,  _______, TG(L_G),
-                                   _______, _______, QK_AREP,                            _______, _______, _______
+        _______, KC_F1,   KC_F2,   KC_3,    KC_F4,   KC_F5,   KC_F11,            KC_F12,  KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  QK_BOOT,
+        _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), LAMBDA,            KC_PGUP, KC_MS_L, KC_MS_D,  KC_MS_U, KC_MS_R,  LAMBDA,  _______,
+        _______, AND_OR,  PER_AST, DOL_CIR, AT_HASH, KC_EXLM, KC_TILD,           KC_PGDN, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, LTE_GTE, _______,
+        _______, G(KC_6), G(KC_7), G(KC_8), G(KC_9), G(KC_0),                             G(KC_6), G(KC_7),  G(KC_8), TD(T_DR), G(KC_0), _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______,  _______, _______,  _______, TG(L_G),
+                                 G(KC_P), G(KC_TAB), G(KC_N),                             _______, TD(T_CB), TD(T_OB)
     ),
 
     [L_2] = LAYOUT_moonlander(
         QK_BOOT, RGB_HUD, RGB_HUI,  RGB_SAD, RGB_SAI, RGB_VAD, RGB_VAI,          KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  LCA(KC_DEL),
-        _______, KC_SLSH, KC_7,     KC_8,    KC_9,    _______, RGB_SPI,          KC_F17,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
-        _______, KC_DOT,  KC_4,     KC_5,    KC_6,    _______, RGB_SPD,          _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
-        _______, KC_0,    KC_1,     KC_2,    KC_3,    _______,                            KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
+        _______, KC_ASTR, KC_SLSH,  KC_7,     KC_8,    KC_9,   RGB_SPI,          KC_F17,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
+        _______, KC_PLUS, KC_MINS,  KC_4,     KC_5,    KC_6,   RGB_SPD,          _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
+        _______, KC_DOT,  KC_0,     KC_1,     KC_2,    KC_3,                              KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
         _______, _______, RGB_RMOD, RGB_TOG, RGB_MOD,          _______,          _______,          _______, _______, _______, _______, _______,
                                     _______, _______, _______,                            _______, _______, _______
     ),
@@ -109,21 +109,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             _______, _______, _______,           _______, _______, _______
     ),
 };
-
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case ALT_T(KC_QUOT):
-            return true;
-        default:
-            return false;
-    }
-}
-
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case ALT_T(KC_QUOT):
-            return TAPPING_TERM + 150;
-        default:
-            return TAPPING_TERM;
-    }
-}
