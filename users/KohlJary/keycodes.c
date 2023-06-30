@@ -4,13 +4,8 @@
 #include "tapdance.h"
 #include "layers.h"
 
-#define MODS_SHIFT  (get_mods() & MOD_BIT(KC_LSHIFT) || get_mods() & MOD_BIT(KC_RSHIFT))
-#define MODS_CTRL  (get_mods() & MOD_BIT(KC_LCTL) || get_mods() & MOD_BIT(KC_RCTRL))
-#define MODS_ALT  (get_mods() & MOD_BIT(KC_LALT) || get_mods() & MOD_BIT(KC_RALT))
-
 uint8_t mod_state;
 uint8_t oneshot_mod_state;
-uint8_t bit_state = 0x00;
 
 __attribute__ ((weak))
 bool process_record_keymap(uint16_t keycode, keyrecord_t *record) {
@@ -24,18 +19,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t dc_key_timer;
   static uint32_t eq_key_timer;
   static uint32_t lg_key_timer;
-  static uint32_t lv_key_timer;
   static uint32_t ao_key_timer;
   static uint32_t ah_key_timer;
-  static uint32_t pa_key_timer;
   static uint32_t incdec_key_timer;
 
   user_return = false;
   mod_state = get_mods();
   oneshot_mod_state = get_oneshot_mods();
 
-  bool ctrl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
-  /* bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT); */
   bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
 
   switch (keycode) {
@@ -119,50 +110,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
-    case USR_QT:
-      if (record->event.pressed) {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
-          if (shift_mod) {
-            SEND_STRING("~");
-          } else {
-            SEND_STRING("`");
-          }
-        } else {
-          if (shift_mod) {
-            SEND_STRING("\"");
-          } else {
-            SEND_STRING("'");
-          }
-        }
-        set_mods(mod_state);
-      }
-      break;
-    case SLSH_BS:
-      if (record->event.pressed) {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
-          if (shift_mod) {
-            SEND_STRING("|");
-          } else {
-            SEND_STRING("\\");
-          }
-        } else {
-          if (shift_mod) {
-            SEND_STRING("?");
-          } else {
-            SEND_STRING("/");
-          }
-        }
-        set_mods(mod_state);
-      }
-      break;
     case QUE_EXC:
       if (record->event.pressed) {
         del_mods(MOD_MASK_SHIFT);
@@ -203,53 +150,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       break;
-    case PER_AST:
-      if (record->event.pressed) {
-        pa_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(pa_key_timer) < TAPPING_TERM) {
-          SEND_STRING("%");
-        } else {
-          SEND_STRING("*");
-        }
-        set_mods(mod_state);
-      }
-      break;
-    case LED_VLD:
-      if (record->event.pressed) {
-        lv_key_timer = timer_read();
-      } else {
-        if(timer_elapsed(lv_key_timer) < TAPPING_TERM) {
-          leader_start();
-        } else {
-          tap_code(KC_F24);
-        }
-      }
-      break;
-    case CLN_DSH:
-      if (record->event.pressed) {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        del_mods(MOD_MASK_CTRL);
-        del_oneshot_mods(MOD_MASK_CTRL);
-        if (ctrl_mod) {
-          if (shift_mod) {
-            SEND_STRING("_");
-          } else {
-            SEND_STRING("-");
-          }
-        } else {
-          if (shift_mod) {
-            SEND_STRING(":");
-          } else {
-            SEND_STRING(";");
-          }
-        }
-        set_mods(mod_state);
-      }
-      return false;
     case MK_FLSH:
       clear_mods();
       clear_oneshot_mods();
@@ -300,7 +200,6 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_1 ... KC_0:
         case KC_BSPC:
         case KC_DEL:
-        case BSP_DEL:
         case KC_UNDS:
             return true;
 
@@ -348,6 +247,23 @@ const key_override_t vlead_override = ko_make_with_layers_negmods_and_options(MO
 
 const key_override_t bsp_del_override = ko_make_basic(MOD_MASK_SHIFT, LT(L_1,KC_BSPC), KC_DEL);
 
+const key_override_t slsh_bsls_override = ko_make_basic(MOD_MASK_CTRL, KC_SLSH, KC_BSLS);
+
+
+const key_override_t and_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMM, KC_AMPR);
+
+const key_override_t or_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_PIPE);
+
+
+const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_LBRC,
+                                        KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
+const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_LBRC,
+                                        KC_LABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
+const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
+                                        KC_RPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
+const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_RBRC,
+                                        KC_RABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
+
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &next_track_override,
@@ -356,5 +272,12 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &vol_down_override,
     &vlead_override,
     &bsp_del_override,
+    &slsh_bsls_override,
+    &and_override,
+    &or_override,
+    &lprn_override,
+    &labk_override,
+    &rprn_override,
+    &rabk_override,
     NULL
 };
