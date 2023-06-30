@@ -150,6 +150,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         set_mods(mod_state);
       }
       break;
+    case PER_AST:
+      if (record->event.pressed) {
+        pa_key_timer = timer_read();
+      } else {
+        clear_mods();
+        clear_oneshot_mods();
+        if(timer_elapsed(pa_key_timer) < TAPPING_TERM) {
+          SEND_STRING("%");
+        } else {
+          SEND_STRING("*");
+        }
+        break;
     case MK_FLSH:
       clear_mods();
       clear_oneshot_mods();
