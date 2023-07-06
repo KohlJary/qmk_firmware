@@ -9,6 +9,7 @@ static td_state_t ctrlesc_td_state = TD_NONE;
 static td_state_t guieq_td_state = TD_NONE;
 static td_state_t altqt_td_state = TD_NONE;
 static td_state_t ux_td_state = TD_NONE;
+static td_state_t mb_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
 static td_state_t rshift_td_state = TD_NONE;
 
@@ -399,8 +400,7 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
-            add_oneshot_mods(MOD_BIT(KC_LALT));
-            tap_code(KC_DEL);
+            tap_code(KC_C);
             break;
         default:
             break;
@@ -409,9 +409,42 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
 
 void utility_reset(tap_dance_state_t *state, void *user_data) {
     switch (ux_td_state) {
-        case TD_SINGLE_HOLD:
+        case TD_DOUBLE_HOLD:
             tap_code(KC_UP);
             tap_code(KC_ENT);
+            break;
+        default:
+            break;
+    }
+}
+
+void mouse_button_finished(tap_dance_state_t *state, void *user_data) {
+    mb_td_state = cur_dance(state);
+    switch (mb_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_BTN1);
+            break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_BTN2);
+            break;
+        case TD_SINGLE_HOLD:
+            register_code(KC_BTN1);
+            break;
+        case TD_DOUBLE_HOLD:
+            register_code(KC_BTN3);
+            break;
+        default:
+            break;
+    }
+}
+
+void mouse_button_reset(tap_dance_state_t *state, void *user_data) {
+    switch (mb_td_state) {
+        case TD_SINGLE_HOLD:
+            unregister_code(KC_BTN1);
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_code(KC_BTN3);
             break;
         default:
             break;
@@ -445,6 +478,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_GE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guieq_finished, guieq_reset),
   //Hold for GUI, tap for =, double hold for !=
   [T_UX] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, utility_finished, utility_reset),
+  //Tap/Hold for M1, double tap for M2, double hold for M3
+  [T_MB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, mouse_button_finished, mouse_button_reset),
 };
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {

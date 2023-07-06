@@ -15,7 +15,8 @@ enum TD_KEYCODES{
   T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
-  T_UX, //
+  T_UX, //Utility
+  T_MB, //Tap/Hold: M1, Double Tap: M2, Double Tap Hold: M3
 };
 
 // Define a type containing as many tapdance states as you need
@@ -65,3 +66,6 @@ void guieq_reset(tap_dance_state_t *state, void *user_data);
 
 void utility_finished(tap_dance_state_t *state, void *user_data);
 void utility_reset(tap_dance_state_t *state, void *user_data);
+
+void mouse_button_finished(tap_dance_state_t *state, void *user_data);
+void mouse_button_reset(tap_dance_state_t *state, void *user_data);

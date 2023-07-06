@@ -41,9 +41,10 @@
  * TD(T_CE): Single tap; Escape, Hold: Ctrl, Double tap hold; Ctrl+Shift
  * TD(T_AQ): Single tap; ', Hold; Alt, Double tap; `, Double tap hold; Alt+Shift
  * TD(T_GE): Single tap; =, Hold; Gui, Double tap hold; Gui+Shift
- * TD(T_UX): Single tap; Quake terminal, Hold; T_RSTRT behavior, Double tap; Fullscreen, Double tap hold; Ctrl+Alt+Del
+ * TD(T_UX): Single tap; Quake terminal, Hold; Ctrl+C, Double tap; Fullscreen, Double tap hold; T_RSTRT behavior
  *
  * TD(T_CP): Single tap; Copy, Hold; Paste, Double tap; Cut, Double tap hold; Screen capture tool
+ * TD(T_MB): Single tap/hold; M1, Double tap; M2, Double tap hold; M3
  *
  * EQ_NEQ: ==, hold for !=
  * INC_DEC: ++, hold for --
@@ -66,7 +67,6 @@
  *
  * KC_MPLY: Ctrl for next track, Ctrl+Shift for prev track, Alt for vol up, Alt+Shift for vol down, Ctrl+Alt for mute
  *
- * KC_BTN1: Alt for R click
  * KC_WH_U: Shift for wheel down
  *
  * QK_LEAD: Shift for F24 (vim leader key)
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TD(T_GE), KC_Q,    KC_W,   KC_E,     KC_R,    KC_T, QK_LEAD,             KC_AMPR,   KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
         TD(T_CE), KC_A,    KC_S,   KC_D,     KC_F,    KC_G, KC_LBRC,             KC_RBRC,   KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
         TD(T_LS), KC_Z,    KC_X,   KC_C,     KC_V,    KC_B,                                 KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, TD(T_RS),
-        KC_BTN1,  KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,       G(KC_SPC),           G(KC_ENT),         KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, T_RSTRT,
+        TD(T_MB), KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,       G(KC_SPC),           G(KC_ENT),         KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, T_RSTRT,
                       LT(L_2,KC_SPC), LT(L_1,KC_TAB), TD(T_CP),                             QK_REP, LT(L_2, KC_ENT),  LT(L_1,KC_BSPC)
     ),
 
