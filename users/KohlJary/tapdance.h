@@ -9,7 +9,7 @@ enum TD_KEYCODES{
   T_AQ, //Hold: alt, 1: quote, Double Hold: ctrl+alt, 2: grave
   T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shft, 1: Open par/bra, 2: Close par/bra
   T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shft, 1: Oneshot Shft, 2: Caps Word
-  T_CE, //Hold: Control, 1: Escape, Double Hold: Control+Alt
+  T_CE, //Hold: Control, 1: Escape, 2: QMK Leader, Double Hold: Control+Alt
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
   T_BR, //Hold: Paste, 1: Open par/bra, 2: Close par/bra
   T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack

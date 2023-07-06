@@ -191,8 +191,7 @@ void ctrlesc_finished(tap_dance_state_t *state, void *user_data) {
             register_code(KC_ESC);
             break;
         case TD_DOUBLE_TAP:
-            tap_code(KC_ESC);
-            register_code(KC_ESC);
+            leader_start();
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -209,7 +208,6 @@ void ctrlesc_finished(tap_dance_state_t *state, void *user_data) {
 void ctrlesc_reset(tap_dance_state_t *state, void *user_data) {
     switch (ctrlesc_td_state) {
         case TD_SINGLE_TAP:
-        case TD_DOUBLE_TAP:
             unregister_code(KC_ESC);
             break;
         case TD_SINGLE_HOLD:
@@ -464,7 +462,7 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_LS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, leftshift_finished, leftshift_reset),
   //Hold for shift, single tap for Caps Word, double tap for close paren
   [T_RS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rightshift_finished, rightshift_reset),
-  //Hold for Control, single tap for escape, double tap and hold for Control+Alt
+  //Hold for Control, single tap for escape, double tap for QMK leader, double tap and hold for Control+Alt
   [T_CE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrlesc_finished, ctrlesc_reset),
   //Hold for paste, single tap for copy, double tap for cut
   [T_CP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, copypaste_finished, copypaste_reset),
@@ -496,6 +494,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD(T_AQ):
         case TD(T_OB):
         case TD(T_CB):
+        case TD(T_CE):
             return TAPPING_TERM - 50;
         default:
             return TAPPING_TERM;
