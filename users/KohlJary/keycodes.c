@@ -292,6 +292,11 @@ const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD
 const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_RBRC,
                                         KC_RABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 
+
+const key_override_t mouse_btn_override = ko_make_basic(MOD_MASK_ALT, KC_BTN1, KC_BTN2);
+
+const key_override_t mouse_whl_override = ko_make_basic(MOD_MASK_SHIFT, KC_WH_U, KC_WH_D);
+
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &next_track_override,
@@ -310,6 +315,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &labk_override,
     &rprn_override,
     &rabk_override,
+    &mouse_btn_override,
+    &mouse_whl_override,
     NULL
 };
 
