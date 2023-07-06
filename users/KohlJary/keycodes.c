@@ -265,6 +265,8 @@ const key_override_t slsh_bsls_override = ko_make_basic(MOD_MASK_CTRL, KC_SLSH, 
 
 const key_override_t plus_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_PLUS);
 
+const key_override_t quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), KC_GRV);
+
 /* const key_override_t and_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMM, KC_AMPR); */
 
 /* const key_override_t or_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_PIPE); */
@@ -305,6 +307,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &bsp_del_override,
     &slsh_bsls_override,
     &plus_override,
+    &quot_override,
     &and_or_override,
     &and_exlm_override,
     &tild_override,

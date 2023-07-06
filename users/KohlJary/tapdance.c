@@ -64,14 +64,29 @@ void dance_dec_inc(tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
+void dance_layer(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      layer_invert(L_M);
+    } else if (state->count == 2) {
+      layer_invert(L_F);
+    } else if (state->count == 3) {
+      layer_invert(L_G);
+    } else if (state->count == 4) {
+      add_oneshot_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+      add_oneshot_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+      tap_code(KC_DEL);
+    }
+    reset_tap_dance(state);
+}
+
 void altquote_finished(tap_dance_state_t *state, void *user_data) {
     altqt_td_state = cur_dance(state);
     switch (altqt_td_state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_QUOT);
+            register_code(KC_QUOT);
             break;
         case TD_DOUBLE_TAP:
-            register_code16(KC_GRV);
+            register_code(KC_F24);
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -88,10 +103,10 @@ void altquote_finished(tap_dance_state_t *state, void *user_data) {
 void altquote_reset(tap_dance_state_t *state, void *user_data) {
     switch (altqt_td_state) {
         case TD_SINGLE_TAP:
-            unregister_code16(KC_QUOT);
+            unregister_code(KC_QUOT);
             break;
         case TD_DOUBLE_TAP:
-            unregister_code16(KC_GRV);
+            unregister_code(KC_F24);
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
@@ -162,7 +177,7 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_HOLD:
             caps_word_off();
-            register_mods(MOD_BIT(KC_RCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
@@ -176,7 +191,7 @@ void rightshift_reset(tap_dance_state_t *state, void *user_data) {
             unregister_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_RCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
@@ -456,7 +471,7 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_DR] = ACTION_TAP_DANCE_FN(dance_dir),
   //Tap once for decrement, twice for increment
   [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
-  //Hold for Alt, tap for quote, double tap for grave, double hold for Ctrl+Alt
+  //Hold for Alt, tap for quote, double tap for F24, double hold for Alt+Shift
   [T_AQ] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altquote_finished, altquote_reset),
   //Hold for shift, single tap for OSM shift, double tap for open paren
   [T_LS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, leftshift_finished, leftshift_reset),
@@ -478,6 +493,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_UX] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, utility_finished, utility_reset),
   //Tap/Hold for M1, double tap for M2, double hold for M3
   [T_MB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, mouse_button_finished, mouse_button_reset),
+  //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
+  [T_LY] = ACTION_TAP_DANCE_FN(dance_layer),
 };
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
