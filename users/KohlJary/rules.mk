@@ -17,6 +17,8 @@ CAPS_WORD_ENABLE = yes      # Caps Word support
 TAP_DANCE_ENABLE = yes			# Tap dance
 LEADER_ENABLE = yes         # Leader key
 KEY_OVERRIDE_ENABLE = yes   # Key overrides
+UNICODEMAP_ENABLE = no
+UCIS_ENABLE = yes
 
 # Userspace RGB matrix effects
 RGB_MATRIX_CUSTOM_USER = yes

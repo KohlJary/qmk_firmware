@@ -15,4 +15,13 @@ enum keyboard_keycodes {
     PER_AST, //%/* on one key
     MK_FLSH, //Make/flash keymap
     T_RSTRT, //Restart terminal process shortcut
+    UC_STRT, //
+};
+
+enum unicode_names {
+    BANG,
+    IRONY,
+    SNEK,
+    COPY,
+    REGT
 };

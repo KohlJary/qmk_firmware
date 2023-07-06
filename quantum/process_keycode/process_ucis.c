@@ -69,6 +69,14 @@ bool process_ucis(uint16_t keycode, keyrecord_t *record) {
         return true;
     }
 
+    if (keycode == KC_SEMICOLON) {
+        keycode = KC_SPACE;
+    }
+
+    if (keycode == KC_SLASH) {
+        keycode = KC_ESCAPE;
+    }
+
     bool special = keycode == KC_SPACE || keycode == KC_ENTER || keycode == KC_ESCAPE || keycode == KC_BACKSPACE;
     if (ucis_state.count >= UCIS_MAX_SYMBOL_LENGTH && !special) {
         return false;

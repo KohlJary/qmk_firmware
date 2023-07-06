@@ -5,10 +5,7 @@
 enum TD_KEYCODES{
   T_CN, //1: scln, 2: cln
   T_DR, //1: cur dir, 2: up dir
-  T_LV, //1: QMK leader, 2: vim leader
-  T_EQ, //1: ==, 2: !=
   T_IN, //1: --, 2: ++
-  T_AO, //1: &&, 2: ||
   T_AQ, //Hold: alt, 1: quote, Double Hold: ctrl+alt, 2: grave
   T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shft, 1: Open par/bra, 2: Close par/bra
   T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shft, 1: Oneshot Shft, 2: Caps Word
@@ -18,6 +15,7 @@ enum TD_KEYCODES{
   T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
+  T_UX, //
 };
 
 // Define a type containing as many tapdance states as you need
@@ -33,10 +31,7 @@ typedef enum {
 extern enum TD_KEYCODES td_keycodes;
 
 void dance_dir(tap_dance_state_t *state, void *user_data);
-void dance_lead_vlead(tap_dance_state_t *state, void *user_data);
-void dance_eq_neq(tap_dance_state_t *state, void *user_data);
 void dance_dec_inc(tap_dance_state_t *state, void *user_data);
-void dance_and_or(tap_dance_state_t *state, void *user_data);
 
 // Function to determine the current tapdance state
 td_state_t cur_dance(tap_dance_state_t *state);
@@ -67,3 +62,6 @@ void closebrace_reset(tap_dance_state_t *state, void *user_data);
 
 void guieq_finished(tap_dance_state_t *state, void *user_data);
 void guieq_reset(tap_dance_state_t *state, void *user_data);
+
+void utility_finished(tap_dance_state_t *state, void *user_data);
+void utility_reset(tap_dance_state_t *state, void *user_data);
