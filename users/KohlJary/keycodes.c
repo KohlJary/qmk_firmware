@@ -65,16 +65,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         clear_mods();
         clear_oneshot_mods();
-        if (shift_mod) {
-          SEND_STRING("-");
-          if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
-            SEND_STRING("-");
-          }
+        if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
+          send_string("--");
         } else {
-          SEND_STRING("+");
-          if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
-            SEND_STRING("+");
-          }
+          send_string("++");
         }
         set_mods(mod_state);
       }

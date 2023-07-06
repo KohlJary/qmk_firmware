@@ -394,8 +394,8 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
             tap_code(KC_EQL);
             break;
         case TD_SINGLE_HOLD:
-            add_oneshot_mods(MOD_BIT(KC_LGUI));
-            tap_code(KC_SPC);
+            add_oneshot_mods(MOD_BIT(KC_LCTL));
+            tap_code(KC_C);
             break;
         case TD_DOUBLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
@@ -409,6 +409,10 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
 
 void utility_reset(tap_dance_state_t *state, void *user_data) {
     switch (ux_td_state) {
+        case TD_SINGLE_HOLD:
+            tap_code(KC_UP);
+            tap_code(KC_ENT);
+            break;
         default:
             break;
     }

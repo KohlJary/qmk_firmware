@@ -41,15 +41,14 @@
  * TD(T_CE): Single tap; Escape, Hold: Ctrl, Double tap hold; Ctrl+Shift
  * TD(T_AQ): Single tap; ', Hold; Alt, Double tap; `, Double tap hold; Alt+Shift
  * TD(T_GE): Single tap; =, Hold; Gui, Double tap hold; Gui+Shift
- * TD(T_UX): Single tap; Quake terminal, Hold; Application search, Double tap; Fullscreen, Double tap hold; Ctrl+Alt+Del
+ * TD(T_UX): Single tap; Quake terminal, Hold; T_RSTRT behavior, Double tap; Fullscreen, Double tap hold; Ctrl+Alt+Del
  *
  * TD(T_CP): Single tap; Copy, Hold; Paste, Double tap; Cut, Double tap hold; Screen capture tool
  *
  * EQ_NEQ: ==, hold for !=
+ * INC_DEC: ++, hold for --
  * LTE_GTE: <=, shifted for >=
  * LAMBDA: =>, shifted for ->
- * AND_OR: &, shifted for |, hold for double
- * SLSH_BS: /, ctrl for \
  * AT_HASH: tap for @, long press for #
  * DOL_CIR: tap for $, long press for ^
  * PER_AST: tap for %, long press for *
@@ -98,8 +97,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_1] = LAYOUT_moonlander(
         _______, KC_F1,   KC_F2,   KC_3,    KC_F4,   KC_F5,   KC_F11,            KC_F12,  KC_F6,   KC_F7,    KC_F8,   KC_F9,    KC_F10,  QK_BOOT,
-        _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), LAMBDA,            KC_PGUP, KC_MS_L, KC_MS_D,  KC_MS_U, KC_MS_R,  LAMBDA,  _______,
-        _______, AND_OR,  PER_AST, DOL_CIR, AT_HASH, KC_EXLM, KC_TILD,           KC_PGDN, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, LTE_GTE, _______,
+        _______, G(KC_1), G(KC_2), G(KC_3), G(KC_4), G(KC_5), G(KC_P),           G(KC_N), KC_MS_L, KC_MS_D,  KC_MS_U, KC_MS_R,  LAMBDA,  _______,
+        _______, EQ_NEQ,  PER_AST, DOL_CIR, AT_HASH, INC_DEC, KC_PGDN,           KC_PGUP, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, LTE_GTE, _______,
         _______, G(KC_6), G(KC_7), G(KC_8), G(KC_9), G(KC_0),                             G(KC_6), G(KC_7),  G(KC_8), TD(T_DR), G(KC_0), _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______,  _______, _______,  _______, TG(L_G),
                                  G(KC_P), G(KC_TAB), G(KC_N),                             UC_NEXT, TD(T_CB), TD(T_OB)
