@@ -291,12 +291,12 @@ const key_override_t exlm_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EX
 
 const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_LBRC,
                                         KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_ALT, KC_LBRC,
-                                        KC_LABK, ~0, MOD_MASK_CS, ko_option_no_reregister_trigger);
+const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_LBRC,
+                                        KC_LABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
                                         KC_RPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_ALT, KC_RBRC,
-                                        KC_RABK, ~0, MOD_MASK_CS, ko_option_no_reregister_trigger);
+const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_RBRC,
+                                        KC_RABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){

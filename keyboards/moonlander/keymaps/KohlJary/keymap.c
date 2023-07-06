@@ -31,6 +31,7 @@
  * G(KC_EQL): Fullscreen active window
  * G(KC_P): Previous workspace
  * G(KC_N): Next workspace
+ * G(KC_TAB): Workspace back and forth
  * G(KC_SPC): Open application search
  * G(KC_ENT): Open new terminal window
  *
@@ -38,9 +39,11 @@
  * TD(T_RS): Single tap; caps word toggle, Hold; shift modifier, Double tap; end, Double tap + hold; Ctrl+Alt
  *
  * TD(T_CE): Single tap; Escape, Hold: Ctrl, Double tap hold; Ctrl+Shift
- * TD(T_AQ): Single tap; ', Hold: Alt, Double tap; `, Double tap hold; Alt+Shift
+ * TD(T_AQ): Single tap; ', Hold; Alt, Double tap; `, Double tap hold; Alt+Shift
+ * TD(T_GE): Single tap; =, Hold; Gui, Double tap hold; Gui+Shift
+ * TD(T_UX): Single tap; Quake terminal, Hold; Application search, Double tap; Fullscreen, Double tap hold; Ctrl+Alt+Del
  *
- * TD(T_BR): Single tap; ( normal, { with L_1, [ with L_2, Double tap; corresponding closing char
+ * TD(T_CP): Single tap; Copy, Hold; Paste, Double tap; Cut, Double tap hold; Screen capture tool
  *
  * EQ_NEQ: ==, hold for !=
  * LTE_GTE: <=, shifted for >=
@@ -51,19 +54,23 @@
  * DOL_CIR: tap for $, long press for ^
  * PER_AST: tap for %, long press for *
  * T_RSTRT: press for Ctrl+C, release for Up, Enter (restart terminal process)
+ * UC_STRT: start unicode character input
  *
  * KC_AMPR: Shift for |, Ctrl for !
  * KC_MINS: Ctrl for +
  * KC_SLSH: Ctrl for \
  * KC_DOT: Shift for !
  * KC_COMM: Shift for ~
- * KC_LBRC/KC_RBRC: Ctrl for (), Alt for <>
+ * KC_BSPC: Shift for Delete
+ * KC_LBRC/KC_RBRC: Ctrl for (), Ctrl+Shift for <>
  * KC_MPLY: Ctrl for next track, Ctrl+Shift for prev track, Alt for vol up, Alt+Shift for vol down, Ctrl+Alt for mute
+ * QK_LEAD: Shift for F24 (vim leader key)
+ * QK_REP: Shift for alternate repeat key
  */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_B] = LAYOUT_moonlander(
-        TD(T_UX), KC_1,    KC_2,    KC_3,    KC_4,    KC_5, G(KC_TAB),           KC_MPLY,   KC_6,   KC_7,    KC_8,    KC_9,   KC_0,    OSL(L_F),
+        TD(T_UX), KC_1,    KC_2,    KC_3,    KC_4,    KC_5, UC_STRT,             KC_MPLY,   KC_6,   KC_7,    KC_8,    KC_9,   KC_0,    OSL(L_F),
         TD(T_GE), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, QK_LEAD,             KC_AMPR,   KC_Y,   KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
         TD(T_CE), KC_A,    KC_S,    KC_D,    KC_F,    KC_G, KC_LBRC,             KC_RBRC,   KC_H,   KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
         TD(T_LS), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                 KC_N,   KC_M,    KC_COMM, KC_DOT, KC_SLSH, TD(T_RS),
