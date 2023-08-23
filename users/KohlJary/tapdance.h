@@ -11,7 +11,7 @@ enum TD_KEYCODES{
   T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shift, 1: Oneshot Shft, 2: Caps Word
   T_CE, //Hold: Control, 1: Escape, 2: QMK Leader, Double Hold: Control+Alt
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
-  T_BR, //Hold: Paste, 1: Open par/bra, 2: Close par/bra
+  T_SC, //1: Oneshot shift, 2: Caps word
   T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
@@ -54,8 +54,8 @@ void ctrlesc_reset(tap_dance_state_t *state, void *user_data);
 void copypaste_finished(tap_dance_state_t *state, void *user_data);
 void copypaste_reset(tap_dance_state_t *state, void *user_data);
 
-void bracedance_finished(tap_dance_state_t *state, void *user_data);
-void bracedance_reset(tap_dance_state_t *state, void *user_data);
+void shiftcaps_finished(tap_dance_state_t *state, void *user_data);
+void shiftcaps_reset(tap_dance_state_t *state, void *user_data);
 
 void openbrace_finished(tap_dance_state_t *state, void *user_data);
 void openbrace_reset(tap_dance_state_t *state, void *user_data);
