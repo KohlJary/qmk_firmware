@@ -306,6 +306,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &bsp_del_no_ly_override,
     &slsh_bsls_override,
     &plus_override,
+    &quot_override,
     &alt_quot_override,
     &ly_quot_override,
     &and_or_override,

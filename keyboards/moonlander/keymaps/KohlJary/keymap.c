@@ -79,6 +79,8 @@
 #define KJ_TAB  LT(LY1,KC_TAB)
 #define KJ_ENT  LT(LY2,KC_ENT)
 #define KJ_BSPC LT(LY1,KC_BSPC)
+#define CS_HOME RCS_T(KC_HOME)
+#define CA_END  LCA_T(KC_END)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
@@ -86,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TD(T_GE), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, QK_LEAD,             KC_AMPR,   KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
         TD(T_CE), KC_A,    KC_S,    KC_D,    KC_F,    KC_G, KC_LBRC,             KC_RBRC,   KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
         TD(T_LS), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                 KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, TD(T_RS),
-        KC_HOME,  G(KC_1), G(KC_2), G(KC_3), G(KC_4),       G(KC_SPC),           G(KC_ENT),          KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, KC_END,
+        CS_HOME,  G(KC_1), G(KC_2), G(KC_3), G(KC_4),       G(KC_SPC),           G(KC_ENT),          KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, CA_END,
                                     KJ_SPC,  KJ_TAB,  TD(T_CP),                             MO(LYN), KJ_ENT,  KJ_BSPC
     ),
 

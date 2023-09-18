@@ -122,13 +122,21 @@ void altquote_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 void leftshift_finished(tap_dance_state_t *state, void *user_data) {
+    mod_state = get_mods();
+    oneshot_mod_state = get_oneshot_mods();
+    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
     lshift_td_state = cur_dance(state);
     switch (lshift_td_state) {
         case TD_SINGLE_TAP:
             add_oneshot_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_TAP:
-            register_code(KC_LBRC);
+            if (shift_mod) {
+              tap_code16(KC_LABK);
+            }
+            else {
+              tap_code16(KC_LPRN);
+            }
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -148,7 +156,6 @@ void leftshift_reset(tap_dance_state_t *state, void *user_data) {
             unregister_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP:
-            unregister_code(KC_LBRC);
             break;
         case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
@@ -160,13 +167,21 @@ void leftshift_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 void rightshift_finished(tap_dance_state_t *state, void *user_data) {
+    mod_state = get_mods();
+    oneshot_mod_state = get_oneshot_mods();
+    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
     rshift_td_state = cur_dance(state);
     switch (rshift_td_state) {
         case TD_SINGLE_TAP:
             caps_word_on();
             break;
         case TD_DOUBLE_TAP:
-            register_code(KC_RBRC);
+            if (shift_mod) {
+              tap_code16(KC_RABK);
+            }
+            else {
+              tap_code16(KC_RPRN);
+            }
             break;
         case TD_SINGLE_HOLD:
             caps_word_off();
@@ -188,7 +203,6 @@ void rightshift_reset(tap_dance_state_t *state, void *user_data) {
             unregister_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_TAP:
-            unregister_code(KC_RBRC);
             break;
         case TD_DOUBLE_HOLD:
             unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
