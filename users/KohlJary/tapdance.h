@@ -6,6 +6,7 @@ enum TD_KEYCODES{
   T_CN, //1: scln, 2: cln
   T_DR, //1: cur dir, 2: up dir
   T_IN, //1: --, 2: ++
+  T_HE, //1: Home, 2: End
   T_AQ, //Hold: alt, 1: quote, Double Hold: Alt+Shift, 2: F24
   T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shift, 1: Open par/bra, 2: Close par/bra
   T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shift, 1: Oneshot Shft, 2: Caps Word
@@ -34,6 +35,7 @@ extern enum TD_KEYCODES td_keycodes;
 
 void dance_dir(tap_dance_state_t *state, void *user_data);
 void dance_dec_inc(tap_dance_state_t *state, void *user_data);
+void dance_home_end(tap_dance_state_t *state, void *user_data);
 void dance_layer(tap_dance_state_t *state, void *user_data);
 
 // Function to determine the current tapdance state

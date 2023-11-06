@@ -65,6 +65,15 @@ void dance_dec_inc(tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
+void dance_home_end(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+      tap_code(KC_HOME);
+    } else if (state->count == 2) {
+      tap_code(KC_END);
+    }
+    reset_tap_dance(state);
+}
+
 void dance_layer(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
       layer_invert(LYM);
@@ -476,6 +485,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_DR] = ACTION_TAP_DANCE_FN(dance_dir),
   //Tap once for decrement, twice for increment
   [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
+  //Tap once for home, twice for end
+  [T_HE] = ACTION_TAP_DANCE_FN(dance_home_end),
   //Hold for Alt, tap for quote, double tap for F24, double hold for Alt+Shift
   [T_AQ] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altquote_finished, altquote_reset),
   //Hold for shift, single tap for OSM shift, double tap for open paren
