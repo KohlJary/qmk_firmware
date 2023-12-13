@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "keycodes.h"
 #include "tapdance.h"
+#include "os_detection.h"
 #include "layers.h"
 
 uint8_t mod_state;
@@ -183,6 +184,70 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case LCA(KC_DEL):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_LINUX) {
+          add_oneshot_mods(MOD_BIT(KC_LGUI));
+          tap_code(KC_ESC);
+          return false;
+        }
+      }
+      break;
+    case G(KC_SPC):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LGUI));
+          tap_code(KC_S);
+          return false;
+        }
+      }
+      break;
+    case G(KC_ENT):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LGUI));
+          add_oneshot_mods(MOD_BIT(KC_LSFT));
+          tap_code(KC_3);
+          return false;
+        }
+      }
+      break;
+    case G(KC_EQL):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_M);
+          return false;
+        }
+      }
+      break;
+    case G(KC_DOT):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_DOT);
+          return false;
+        }
+      }
+      break;
+    case G(KC_P):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_P);
+          return false;
+        }
+      }
+      break;
+    case G(KC_N):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_N);
+          return false;
+        }
+      }
+      break;
     default:
       if(user_return == true) {
         return false;
@@ -269,9 +334,13 @@ const key_override_t alt_quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), 
 
 const key_override_t ly_quot_override = ko_make_basic(MOD_MASK_CTRL, LT(LY1,KC_QUOT), KC_GRV);
 
-const key_override_t and_or_override = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_PIPE);
+const key_override_t at_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_HASH);
 
-const key_override_t and_exlm_override = ko_make_basic(MOD_MASK_CTRL, KC_AMPR, KC_EXLM);
+const key_override_t dol_circ_override = ko_make_basic(MOD_MASK_SHIFT, KC_DLR, KC_CIRC);
+
+const key_override_t perc_ast_override = ko_make_basic(MOD_MASK_SHIFT, KC_PERC, KC_ASTR);
+
+const key_override_t and_or_override = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_PIPE);
 
 const key_override_t tild_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMM, KC_TILD);
 
@@ -279,19 +348,16 @@ const key_override_t exlm_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EX
 
 const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_LBRC,
                                         KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_ALT, KC_LBRC,
-                                        KC_LABK, ~0, MOD_MASK_CS, ko_option_no_reregister_trigger);
+const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_LBRC,
+                                        KC_LABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
                                         KC_RPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_ALT, KC_RBRC,
-                                        KC_RABK, ~0, MOD_MASK_CS, ko_option_no_reregister_trigger);
+const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_RBRC,
+                                        KC_RABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 
 const key_override_t lpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK);
 
 const key_override_t rpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK);
-
-
-const key_override_t mouse_whl_override = ko_make_basic(MOD_MASK_SHIFT, KC_WH_U, KC_WH_D);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
@@ -309,15 +375,16 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &quot_override,
     &alt_quot_override,
     &ly_quot_override,
+    &at_hash_override,
+    &dol_circ_override,
+    &perc_ast_override,
     &and_or_override,
-    &and_exlm_override,
     &tild_override,
     &exlm_override,
     &lprn_override,
     &labk_override,
     &rprn_override,
     &rabk_override,
-    &mouse_whl_override,
     &lpa_override,
     &rpa_override,
     NULL

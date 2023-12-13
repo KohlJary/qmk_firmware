@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "layers.h"
+#include "os_detection.h"
 #include "tapdance.h"
 #include "keycodes.h"
 
@@ -182,7 +183,12 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
     rshift_td_state = cur_dance(state);
     switch (rshift_td_state) {
         case TD_SINGLE_TAP:
-            caps_word_on();
+            if (shift_mod) {
+              tap_code(KC_CAPS);
+            }
+            else {
+              caps_word_on();
+            }
             break;
         case TD_DOUBLE_TAP:
             if (shift_mod) {
@@ -381,10 +387,18 @@ void guieq_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(KC_EQL);
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LGUI));
+            if(detected_host_os() == OS_WINDOWS) {
+                register_mods(MOD_BIT(KC_LALT));
+            } else {
+                register_mods(MOD_BIT(KC_LGUI));
+            }
             break;
         case TD_DOUBLE_HOLD:
-            register_mods(MOD_BIT(KC_LGUI));
+            if(detected_host_os() == OS_WINDOWS) {
+                register_mods(MOD_BIT(KC_LALT));
+            } else {
+                register_mods(MOD_BIT(KC_LGUI));
+            }
             register_mods(MOD_BIT(KC_LSFT));
             break;
         default:
@@ -399,10 +413,18 @@ void guieq_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(KC_EQL);
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI));
+            if(detected_host_os() == OS_WINDOWS) {
+                unregister_mods(MOD_BIT(KC_LALT));
+            } else {
+                unregister_mods(MOD_BIT(KC_LGUI));
+            }
             break;
         case TD_DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI));
+            if(detected_host_os() == OS_WINDOWS) {
+                unregister_mods(MOD_BIT(KC_LALT));
+            } else {
+                unregister_mods(MOD_BIT(KC_LGUI));
+            }
             unregister_mods(MOD_BIT(KC_LSFT));
             break;
         default:

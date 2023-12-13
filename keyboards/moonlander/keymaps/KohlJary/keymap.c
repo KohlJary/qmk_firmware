@@ -75,25 +75,41 @@
  * QK_REP: Shift for alternate repeat key
  */
 
+#define KC_TASK LCA(KC_DEL)
+#define KC_FLXP LGUI(KC_E)
+#define KC_WSPR LGUI(KC_P)
+#define KC_WSBF LGUI(KC_TAB)
+#define KC_WSNX LGUI(KC_N)
+#define KC_WSNM LGUI(KC_DOT)
+#define KC_MAX  LGUI(KC_EQL)
+#define KC_TERM LGUI(KC_ENT)
+#define KC_PROG LGUI(KC_SPC)
+
+// Web Browser Tab Previous
+#define KC_WBTP RCS(KC_TAB)
+// Web Browser Tab Next
+#define KC_WBTN C(KC_TAB)
+
 #define KJ_SPC  LT(LY2,KC_SPC)
 #define KJ_TAB  LT(LY1,KC_TAB)
 #define KJ_ENT  LT(LY2,KC_ENT)
 #define KJ_BSPC LT(LY1,KC_BSPC)
+#define KJ_MINS GUI_T(KC_MINS)
 #define CS_HOME RCS_T(KC_HOME)
 #define CA_END  LCA_T(KC_END)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
-        TD(T_UX), KC_1,    KC_2,    KC_3,    KC_4,    KC_5, QK_LEAD,             KC_AMPR,   KC_6,     KC_7,    KC_8,    KC_9,   KC_0,    TD(T_LY),
-        TD(T_GE), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T, KC_LPRN,             KC_RPRN,   KC_Y,     KC_U,    KC_I,    KC_O,   KC_P,    GUI_T(KC_MINS),
-        TD(T_CE), KC_A,    KC_S,    KC_D,    KC_F,    KC_G, KC_LBRC,             KC_RBRC,   KC_H,     KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
-        TD(T_LS), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                 KC_N,     KC_M,    KC_COMM, KC_DOT, KC_SLSH, TD(T_RS),
-        CS_HOME,  G(KC_1), G(KC_2), G(KC_3), G(KC_4),       G(KC_SPC),           G(KC_ENT),           KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, CA_END,
-                                    KJ_SPC,  KJ_TAB,  TD(T_CP),                             TD(T_HE), KJ_ENT,  KJ_BSPC
+        TD(T_CP), KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_TASK,           T_RSTRT, KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    TD(T_UX),
+        TD(T_GE), KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   QK_LEAD,           KC_AMPR, KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KJ_MINS,
+        TD(T_CE), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_LBRC,           KC_RBRC, KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, TD(T_AQ),
+        TD(T_LS), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                               KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, TD(T_RS),
+        CS_HOME,  KC_AT,   KC_DLR,  KC_PERC, KC_AMPR,         KC_PROG,           KC_TERM,          KC_LEFT, KC_DOWN, KC_UP,  KC_RGHT, CA_END,
+                                             KJ_SPC,  KJ_TAB, KC_F24,            TG(LYN), KJ_ENT,  KJ_BSPC
     ),
 
     [LYG] = LAYOUT_moonlander(
-        KC_ESC,  _______, _______, _______, _______, _______, KC_6,              _______, _______, _______, _______, _______, _______, _______,
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,              _______, _______, _______, _______, _______, _______, _______,
         KC_TAB,  _______, _______, _______, _______, _______, KC_Y,              _______, _______, _______, _______, _______, _______, _______,
         KC_SCLN, _______, _______, _______, _______, _______, KC_H,              _______, _______, _______, _______, _______, _______, _______,
         KC_LSFT, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
@@ -103,11 +119,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LYN] = LAYOUT_moonlander(
         _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_ASTR, KC_PLUS, KC_7,    KC_8,    KC_9,    _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_SLSH, KC_MINS, KC_4,    KC_5,    KC_6,    _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_DOT,  KC_0,    KC_1,    KC_2,    KC_3,                                _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_7,    KC_8,    KC_9,    KC_0,    _______,           _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_4,    KC_5,    KC_6,    KC_SLSH, _______,           _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_1,    KC_2,    KC_3,    KC_DOT,                              _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
-                                            _______, _______, KC_BSPC,           _______, _______, _______
+                                            _______, _______, _______,           _______, _______, _______
     ),
 
     [LYF] = LAYOUT_moonlander(
@@ -129,17 +145,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LY1] = LAYOUT_moonlander(
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______,     _______, _______, _______,  _______,   QK_BOOT,
-        _______, LAMBDA,  AT_HASH, KC_7,    KC_8,    KC_9,    KC_F24,            _______, RCS(KC_TAB), KC_WBAK, C(KC_L), KC_WFWD,  C(KC_TAB), _______,
-        _______, PER_AST, DOL_CIR, KC_4,    KC_5,    KC_6,    KC_LPRN,           KC_RPRN, KC_LEFT,     KC_DOWN, KC_UP,   KC_RIGHT, KC_F12,    _______,
-        _______, LTE_GTE, KC_0,    KC_1,    KC_2,    KC_3,                                KC_MS_L,     KC_MS_D, KC_MS_U, KC_MS_R,  TD(T_MB),  _______,
-        _______, G(KC_5), G(KC_6), G(KC_7), G(KC_8),          _______,           _______,              _______, _______, _______,  _______,   _______,
-                                            _______, _______, _______,           _______, _______,     _______
+        TD(T_LY),KC_WSPR, KC_WSBF, KC_WSNX, KC_WSNM, KC_MAX,  _______,           _______, KC_AT,   KC_DLR,  KC_PERC, KC_AMPR,  G(KC_0),  QK_BOOT,
+        _______, _______, EQ_NEQ,  LTE_GTE, INC_DEC, AND_OR,  _______,           C(KC_W), KC_WBTP, KC_WBAK, C(KC_L), KC_WFWD,  KC_WBTN,  _______,
+        _______, LAMBDA,  KC_AT,   KC_DLR,  KC_PERC, KC_AMPR, KC_LABK,           KC_RABK, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, C(KC_T),  _______,
+        _______, _______, _______, _______, _______, _______,                             KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,  TD(T_MB), _______,
+        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______,  _______,  _______,
+                                            _______, _______, _______,           _______, _______, _______
     ),
 
     [LY2] = LAYOUT_moonlander(
-        QK_BOOT, _______, _______, _______,  _______, _______, _______,          KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  _______,
-        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, RGB_SPI,          KC_F17,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
+        QK_BOOT, _______, _______, _______,  _______, _______, _______,          KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_CAPS,
+        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, RGB_SPI,          KC_F17,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  GUI_T(KC_F24),
         _______, DM_PLY2, DM_PLY1, RGB_RMOD, RGB_TOG, RGB_MOD, RGB_SPD,          _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
         _______, _______, _______, RGB_HUD,  RGB_SAD, RGB_VAD,                            KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
         _______, _______, _______, _______,  _______,          _______,          _______,          _______, _______, _______, _______, _______,

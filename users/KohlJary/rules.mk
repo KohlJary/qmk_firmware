@@ -19,6 +19,7 @@ LEADER_ENABLE = yes         # Leader key
 KEY_OVERRIDE_ENABLE = yes   # Key overrides
 UNICODEMAP_ENABLE = no
 UCIS_ENABLE = yes
+OS_DETECTION_ENABLE = yes
 
 # Userspace RGB matrix effects
 RGB_MATRIX_CUSTOM_USER = yes
