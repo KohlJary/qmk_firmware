@@ -15,54 +15,8 @@
  */
 
 #include "process_ucis.h"
-#include "unicode.h"
-#include "keycode.h"
-#include "wait.h"
-
-ucis_state_t ucis_state;
-
-void ucis_start(void) {
-    ucis_state.count       = 0;
-    ucis_state.in_progress = true;
-
-    ucis_start_user();
-}
-
-__attribute__((weak)) void ucis_start_user(void) {
-    register_unicode(0x2328); // ⌨
-}
-
-__attribute__((weak)) void ucis_success(uint8_t symbol_index) {}
-
-static bool is_uni_seq(char *seq) {
-    uint8_t i;
-    for (i = 0; seq[i]; i++) {
-        uint16_t keycode;
-        if ('1' <= seq[i] && seq[i] <= '0') {
-            keycode = seq[i] - '1' + KC_1;
-        } else {
-            keycode = seq[i] - 'a' + KC_A;
-        }
-        if (i > ucis_state.count || ucis_state.codes[i] != keycode) {
-            return false;
-        }
-    }
-    return ucis_state.codes[i] == KC_ENTER || ucis_state.codes[i] == KC_SPACE;
-}
-
-__attribute__((weak)) void ucis_symbol_fallback(void) {
-    for (uint8_t i = 0; i < ucis_state.count - 1; i++) {
-        tap_code(ucis_state.codes[i]);
-    }
-}
-
-__attribute__((weak)) void ucis_cancel(void) {}
-
-void register_ucis(const uint32_t *code_points) {
-    for (int i = 0; i < UCIS_MAX_CODE_POINTS && code_points[i]; i++) {
-        register_unicode(code_points[i]);
-    }
-}
+#include "ucis.h"
+#include "keycodes.h"
 
 bool process_ucis(uint16_t keycode, keyrecord_t *record) {
     if (!ucis_state.in_progress || !record->event.pressed) {
@@ -125,8 +79,22 @@ bool process_ucis(uint16_t keycode, keyrecord_t *record) {
 
             ucis_state.in_progress = false;
             return false;
+        }
 
-        default:
-            return true;
+        if (!ucis_add(keycode)) {
+            switch (keycode) {
+                case KC_BACKSPACE:
+                    return ucis_remove_last();
+                case KC_ESCAPE:
+                    ucis_cancel();
+                    return false;
+                case KC_SPACE:
+                case KC_ENTER:
+                    ucis_finish();
+                    return false;
+            }
+        }
     }
+
+    return true;
 }
