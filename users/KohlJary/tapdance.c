@@ -269,20 +269,47 @@ void ctrlesc_reset(tap_dance_state_t *state, void *user_data) {
 
 void copypaste_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
+    bool ly1_on = IS_LAYER_ON(LY1);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            SEND_STRING(SS_LCTL("c"));
+            if(ly1_on) {
+              add_oneshot_mods(MOD_BIT(KC_LCTL));
+              tap_code(KC_Z);
+            }
+            else {
+              SEND_STRING(SS_LCTL("c"));
+            }
             break;
         case TD_DOUBLE_TAP:
-            SEND_STRING(SS_LCTL("x"));
+            if(ly1_on) {
+              add_oneshot_mods(MOD_BIT(KC_LCTL));
+              tap_code(KC_Y);
+            }
+            else {
+              add_oneshot_mods(MOD_BIT(KC_LCTL));
+              tap_code(KC_X);
+            }
             break;
         case TD_SINGLE_HOLD:
-            SEND_STRING(SS_LCTL("v"));
+            if(ly1_on) {
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_GRV);
+            }
+            else {
+              add_oneshot_mods(MOD_BIT(KC_LCTL));
+              tap_code(KC_V);
+            }
             break;
         case TD_DOUBLE_HOLD:
-            add_oneshot_mods(MOD_BIT(KC_LSFT));
-            add_oneshot_mods(MOD_BIT(KC_LGUI));
-            tap_code(KC_S);
+            if(ly1_on) {
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_SPC);
+            }
+            else {
+              add_oneshot_mods(MOD_BIT(KC_LSFT));
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_S);
+            }
             break;
         default:
             break;
@@ -434,14 +461,21 @@ void guieq_reset(tap_dance_state_t *state, void *user_data) {
 
 void utility_finished(tap_dance_state_t *state, void *user_data) {
     ux_td_state = cur_dance(state);
+    bool ly2_on = IS_LAYER_ON(LY2);
     switch (ux_td_state) {
         case TD_SINGLE_TAP:
-            add_oneshot_mods(MOD_BIT(KC_LGUI));
-            tap_code(KC_GRV);
+            if(ly2_on) {
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_P);
+            }
+            else {
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_N);
+            }
             break;
         case TD_DOUBLE_TAP:
             add_oneshot_mods(MOD_BIT(KC_LGUI));
-            tap_code(KC_EQL);
+            tap_code(KC_TAB);
             break;
         case TD_SINGLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
@@ -449,7 +483,8 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
-            tap_code(KC_C);
+            add_oneshot_mods(MOD_BIT(KC_LALT));
+            tap_code(KC_DEL);
             break;
         default:
             break;
@@ -458,7 +493,7 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
 
 void utility_reset(tap_dance_state_t *state, void *user_data) {
     switch (ux_td_state) {
-        case TD_DOUBLE_HOLD:
+        case TD_SINGLE_HOLD:
             tap_code(KC_UP);
             tap_code(KC_ENT);
             break;
@@ -550,6 +585,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD(T_OB):
         case TD(T_CB):
         case TD(T_CE):
+        case TD(T_CP):
             return TAPPING_TERM - 50;
         default:
             return TAPPING_TERM;

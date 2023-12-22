@@ -326,8 +326,6 @@ const key_override_t bsp_del_no_ly_override = ko_make_basic(MOD_MASK_SHIFT, KC_B
 
 const key_override_t slsh_bsls_override = ko_make_basic(MOD_MASK_CTRL, KC_SLSH, KC_BSLS);
 
-const key_override_t plus_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_PLUS);
-
 const key_override_t quot_override = ko_make_basic(MOD_MASK_CTRL, KC_QUOT, KC_GRV);
 
 const key_override_t alt_quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), KC_GRV);
@@ -359,6 +357,8 @@ const key_override_t lpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LA
 
 const key_override_t rpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK);
 
+const key_override_t f23_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_F23);
+
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &next_track_override,
@@ -371,7 +371,6 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &bsp_del_2_override,
     &bsp_del_no_ly_override,
     &slsh_bsls_override,
-    &plus_override,
     &quot_override,
     &alt_quot_override,
     &ly_quot_override,
@@ -387,6 +386,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &rabk_override,
     &lpa_override,
     &rpa_override,
+    &f23_override,
     NULL
 };
 
