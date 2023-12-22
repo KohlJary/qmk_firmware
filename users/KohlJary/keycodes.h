@@ -1,6 +1,6 @@
-#include QMK_KEYBOARD_H
-
 #pragma once
+
+#include QMK_KEYBOARD_H
 
 enum keyboard_keycodes {
     //User keycodes
