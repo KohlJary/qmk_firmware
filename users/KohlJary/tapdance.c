@@ -77,15 +77,11 @@ void dance_home_end(tap_dance_state_t *state, void *user_data) {
 
 void dance_layer(tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
-      layer_invert(LYM);
+      layer_invert(LYV);
     } else if (state->count == 2) {
       layer_invert(LYF);
     } else if (state->count == 3) {
       layer_invert(LYG);
-    } else if (state->count == 4) {
-      add_oneshot_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-      add_oneshot_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-      tap_code(KC_DEL);
     }
     reset_tap_dance(state);
 }
@@ -187,16 +183,16 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
               tap_code(KC_CAPS);
             }
             else {
-              caps_word_on();
+                if (is_caps_word_on()) {
+                    caps_word_off();
+                }
+                else {
+                    caps_word_on();
+                }
             }
             break;
         case TD_DOUBLE_TAP:
-            if (shift_mod) {
-              tap_code16(KC_RABK);
-            }
-            else {
-              tap_code16(KC_RPRN);
-            }
+            layer_invert(LYN);
             break;
         case TD_SINGLE_HOLD:
             caps_word_off();
@@ -273,8 +269,8 @@ void copypaste_finished(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
             if(ly1_on) {
-              add_oneshot_mods(MOD_BIT(KC_LCTL));
-              tap_code(KC_Z);
+              add_oneshot_mods(MOD_BIT(KC_LGUI));
+              tap_code(KC_GRV);
             }
             else {
               SEND_STRING(SS_LCTL("c"));
@@ -283,7 +279,7 @@ void copypaste_finished(tap_dance_state_t *state, void *user_data) {
         case TD_DOUBLE_TAP:
             if(ly1_on) {
               add_oneshot_mods(MOD_BIT(KC_LCTL));
-              tap_code(KC_Y);
+              tap_code(KC_Z);
             }
             else {
               add_oneshot_mods(MOD_BIT(KC_LCTL));
@@ -293,7 +289,7 @@ void copypaste_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             if(ly1_on) {
               add_oneshot_mods(MOD_BIT(KC_LGUI));
-              tap_code(KC_GRV);
+              tap_code(KC_SPC);
             }
             else {
               add_oneshot_mods(MOD_BIT(KC_LCTL));
@@ -303,7 +299,7 @@ void copypaste_finished(tap_dance_state_t *state, void *user_data) {
         case TD_DOUBLE_HOLD:
             if(ly1_on) {
               add_oneshot_mods(MOD_BIT(KC_LGUI));
-              tap_code(KC_SPC);
+              tap_code(KC_Y);
             }
             else {
               add_oneshot_mods(MOD_BIT(KC_LSFT));

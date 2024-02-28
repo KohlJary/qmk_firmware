@@ -332,11 +332,10 @@ const key_override_t alt_quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), 
 
 const key_override_t ly_quot_override = ko_make_basic(MOD_MASK_CTRL, LT(LY1,KC_QUOT), KC_GRV);
 
-const key_override_t at_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_HASH);
-
+const key_override_t at_perc_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_PERC);
 const key_override_t dol_circ_override = ko_make_basic(MOD_MASK_SHIFT, KC_DLR, KC_CIRC);
-
 const key_override_t perc_ast_override = ko_make_basic(MOD_MASK_SHIFT, KC_PERC, KC_ASTR);
+const key_override_t ast_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_ASTR, KC_HASH);
 
 const key_override_t and_or_override = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_PIPE);
 
@@ -346,18 +345,14 @@ const key_override_t exlm_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EX
 
 const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_LBRC,
                                         KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t labk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_LBRC,
-                                        KC_LABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
 const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
                                         KC_RPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
-const key_override_t rabk_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CS, KC_RBRC,
-                                        KC_RABK, ~0, MOD_MASK_ALT, ko_option_no_reregister_trigger);
-
-const key_override_t lpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK);
-
-const key_override_t rpa_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK);
 
 const key_override_t f23_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_F23);
+
+const key_override_t kp_mins_override = ko_make_basic(MOD_MASK_SHIFT, KC_PMNS, KC_PSLS);
+const key_override_t kp_pls_override = ko_make_basic(MOD_MASK_SHIFT, KC_PPLS, KC_PAST);
+const key_override_t kp_gpls_override = ko_make_basic(MOD_MASK_SHIFT, GUI_T(KC_PPLS), KC_PAST);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
@@ -374,19 +369,19 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &quot_override,
     &alt_quot_override,
     &ly_quot_override,
-    &at_hash_override,
+    &at_perc_override,
     &dol_circ_override,
     &perc_ast_override,
+    &ast_hash_override,
     &and_or_override,
     &tild_override,
     &exlm_override,
     &lprn_override,
-    &labk_override,
     &rprn_override,
-    &rabk_override,
-    &lpa_override,
-    &rpa_override,
     &f23_override,
+    &kp_mins_override,
+    &kp_pls_override,
+    &kp_gpls_override,
     NULL
 };
 
