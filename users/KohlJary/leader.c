@@ -4,16 +4,16 @@
 
 void leader_end_user(void) {
   //name and contact info
-  if(leader_sequence_two_keys(KC_N, KC_F)) {
+  if(leader_sequence_one_key(KC_F)) {
     SEND_STRING("Kohlbern");
   }
-  if(leader_sequence_two_keys(KC_N, KC_L)) {
+  if(leader_sequence_one_key(KC_L)) {
     SEND_STRING("Jary");
   }
-  if(leader_sequence_two_keys(KC_N, KC_M)) {
+  if(leader_sequence_one_key(KC_M)) {
     SEND_STRING("Charles");
   }
-  if(leader_sequence_two_keys(KC_N, KC_N)) {
+  if(leader_sequence_one_key(KC_N)) {
     SEND_STRING("Kohlbern Charles Jary");
   }
   if(leader_sequence_one_key(KC_B)) {
@@ -31,21 +31,21 @@ void leader_end_user(void) {
 
   //address info
   if(leader_sequence_one_key(KC_A)) {
-    SEND_STRING("125 West Ave");
+    SEND_STRING("9 C Street");
   }
   if(leader_sequence_one_key(KC_C)) {
-    SEND_STRING("Brockport");
+    SEND_STRING("Portland");
   }
   if(leader_sequence_one_key(KC_Z)) {
-    SEND_STRING("14420");
+    SEND_STRING("04102");
   }
   if(leader_sequence_one_key(KC_S)) {
-    SEND_STRING("NY");
+    SEND_STRING("ME");
   }
   if(leader_sequence_two_keys(KC_C, KC_C)) {
     SEND_STRING("USA");
   }
   if(leader_sequence_two_keys(KC_A, KC_A)) {
-    SEND_STRING("125 West Ave, Brockport NY 14420");
+    SEND_STRING("9 C Street, Portland ME 04102");
   }
 }
