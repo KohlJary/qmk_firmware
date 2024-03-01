@@ -19,65 +19,9 @@
 #include "keycodes.h"
 
 bool process_ucis(uint16_t keycode, keyrecord_t *record) {
-    if (!ucis_state.in_progress || !record->event.pressed) {
-        return true;
-    }
-
-    if (keycode == KC_SEMICOLON) {
-        keycode = KC_SPACE;
-    }
-
-    if (keycode == KC_SLASH) {
-        keycode = KC_ESCAPE;
-    }
-
-    bool special = keycode == KC_SPACE || keycode == KC_ENTER || keycode == KC_ESCAPE || keycode == KC_BACKSPACE;
-    if (ucis_state.count >= UCIS_MAX_SYMBOL_LENGTH && !special) {
-        return false;
-    }
-
-    ucis_state.codes[ucis_state.count] = keycode;
-    ucis_state.count++;
-
-    switch (keycode) {
-        case KC_BACKSPACE:
-            if (ucis_state.count >= 2) {
-                ucis_state.count -= 2;
-                return true;
-            } else {
-                ucis_state.count--;
-                return false;
-            }
-
-        case KC_SPACE:
-        case KC_ENTER:
-        case KC_ESCAPE:
-            for (uint8_t i = 0; i < ucis_state.count; i++) {
-                tap_code(KC_BACKSPACE);
-            }
-
-            if (keycode == KC_ESCAPE) {
-                ucis_state.in_progress = false;
-                ucis_cancel();
-                return false;
-            }
-
-            uint8_t i;
-            bool    symbol_found = false;
-            for (i = 0; ucis_symbol_table[i].symbol; i++) {
-                if (is_uni_seq(ucis_symbol_table[i].symbol)) {
-                    symbol_found = true;
-                    register_ucis(ucis_symbol_table[i].code_points);
-                    break;
-                }
-            }
-            if (symbol_found) {
-                ucis_success(i);
-            } else {
-                ucis_symbol_fallback();
-            }
-
-            ucis_state.in_progress = false;
+    if (ucis_active() && record->event.pressed) {
+        bool special = keycode == KC_SPACE || keycode == KC_ENTER || keycode == KC_ESCAPE || keycode == KC_BACKSPACE;
+        if (ucis_count() >= UCIS_MAX_INPUT_LENGTH && !special) {
             return false;
         }
 
