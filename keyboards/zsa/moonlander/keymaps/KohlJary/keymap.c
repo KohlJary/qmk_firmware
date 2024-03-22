@@ -191,6 +191,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
             if (is_caps_word_on()) {
                 rgb_matrix_set_color(i, RGB_RED);
+            } else if (leader_sequence_active()) {
+                rgb_matrix_set_color(i, RGB_PURPLE);
             } else {
                 switch(get_highest_layer(layer_state|default_layer_state)) {
                     case LYN:
