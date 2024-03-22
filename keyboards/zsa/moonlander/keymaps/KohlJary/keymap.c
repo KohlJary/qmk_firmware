@@ -220,7 +220,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 }
             }
             if (g_led_config.flags[i] & LED_FLAG_UNDERGLOW) {
-                if (alt_mod && ctl_mod) {
+                if (alt_mod && ctl_mod && gui_mod) {
+                    rgb_matrix_set_color(i, RGB_WHITE);
+                } else if (alt_mod && ctl_mod) {
                     rgb_matrix_set_color(i, RGB_GREEN);
                 } else if (alt_mod && gui_mod) {
                     rgb_matrix_set_color(i, RGB_PURPLE);
