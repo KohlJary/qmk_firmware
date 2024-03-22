@@ -187,6 +187,13 @@ void keyboard_post_init_user(void) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    uint8_t mod_state = get_mods();
+    uint8_t oneshot_mod_state = get_oneshot_mods();
+    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
+    bool ctl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
+    bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT);
+    bool gui_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_GUI);
+
     bool navLayerOn = layer_state_is(LYV);
     bool funcLayerOn = layer_state_is(LYF);
     bool numLayerOn = layer_state_is(LYN);
@@ -212,9 +219,28 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                     rgb_matrix_set_color(i, 0, 0, 0);
                 }
             }
+            if (g_led_config.flags[i] & LED_FLAG_UNDERGLOW) {
+                if (alt_mod && ctl_mod) {
+                    rgb_matrix_set_color(i, RGB_GREEN);
+                } else if (alt_mod && gui_mod) {
+                    rgb_matrix_set_color(i, RGB_PURPLE);
+                } else if (ctl_mod && gui_mod) {
+                    rgb_matrix_set_color(i, RGB_ORANGE);
+                } else if (alt_mod) {
+                    rgb_matrix_set_color(i, RGB_BLUE);
+                } else if (ctl_mod) {
+                    rgb_matrix_set_color(i, RGB_YELLOW);
+                } else if (gui_mod) {
+                    rgb_matrix_set_color(i, RGB_RED);
+                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                    rgb_matrix_set_color(i, 0, 0, 0);
+                }
+            }
             if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
                 if (is_caps_word_on()) {
                     rgb_matrix_set_color(i, RGB_RED);
+                } else if (shift_mod) {
+                    rgb_matrix_set_color(i, RGB_ORANGE);
                 } else if (leader_sequence_active()) {
                     rgb_matrix_set_color(i, RGB_PURPLE);
                 } else if (numLayerOn) {
