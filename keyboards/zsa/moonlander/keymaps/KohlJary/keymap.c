@@ -199,57 +199,58 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     bool numLayerOn = layer_state_is(LYN);
     bool oneLayerOn = layer_state_is(LY1);
     bool twoLayerOn = layer_state_is(LY2);
-    if (rgb_matrix_is_enabled()) {
-        for (uint8_t i = led_min; i < led_max; i++) {
-            if (g_led_config.flags[i] & LED_FLAG_MODIFIER) {
-                if (navLayerOn) {
-                    rgb_matrix_set_color(i, RGB_PURPLE);
-                } else if (funcLayerOn) {
-                    rgb_matrix_set_color(i, RGB_RED);
-                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
-                    rgb_matrix_set_color(i, 0, 0, 0);
-                }
+    for (uint8_t i = led_min; i < led_max; i++) {
+        if (g_led_config.flags[i] & LED_FLAG_MODIFIER) {
+            if (navLayerOn) {
+                rgb_matrix_set_color(i, RGB_PURPLE);
+            } else if (funcLayerOn) {
+                rgb_matrix_set_color(i, RGB_RED);
+            } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                rgb_matrix_set_color(i, 0, 0, 0);
             }
-            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
-                if (oneLayerOn) {
-                    rgb_matrix_set_color(i, RGB_BLUE);
-                } else if (twoLayerOn) {
-                    rgb_matrix_set_color(i, RGB_YELLOW);
-                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
-                    rgb_matrix_set_color(i, 0, 0, 0);
-                }
+        }
+
+        if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
+            if (oneLayerOn) {
+                rgb_matrix_set_color(i, RGB_BLUE);
+            } else if (twoLayerOn) {
+                rgb_matrix_set_color(i, RGB_YELLOW);
+            } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                rgb_matrix_set_color(i, 0, 0, 0);
             }
-            if (g_led_config.flags[i] & LED_FLAG_UNDERGLOW) {
-                if (alt_mod && ctl_mod && gui_mod) {
-                    rgb_matrix_set_color(i, RGB_WHITE);
-                } else if (alt_mod && ctl_mod) {
-                    rgb_matrix_set_color(i, RGB_GREEN);
-                } else if (alt_mod && gui_mod) {
-                    rgb_matrix_set_color(i, RGB_PURPLE);
-                } else if (ctl_mod && gui_mod) {
-                    rgb_matrix_set_color(i, RGB_ORANGE);
-                } else if (alt_mod) {
-                    rgb_matrix_set_color(i, RGB_BLUE);
-                } else if (ctl_mod) {
-                    rgb_matrix_set_color(i, RGB_YELLOW);
-                } else if (gui_mod) {
-                    rgb_matrix_set_color(i, RGB_RED);
-                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
-                    rgb_matrix_set_color(i, 0, 0, 0);
-                }
+        }
+
+        if (g_led_config.flags[i] & LED_FLAG_UNDERGLOW) {
+            if (alt_mod && ctl_mod && gui_mod) {
+                rgb_matrix_set_color(i, RGB_WHITE);
+            } else if (alt_mod && ctl_mod) {
+                rgb_matrix_set_color(i, RGB_GREEN);
+            } else if (alt_mod && gui_mod) {
+                rgb_matrix_set_color(i, RGB_PURPLE);
+            } else if (ctl_mod && gui_mod) {
+                rgb_matrix_set_color(i, RGB_ORANGE);
+            } else if (alt_mod) {
+                rgb_matrix_set_color(i, RGB_BLUE);
+            } else if (ctl_mod) {
+                rgb_matrix_set_color(i, RGB_YELLOW);
+            } else if (gui_mod) {
+                rgb_matrix_set_color(i, RGB_RED);
+            } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                rgb_matrix_set_color(i, 0, 0, 0);
             }
-            if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
-                if (is_caps_word_on()) {
-                    rgb_matrix_set_color(i, RGB_RED);
-                } else if (shift_mod) {
-                    rgb_matrix_set_color(i, RGB_ORANGE);
-                } else if (leader_sequence_active()) {
-                    rgb_matrix_set_color(i, RGB_PURPLE);
-                } else if (numLayerOn) {
-                    rgb_matrix_set_color(i, RGB_GREEN);
-                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
-                    rgb_matrix_set_color(i, 0, 0, 0);
-                }
+        }
+
+        if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
+            if (is_caps_word_on()) {
+                rgb_matrix_set_color(i, RGB_RED);
+            } else if (shift_mod) {
+                rgb_matrix_set_color(i, RGB_ORANGE);
+            } else if (leader_sequence_active()) {
+                rgb_matrix_set_color(i, RGB_PURPLE);
+            } else if (numLayerOn) {
+                rgb_matrix_set_color(i, RGB_GREEN);
+            } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                rgb_matrix_set_color(i, 0, 0, 0);
             }
         }
     }
