@@ -199,17 +199,17 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                     rgb_matrix_set_color(i, RGB_PURPLE);
                 } else if (funcLayerOn) {
                     rgb_matrix_set_color(i, RGB_RED);
-                } else {
-                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                    rgb_matrix_set_color(i, 0, 0, 0);
                 }
             }
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
                 if (oneLayerOn) {
-                    rgb_matrix_set_color(i, RGB_GREEN);
+                    rgb_matrix_set_color(i, RGB_BLUE);
                 } else if (twoLayerOn) {
                     rgb_matrix_set_color(i, RGB_YELLOW);
-                } else {
-                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                    rgb_matrix_set_color(i, 0, 0, 0);
                 }
             }
             if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
@@ -219,8 +219,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                     rgb_matrix_set_color(i, RGB_PURPLE);
                 } else if (numLayerOn) {
                     rgb_matrix_set_color(i, RGB_GREEN);
-                } else {
-                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                } else if (rgb_matrix_get_flags() == LED_FLAG_NONE){
+                    rgb_matrix_set_color(i, 0, 0, 0);
                 }
             }
         }
