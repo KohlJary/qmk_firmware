@@ -48,4 +48,8 @@ void leader_end_user(void) {
   if(leader_sequence_two_keys(KC_A, KC_A)) {
     SEND_STRING("9 C Street, Portland ME 04102");
   }
+
+  if(leader_sequence_two_keys(KC_L, KC_H)) {
+    SEND_STRING("localhost:");
+  }
 }

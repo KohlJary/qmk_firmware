@@ -130,19 +130,17 @@ void altquote_reset(tap_dance_state_t *state, void *user_data) {
 void leftshift_finished(tap_dance_state_t *state, void *user_data) {
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
-    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
     lshift_td_state = cur_dance(state);
     switch (lshift_td_state) {
         case TD_SINGLE_TAP:
             add_oneshot_mods(MOD_BIT(KC_LSFT));
+            if (is_caps_word_on()) {
+                caps_word_off();
+                clear_oneshot_mods();
+            }
             break;
         case TD_DOUBLE_TAP:
-            if (shift_mod) {
-              tap_code16(KC_LABK);
-            }
-            else {
-              tap_code16(KC_LPRN);
-            }
+            caps_word_toggle();
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
@@ -175,27 +173,19 @@ void leftshift_reset(tap_dance_state_t *state, void *user_data) {
 void rightshift_finished(tap_dance_state_t *state, void *user_data) {
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
-    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
     rshift_td_state = cur_dance(state);
     switch (rshift_td_state) {
         case TD_SINGLE_TAP:
-            if (shift_mod) {
-              tap_code(KC_CAPS);
-            }
-            else {
-                if (is_caps_word_on()) {
-                    caps_word_off();
-                }
-                else {
-                    caps_word_on();
-                }
+            if(IS_LAYER_ON(LYN)) {
+                layer_invert(LYN);
+            } else {
+                set_oneshot_layer(LYN, ONESHOT_START);
             }
             break;
         case TD_DOUBLE_TAP:
             layer_invert(LYN);
             break;
         case TD_SINGLE_HOLD:
-            caps_word_off();
             register_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_HOLD:
@@ -210,6 +200,9 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
 
 void rightshift_reset(tap_dance_state_t *state, void *user_data) {
     switch (rshift_td_state) {
+        case TD_SINGLE_TAP:
+            clear_oneshot_layer_state(ONESHOT_PRESSED);
+            break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
