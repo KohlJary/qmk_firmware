@@ -187,26 +187,40 @@ void keyboard_post_init_user(void) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    for (uint8_t i = led_min; i < led_max; i++) {
-        if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
-            if (is_caps_word_on()) {
-                rgb_matrix_set_color(i, RGB_RED);
-            } else if (leader_sequence_active()) {
-                rgb_matrix_set_color(i, RGB_PURPLE);
-            } else {
-                switch(get_highest_layer(layer_state|default_layer_state)) {
-                    case LYN:
-                        rgb_matrix_set_color(i, RGB_GREEN);
-                        break;
-                    case LYV:
-                        rgb_matrix_set_color(i, RGB_BLUE);
-                        break;
-                    case LYF:
-                        rgb_matrix_set_color(i, RGB_YELLOW);
-                        break;
-                    default:
-                        rgb_matrix_set_flags(LED_FLAG_ALL);
-                        break;
+    bool navLayerOn = layer_state_is(LYV);
+    bool funcLayerOn = layer_state_is(LYF);
+    bool numLayerOn = layer_state_is(LYN);
+    bool oneLayerOn = layer_state_is(LY1);
+    bool twoLayerOn = layer_state_is(LY2);
+    if (rgb_matrix_is_enabled()) {
+        for (uint8_t i = led_min; i < led_max; i++) {
+            if (g_led_config.flags[i] & LED_FLAG_MODIFIER) {
+                if (navLayerOn) {
+                    rgb_matrix_set_color(i, RGB_PURPLE);
+                } else if (funcLayerOn) {
+                    rgb_matrix_set_color(i, RGB_RED);
+                } else {
+                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                }
+            }
+            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
+                if (oneLayerOn) {
+                    rgb_matrix_set_color(i, RGB_GREEN);
+                } else if (twoLayerOn) {
+                    rgb_matrix_set_color(i, RGB_YELLOW);
+                } else {
+                    rgb_matrix_set_flags(LED_FLAG_ALL);
+                }
+            }
+            if (g_led_config.flags[i] & LED_FLAG_INDICATOR) {
+                if (is_caps_word_on()) {
+                    rgb_matrix_set_color(i, RGB_RED);
+                } else if (leader_sequence_active()) {
+                    rgb_matrix_set_color(i, RGB_PURPLE);
+                } else if (numLayerOn) {
+                    rgb_matrix_set_color(i, RGB_GREEN);
+                } else {
+                    rgb_matrix_set_flags(LED_FLAG_ALL);
                 }
             }
         }

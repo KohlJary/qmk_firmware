@@ -177,7 +177,7 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
     switch (rshift_td_state) {
         case TD_SINGLE_TAP:
             if(IS_LAYER_ON(LYN)) {
-                layer_invert(LYN);
+                reset_oneshot_layer();
             } else {
                 set_oneshot_layer(LYN, ONESHOT_START);
             }
