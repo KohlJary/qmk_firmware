@@ -9,6 +9,7 @@ enum keyboard_keycodes {
     INC_DEC, //Increment/decrement operator
     AND_OR,  //And/or operator
     LAMBDA,  //Lambda operator
+    KC_NULL, //"null" key
     QUE_EXC, //!/? on one key
     AT_HASH, //@/# on one key
     DOL_CIR, //$/^ on one key

@@ -18,12 +18,8 @@ static bool user_return;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
   static uint32_t dc_key_timer;
-  static uint32_t eq_key_timer;
-  static uint32_t lg_key_timer;
   static uint32_t pa_key_timer;
-  static uint32_t ao_key_timer;
   static uint32_t ah_key_timer;
-  static uint32_t incdec_key_timer;
 
   user_return = false;
   mod_state = get_mods();
@@ -34,60 +30,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case EQ_NEQ:
       if (record->event.pressed) {
-        eq_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(eq_key_timer) < TAPPING_TERM) {
-          SEND_STRING("==");
-        } else {
+      clear_mods();
+      clear_oneshot_mods();
+        if (shift_mod) {
           SEND_STRING("!=");
+        } else {
+          SEND_STRING("==");
         }
-        set_mods(mod_state);
+        return false;
       }
       break;
     case LTE_GTE:
       if (record->event.pressed) {
-        lg_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(lg_key_timer) < TAPPING_TERM) {
+      clear_mods();
+      clear_oneshot_mods();
+        if (shift_mod) {
           SEND_STRING("<=");
         } else {
           SEND_STRING(">=");
         }
-        set_mods(mod_state);
+        return false;
       }
       break;
     case INC_DEC:
       if (record->event.pressed) {
-        incdec_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(incdec_key_timer) > TAPPING_TERM) {
-          send_string("--");
+      clear_mods();
+      clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING("--");
         } else {
-          send_string("++");
+          SEND_STRING("++");
         }
-        set_mods(mod_state);
+        return false;
       }
       break;
     case AND_OR:
       if (record->event.pressed) {
-        ao_key_timer = timer_read();
-      } else {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-        if(timer_elapsed(ao_key_timer) > TAPPING_TERM) {
+      clear_mods();
+      clear_oneshot_mods();
+        if (shift_mod) {
           SEND_STRING("||");
         } else {
           SEND_STRING("&&");
         }
-        set_mods(mod_state);
+        return false;
       }
-      return false;
+      break;
     case LAMBDA:
       if (record->event.pressed) {
         clear_mods();
@@ -100,18 +88,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
-    case QUE_EXC:
+    case KC_NULL:
       if (record->event.pressed) {
-        del_mods(MOD_MASK_SHIFT);
-        del_oneshot_mods(MOD_MASK_SHIFT);
-          if (shift_mod) {
-            SEND_STRING("?");
-          } else {
-            SEND_STRING("!");
-          }
-        set_mods(mod_state);
+        clear_mods();
+        clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING("undefined");
+        } else {
+          SEND_STRING("null");
+        }
+        return false;
       }
-      return false;
+      break;
     case AT_HASH:
       if (record->event.pressed) {
         ah_key_timer = timer_read();
@@ -202,7 +190,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
-    case G(KC_ENT):
+    case G(KC_DOT):
       if (record->event.pressed) {
         if (detected_host_os() == OS_WINDOWS) {
           add_oneshot_mods(MOD_BIT(KC_LGUI));
@@ -217,15 +205,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (detected_host_os() == OS_WINDOWS) {
           add_oneshot_mods(MOD_BIT(KC_LALT));
           tap_code(KC_M);
-          return false;
-        }
-      }
-      break;
-    case G(KC_DOT):
-      if (record->event.pressed) {
-        if (detected_host_os() == OS_WINDOWS) {
-          add_oneshot_mods(MOD_BIT(KC_LALT));
-          tap_code(KC_DOT);
           return false;
         }
       }
@@ -333,10 +312,9 @@ const key_override_t alt_quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), 
 
 const key_override_t ly_quot_override = ko_make_basic(MOD_MASK_CTRL, LT(LY1,KC_QUOT), KC_GRV);
 
-const key_override_t at_perc_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_PERC);
-const key_override_t dol_circ_override = ko_make_basic(MOD_MASK_SHIFT, KC_DLR, KC_CIRC);
-const key_override_t perc_ast_override = ko_make_basic(MOD_MASK_SHIFT, KC_PERC, KC_ASTR);
-const key_override_t ast_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_ASTR, KC_HASH);
+const key_override_t at_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_HASH);
+const key_override_t dol_perc_override = ko_make_basic(MOD_MASK_SHIFT, KC_DLR, KC_PERC);
+const key_override_t circ_ast_override = ko_make_basic(MOD_MASK_SHIFT, KC_CIRC, KC_ASTR);
 
 const key_override_t and_or_override = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_PIPE);
 
@@ -344,6 +322,8 @@ const key_override_t tild_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMM, KC_T
 
 const key_override_t exlm_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EXLM);
 
+const key_override_t lprn_labk_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK);
+const key_override_t rprn_rabk_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK);
 const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_LBRC,
                                         KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
 const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
@@ -370,13 +350,14 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &quot_override,
     &alt_quot_override,
     &ly_quot_override,
-    &at_perc_override,
-    &dol_circ_override,
-    &perc_ast_override,
-    &ast_hash_override,
+    &at_hash_override,
+    &dol_perc_override,
+    &circ_ast_override,
     &and_or_override,
     &tild_override,
     &exlm_override,
+    &lprn_labk_override,
+    &rprn_rabk_override,
     &lprn_override,
     &rprn_override,
     &f23_override,
