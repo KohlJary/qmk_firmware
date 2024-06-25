@@ -16,6 +16,7 @@ enum TD_KEYCODES{
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
   T_UX, //Utility
+  T_TM, //Terminal shortcuts 1: new tab, Hold: close tab, 2: rename tab
   T_MB, //Tap/Hold: M1, Double Tap: M2, Double Tap Hold: M3
   T_LY, //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
 };
@@ -34,7 +35,10 @@ extern enum TD_KEYCODES td_keycodes;
 
 void dance_dir(tap_dance_state_t *state, void *user_data);
 void dance_dec_inc(tap_dance_state_t *state, void *user_data);
-void dance_num(tap_dance_state_t *state, void *user_data);
+void dance_num_tap(tap_dance_state_t *state, void *user_data);
+void dance_num_release(tap_dance_state_t *state, void *user_data);
+void dance_num_finished(tap_dance_state_t *state, void *user_data);
+void dance_num_reset(tap_dance_state_t *state, void *user_data);
 void dance_layer(tap_dance_state_t *state, void *user_data);
 
 // Function to determine the current tapdance state
@@ -66,6 +70,9 @@ void guieq_reset(tap_dance_state_t *state, void *user_data);
 
 void utility_finished(tap_dance_state_t *state, void *user_data);
 void utility_reset(tap_dance_state_t *state, void *user_data);
+
+void terminal_finished(tap_dance_state_t *state, void *user_data);
+void terminal_reset(tap_dance_state_t *state, void *user_data);
 
 void mouse_button_finished(tap_dance_state_t *state, void *user_data);
 void mouse_button_reset(tap_dance_state_t *state, void *user_data);

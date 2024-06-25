@@ -26,6 +26,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   oneshot_mod_state = get_oneshot_mods();
 
   bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
+  bool ctrl_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_CTRL);
 
   switch (keycode) {
     case EQ_NEQ:
@@ -96,6 +97,60 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           SEND_STRING("undefined");
         } else {
           SEND_STRING("null");
+        }
+        return false;
+      }
+      break;
+    case KC_TRUE:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING("false");
+        } else {
+          SEND_STRING("true");
+        }
+        return false;
+      }
+      break;
+    case IF_ELSE:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (ctrl_mod) {
+          SEND_STRING("else if () {");
+          tap_code(KC_ENT);
+          tap_code(KC_ESC);
+          SEND_STRING("k$F)i");
+        }
+        else if (shift_mod) {
+          SEND_STRING("else () {");
+          tap_code(KC_ENT);
+          tap_code(KC_ESC);
+          SEND_STRING("k$F)i");
+        } else {
+          SEND_STRING("if () {");
+          tap_code(KC_ENT);
+          tap_code(KC_ESC);
+          SEND_STRING("k$F)i");
+        }
+        return false;
+      }
+      break;
+    case FOR_EAC:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (shift_mod) {
+          SEND_STRING("foreach () {");
+          tap_code(KC_ENT);
+          tap_code(KC_ESC);
+          SEND_STRING("k$F)i");
+        } else {
+          SEND_STRING("for () {");
+          tap_code(KC_ENT);
+          tap_code(KC_ESC);
+          SEND_STRING("k$F)i");
         }
         return false;
       }

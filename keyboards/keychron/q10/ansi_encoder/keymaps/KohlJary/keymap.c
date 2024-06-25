@@ -47,7 +47,7 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_ansi_89(
-        KC_MPLY,  TD(T_UX), KC_WSPR, KC_WSBF, KC_WSNX,  G(KC_DOT), KC_PROG, KC_TERM,  KC_MAX,  LAMBDA,   AT_HASH,  DOL_CIR,  PER_AST,  LAMBDA,   KC_TASK,           T_RSTRT,
+        KC_MPLY,  QK_BOOT,  KC_WSPR, KC_WSBF, KC_WSNX,  G(KC_DOT), KC_PROG, KC_TERM,  KC_MAX,  LAMBDA,   AT_HASH,  DOL_CIR,  PER_AST,  LAMBDA,   KC_TASK,           T_RSTRT,
         _______,  TD(T_UX), KC_1,    KC_2,    KC_3,     KC_4,      KC_5,    KC_6,     KC_7,    KC_8,     KC_9,     KC_0,     KC_AT,    KC_AMPR,  KC_CAPS,           TD(T_CP),
         _______,  TD(T_GE), KC_Q,    KC_W,    KC_E,     KC_R,      KC_T,    KC_Y,     KC_U,    KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  GUI_T(KC_MINS),    KC_WH_U,
         _______,  TD(T_CE), KC_A,    KC_S,    KC_D,     KC_F,      KC_G,    KC_H,     KC_J,    KC_K,     KC_L,     KC_SCLN,  KJ_QUOT,            QK_LEAD,           KC_WH_D,
@@ -79,12 +79,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    _______,  _______,            _______,  _______,  _______,                       _______,            _______,                      _______,  _______,  _______),
 
     [LY1] = LAYOUT_ansi_89(
-        RGB_TOG,  KC_CAPS,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,     KC_F6,       KC_F7,    KC_F8,    KC_F9,    KC_F10,    KC_F11,   KC_F12,   _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,     _______,  _______,  _______,  _______,   KC_DLR,   KC_PERC,  _______,            _______,
-        _______,  _______,  AT_HASH,  KC_7,     KC_8,     KC_9,     KC_0,      RCS(KC_TAB), KC_WBAK,  C(KC_L),  KC_WFWD,  C(KC_TAB), KC_LPRN,  KC_RPRN,  RCS(KC_P),          _______,
-        _______,  _______,  DOL_CIR,  KC_4,     KC_5,     KC_6,     LAMBDA,    KC_LEFT,     KC_DOWN,  KC_UP,    KC_RGHT,  C(KC_T),   C(KC_W),            _______,            _______,
-        _______,  _______,  PER_AST,  KC_1,     KC_2,     KC_3,     LTE_GTE,   KC_MS_L,     KC_MS_D,  KC_MS_U,  KC_MS_R,  KC_BTN1,   KC_BTN2,  _______,            _______,
-        _______,  _______,  _______,            _______,  _______,  _______,                          _______,            _______,                       _______,  _______,  _______),
+        RGB_TOG,  KC_CAPS,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,     KC_F6,   KC_F7,       KC_F8,    KC_F9,     KC_F10,  KC_F11,   KC_F12,   _______,            _______,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______, _______,     _______,  _______,   _______, KC_DLR,   KC_PERC,  _______,            _______,
+        _______,  _______,  AT_HASH,  KC_7,     KC_8,     KC_9,     KC_0,      KC_WBAK, RCS(KC_TAB), C(KC_T),  C(KC_TAB), KC_WFWD, KC_LPRN,  KC_RPRN,  RCS(KC_P),          _______,
+        _______,  _______,  DOL_CIR,  KC_4,     KC_5,     KC_6,     LAMBDA,    KC_LEFT, KC_DOWN,     KC_UP,    KC_RGHT,   C(KC_T), C(KC_W),            _______,            _______,
+        _______,  _______,  PER_AST,  KC_1,     KC_2,     KC_3,     LTE_GTE,   KC_HOME, KC_PGDN,     KC_PGUP,  KC_END,    KC_BTN1, KC_BTN2,  _______,            _______,
+        _______,  _______,  _______,            _______,  _______,  _______,                         _______,             _______,                     _______,  _______,  _______),
 
     [LY2] = LAYOUT_ansi_89(
         RGB_TOG,  QK_BOOT,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,   RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,   KC_VOLU,  _______,            _______,

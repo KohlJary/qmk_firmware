@@ -96,6 +96,7 @@
 #define KJ_TAB  LT(LY1,KC_TAB)
 #define KJ_ENT  LT(LY2,KC_ENT)
 #define KJ_BSPC LT(LY1,KC_BSPC)
+#define KJ_F24  LT(LYN,KC_F24)
 #define KJ_MINS GUI_T(KC_MINS)
 
 // Vim binds
@@ -108,12 +109,12 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
-        TD(T_CP),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,   KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    TD(T_UX),
-        TD(T_GE),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR,  KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
-        TD(T_CE),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_LBRC,          KC_RBRC,  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, TD(T_AQ),
-        TD(T_LS),    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                               KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(T_RS),
-        OSM(MOD_CS), KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,         KC_BTN1,          KC_BTN2,          KC_HOME, KC_PGDN, KC_PGUP, KC_END,  OSM(MOD_AS),
-                                                KJ_SPC,  KJ_TAB, QK_LEAD,          TD(T_NM), KJ_ENT, KJ_BSPC
+        TD(T_CP),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,  KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    TD(T_UX),
+        TD(T_GE),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
+        TD(T_CE),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_LBRC,          KC_RBRC, KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, TD(T_AQ),
+        TD(T_LS),    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(T_RS),
+        OSM(MOD_CS), KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,         KC_BTN1,          KC_BTN2,         KC_HOME, KC_PGDN, KC_PGUP, KC_END,  OSM(MOD_AS),
+                                                KJ_SPC,  KJ_TAB, QK_LEAD,          KJ_F24,  KJ_ENT, KJ_BSPC
     ),
 
     [LYG] = LAYOUT_moonlander(
@@ -162,11 +163,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LY1] = LAYOUT_moonlander(
-        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______,  _______,  QK_BOOT,
-        _______, KC_PROG, KC_WSPR, KC_WSBF, KC_WSNX, KC_TERM, _______,          _______, KC_WBAK, KC_WBTP, KC_OPTB, KC_WBTN,  KC_WFWD,  _______,
-        _______, KC_CIRC, EQ_NEQ,  LTE_GTE, INC_DEC, AND_OR,  KC_LABK,          KC_RABK, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,   _______,
-        _______, KC_PERC, _______, _______, _______, LAMBDA,                             KC_NULL, VIM_TOP, VIM_MID, VIM_BOT,  KC_ASTR,  _______,
-        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______,  _______,  _______,
+        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______,  _______,  _______,  QK_BOOT,
+        _______, KC_PROG, KC_WSPR, KC_WSBF, KC_WSNX, KC_TERM, KC_PERC,          KC_ASTR, KC_WBAK, KC_WBTP, TD(T_TM), KC_WBTN,  KC_WFWD,  _______,
+        _______, KC_CIRC, AND_OR,  LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LABK,          KC_RABK, KC_LEFT, KC_DOWN, KC_UP,    KC_RIGHT, KC_DLR,   _______,
+        _______, KC_PERC, INC_DEC, IF_ELSE, FOR_EAC, KC_TRUE,                            KC_NULL, VIM_TOP, VIM_MID,  VIM_BOT,  KC_ASTR,  _______,
+        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______,  _______,  _______,  _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
 

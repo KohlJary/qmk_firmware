@@ -9,10 +9,13 @@ static td_state_t td_state = TD_NONE;
 static td_state_t ctrlesc_td_state = TD_NONE;
 static td_state_t guieq_td_state = TD_NONE;
 static td_state_t altqt_td_state = TD_NONE;
+static td_state_t nm_td_state = TD_NONE;
 static td_state_t ux_td_state = TD_NONE;
+static td_state_t tm_td_state = TD_NONE;
 static td_state_t mb_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
 static td_state_t rshift_td_state = TD_NONE;
+static bool nm_os_on = false;
 
 uint8_t mod_state;
 uint8_t oneshot_mod_state;
@@ -65,18 +68,81 @@ void dance_dec_inc(tap_dance_state_t *state, void *user_data) {
     reset_tap_dance(state);
 }
 
-void dance_num(tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
-        if (IS_LAYER_ON(LYN)) {
-            layer_invert(LYN);
-        } else {
-            set_oneshot_layer(LYN, ONESHOT_START);
-            clear_oneshot_layer_state(ONESHOT_PRESSED);
-        }
-    } else if (state->count == 2) {
-        layer_invert(LYN);
+void dance_num_tap(tap_dance_state_t *state, void *user_data) {
+    if(state->count == 1) {
+        /* set_oneshot_layer(LYN, ONESHOT_START); */
     }
-    reset_tap_dance(state);
+    else {
+        layer_off(LYN);
+        reset_oneshot_layer();
+    }
+}
+
+void dance_num_release(tap_dance_state_t *state, void *user_data) {
+    if(state->count == 1 && nm_os_on) {
+        /* clear_oneshot_layer_state(ONESHOT_PRESSED); */
+    }
+}
+
+void dance_num_finished(tap_dance_state_t *state, void *user_data) {
+    /* if(!is_oneshot_layer_active()) { */
+    /*     nm_os_on = false; */
+    /* } */
+    nm_td_state = cur_dance(state);
+    switch (nm_td_state) {
+        case TD_SINGLE_TAP:
+        case TD_SINGLE_HOLD:
+            /* if (is_oneshot_layer_active()) { */
+            /*     layer_off(get_oneshot_layer()); */
+            /*     reset_oneshot_layer(); */
+            /*     break; */
+            /* } else { */
+                if (IS_LAYER_ON(LYN)) {
+                    /* clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED); */
+                    if (!nm_os_on) {
+                        layer_off(LYN);
+                        /* nm_os_on = true; */
+                    } else {
+                        nm_os_on = false;
+                    }
+                    break;
+                } else {
+                    nm_os_on = !nm_os_on;
+                    if (!nm_os_on) {
+                        nm_os_on = true;
+                        set_oneshot_layer(LYN, ONESHOT_START);
+                        break;
+                    } else {
+                        nm_os_on = false;
+                    }
+                }
+            /* } */
+            break;
+        case TD_DOUBLE_TAP:
+        case TD_DOUBLE_HOLD:
+            layer_invert(LYN);
+            break;
+        default:
+            break;
+    }
+}
+
+void dance_num_reset(tap_dance_state_t *state, void *user_data) {
+    switch (nm_td_state) {
+        case TD_SINGLE_TAP:
+        case TD_SINGLE_HOLD:
+            if (nm_os_on) {
+                clear_oneshot_layer_state(ONESHOT_PRESSED);
+            }
+            else {
+                layer_off(LYN);
+                reset_oneshot_layer();
+            }
+            break;
+        default:
+            break;
+    }
+    nm_td_state = TD_NONE;
 }
 
 void dance_layer(tap_dance_state_t *state, void *user_data) {
@@ -480,6 +546,38 @@ void utility_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void terminal_finished(tap_dance_state_t *state, void *user_data) {
+    tm_td_state = cur_dance(state);
+    switch (tm_td_state) {
+        case TD_SINGLE_TAP:
+            add_oneshot_mods(MOD_BIT(KC_LCTL));
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            tap_code(KC_T);
+            break;
+        case TD_DOUBLE_TAP:
+            add_oneshot_mods(MOD_BIT(KC_LCTL));
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            tap_code(KC_R);
+            break;
+        case TD_SINGLE_HOLD:
+            add_oneshot_mods(MOD_BIT(KC_LCTL));
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            tap_code(KC_Q);
+            break;
+        case TD_DOUBLE_HOLD:
+            break;
+        default:
+            break;
+    }
+}
+
+void terminal_reset(tap_dance_state_t *state, void *user_data) {
+    switch (tm_td_state) {
+        default:
+            break;
+    }
+}
+
 void mouse_button_finished(tap_dance_state_t *state, void *user_data) {
     mb_td_state = cur_dance(state);
     switch (mb_td_state) {
@@ -521,7 +619,7 @@ tap_dance_action_t tap_dance_actions[] = {
   //Tap once for decrement, twice for increment
   [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
   //Tap once for oneshot num, twice for num toggle
-  [T_NM] = ACTION_TAP_DANCE_FN(dance_num),
+  [T_NM] = ACTION_TAP_DANCE_FN_ADVANCED_WITH_RELEASE(NULL, dance_num_release, dance_num_finished, dance_num_reset),
   //Hold for Alt, tap for quote, double tap for F24, double hold for Alt+Shift
   [T_AQ] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altquote_finished, altquote_reset),
   //Hold for shift, single tap for OSM shift, double tap for open paren
@@ -540,6 +638,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_GE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guieq_finished, guieq_reset),
   //Hold for GUI, tap for =, double hold for !=
   [T_UX] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, utility_finished, utility_reset),
+  //Hold for close tab, tap for new tab, double tap for rename tab
+  [T_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, terminal_finished, utility_reset),
   //Tap/Hold for M1, double tap for M2, double hold for M3
   [T_MB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, mouse_button_finished, mouse_button_reset),
   //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
@@ -565,5 +665,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM - 50;
         default:
             return TAPPING_TERM;
+    }
+}
+
+void oneshot_layer_changed_user(uint8_t layer) {
+    if (!layer && nm_os_on) {
+        nm_os_on = false;
     }
 }
