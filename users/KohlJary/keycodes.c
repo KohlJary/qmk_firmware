@@ -383,6 +383,8 @@ const key_override_t lprn_override = ko_make_with_layers_negmods_and_options(MOD
                                         KC_LPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
 const key_override_t rprn_override = ko_make_with_layers_negmods_and_options(MOD_MASK_CTRL, KC_RBRC,
                                         KC_RPRN, ~0, MOD_MASK_SA, ko_option_no_reregister_trigger);
+const key_override_t one_override = ko_make_basic(MOD_MASK_SHIFT, KC_1, KC_LABK);
+const key_override_t two_override = ko_make_basic(MOD_MASK_SHIFT, KC_2, KC_RABK);
 
 const key_override_t f23_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_F23);
 
@@ -415,6 +417,8 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &rprn_rabk_override,
     &lprn_override,
     &rprn_override,
+    &one_override,
+    &two_override,
     &f23_override,
     &kp_mins_override,
     &kp_pls_override,
