@@ -98,6 +98,14 @@
 #define KJ_BSPC LT(LY1,KC_BSPC)
 #define KJ_F24  LT(LYN,KC_F24)
 #define KJ_MINS GUI_T(KC_MINS)
+#define KJ_COPY TD(T_CP)
+#define KJ_GEQL TD(T_GE)
+#define KJ_CESC TD(T_CE)
+#define KJ_LSFT TD(T_LS)
+#define KJ_RSFT TD(T_RS)
+#define KJ_UTIL TD(T_UX)
+#define KJ_ALTQ TD(T_AQ)
+#define KJ_TERM TD(T_TM)
 
 // Vim binds
 #define VIM_TOP S(KC_H)
@@ -106,15 +114,17 @@
 
 #define MOD_AS  MOD_LALT | MOD_LSFT
 #define MOD_CS  MOD_LCTL | MOD_LSFT
+#define OSHT_CS OSM(MOD_CS)
+#define OSHT_AS OSM(MOD_AS)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
-        TD(T_CP),    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,  KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    TD(T_UX),
-        TD(T_GE),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
-        TD(T_CE),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_LBRC,          KC_RBRC, KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, TD(T_AQ),
-        TD(T_LS),    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, TD(T_RS),
-        OSM(MOD_CS), KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,         KC_BTN1,          KC_BTN2,         KC_HOME, KC_PGDN, KC_PGUP, KC_END,  OSM(MOD_AS),
-                                                KJ_SPC,  KJ_TAB, QK_LEAD,          KJ_F24,  KJ_ENT, KJ_BSPC
+        KJ_COPY, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,  KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KJ_UTIL,
+        KJ_GEQL, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
+        KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_LBRC,          KC_RBRC, KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, KJ_ALTQ,
+        KJ_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KJ_RSFT,
+        OSHT_CS, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,         KC_BTN1,          KC_BTN2,         KC_HOME, KC_PGDN, KC_PGUP, KC_END,  OSHT_AS,
+                                            KJ_SPC,  KJ_TAB, QK_LEAD,          KJ_F24,  KJ_ENT, KJ_BSPC
     ),
 
     [LYG] = LAYOUT_moonlander(
@@ -154,18 +164,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LY1] = LAYOUT_moonlander(
-        _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,    KC_3,     KC_4,     KC_5,    QK_BOOT,
-        _______, KC_PROG, KC_WSPR, KC_WSBF, KC_WSNX, KC_TERM, KC_PERC,          KC_ASTR, KC_WBAK, KC_WBTP, TD(T_TM), KC_WBTN,  KC_WFWD, _______,
-        _______, KC_CIRC, AND_OR,  LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LABK,          KC_RABK, KC_LEFT, KC_DOWN, KC_UP,    KC_RIGHT, KC_DLR,  _______,
-        _______, KC_PERC, INC_DEC, IF_ELSE, FOR_EAC, KC_TRUE,                            KC_NULL, VIM_TOP, VIM_MID,  VIM_BOT,  KC_ASTR, _______,
-        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______,  _______,  _______, _______,
+        _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,     KC_3,    KC_4,     KC_5,    QK_BOOT,
+        _______, KC_PROG, KC_WSPR, KC_WSBF, KC_WSNX, KC_TERM, KC_PERC,          KC_ASTR, KC_NULL, TD(T_TM), KC_WFWD, KC_WBAK,  KC_WBTP, _______,
+        _______, KC_CIRC, AND_OR,  LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LPRN,          KC_RPRN, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DLR,  _______,
+        _______, KC_PERC, INC_DEC, IF_ELSE, FOR_EAC, KC_TRUE,                            KC_WBTN, VIM_TOP,  VIM_MID, VIM_BOT,  KC_ASTR, _______,
+        _______, _______, _______, _______, _______,          _______,          _______,          _______,  _______, _______,  _______, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
 
     [LY2] = LAYOUT_moonlander(
         QK_BOOT, KC_6,    KC_7,    KC_8,     KC_9,    KC_0,    _______,         _______, KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  _______,
-        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, _______,         KC_F17,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
-        _______, DM_PLY2, DM_PLY1, RGB_RMOD, RGB_TOG, RGB_MOD, KC_LPRN,         KC_RPRN, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
+        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, _______,         _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F17,
+        _______, DM_PLY2, DM_PLY1, RGB_RMOD, RGB_TOG, RGB_MOD, _______,         _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
         _______, RGB_SPD, RGB_SPI, RGB_HUD,  RGB_SAD, RGB_VAD,                           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
         _______, _______, _______, _______,  _______,          _______,         _______,          KC_WBTP, KC_WBAK, KC_WFWD, KC_WBTN, _______,
                                              _______, _______, _______,         _______, _______, _______
