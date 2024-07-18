@@ -15,11 +15,7 @@ RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
 AUDIO_ENABLE = yes          # Audio output
 AUDIO_DRIVER = dac_additive
 CUSTOM_MATRIX = lite
-SWAP_HANDS_ENABLE = yes
-RGB_MATRIX_ENABLE = yes
 
-#project specific files
+# project specific files
 SRC += matrix.c
 I2C_DRIVER_REQUIRED = yes
-
-MOUSE_SHARED_EP = no
