@@ -63,9 +63,9 @@
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_54_ansi(
         KJ_GEQL, KC_Q,  KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC, KJ_MINS,           KC_MPLY,
-        KJ_CESC, KC_A,  KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KJ_ALTQ,           QK_LEAD,           KJ_COPY,
+        KJ_CESC, KC_A,  KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KJ_ALTQ,           KJ_ENT,            KJ_COPY,
         KJ_LSFT, KC_Z,  KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,            KJ_RSFT,           KC_MS_U,
-        OSHT_CS, KC_AT, KC_AMPR, KJ_TAB,           KJ_SPC,                    KJ_BSPC,          KJ_ENT,   OSL(LYN), KC_BTN1, KC_MS_L,  KC_MS_D, KC_MS_R),
+        OSHT_CS, KC_AT, KC_AMPR, KJ_TAB,           KJ_SPC,                    KJ_BSPC,          QK_LEAD,  OSL(LYN), KC_BTN1, KC_MS_L,  KC_MS_D, KC_MS_R),
 
     [LYG] = LAYOUT_54_ansi(
         KC_TAB,   KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC, KC_RBRC,  KJ_MINS,          KC_MPLY,
@@ -80,10 +80,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______,  _______,          _______,                   _______,          _______,  _______,     _______,  _______, _______, _______),
 
     [LY1] = LAYOUT_54_ansi(
-        TD(T_UX),  KC_PROG, KC_WSPR,  KC_WSBF, KC_WSNX, KC_TERM, KC_NULL, TD(T_TM), KC_WBAK, KC_WFWD,  KC_WBTP,  KC_LPRN,       _______,  _______,          RGB_TOG,
-        RGB_TOG,   KC_CIRC, AND_OR,   LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DLR,   ALT_T(KC_F12),           _______,          KJ_UTIL,
-        _______,   KC_PERC, INC_DEC,  IF_ELSE, FOR_EAC, KC_TRUE, KC_WBTN, VIM_TOP,  VIM_MID, VIM_BOT,  KC_ASTR,                 _______,           _______,
-        _______,   _______, _______,  _______,          _______,                    _______,           _______,  _______,       KC_BTN2,  _______, _______, _______),
+        TD(T_UX),  KC_PROG, KC_WSPR,  KC_WSBF, KC_WSNX, KC_TERM, KC_NULL, TD(T_TM), KC_WBAK, KC_WFWD,  KC_WBTP,  KC_LPRN,       KC_RPRN,  _______,          RGB_TOG,
+        RGB_TOG,   KC_CIRC, AND_OR,   LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DLR,   ALT_T(KC_F12),           _______,          _______,
+        _______,   KC_PERC, INC_DEC,  IF_ELSE, FOR_EAC, KC_TRUE, KC_WBTN, VIM_TOP,  VIM_MID, VIM_BOT,  KC_ASTR,                 _______,           KC_PGUP,
+        _______,   _______, _______,  _______,          _______,                    _______,           _______,  _______,       KC_BTN2,  KC_HOME, KC_PGDN, KC_END),
 
     [LY2] = LAYOUT_54_ansi(
         QK_BOOT, KC_F18,   KC_F19,   KC_F20,   KC_F21,  KC_F22,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F23,        KC_F24,  _______,          RGB_TOG,
