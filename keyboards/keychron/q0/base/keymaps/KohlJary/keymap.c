@@ -17,14 +17,19 @@
 #include QMK_KEYBOARD_H
 #include "KohlJary.h"
 
-#define KJ_PPLS GUI_T(KC_PPLS)
+#define KJ_PMNS GUI_T(KC_PMNS)
 #define KJ_PEQL CTL_T(KC_PEQL)
 #define KJ_PDOT ALT_T(KC_PDOT)
 
+// Web Browser Tab Previous
+#define KC_WBTP RCS(KC_TAB)
+// Web Browser Tab Next
+#define KC_WBTN C(KC_TAB)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_numpad_6x4(
-        KJ_PEQL, KC_PMNS, TG(LYN),  LT(LY1, KC_ESC),
-        KJ_PDOT, KJ_PPLS, TG(LYV),  KC_MPLY,
+        KJ_PEQL, KC_PPLS, TG(LYN),  LT(LY1, KC_ESC),
+        KJ_PDOT, KC_PMNS, TG(LYV),  TG(LYF),
         KC_P1,   KC_P4,   KC_P7,
         KC_P2,   KC_P5,   KC_P8,    KC_TAB,
         KC_P3,   KC_P6,   KC_P9,
@@ -39,28 +44,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_SPC,        KC_R,   KC_2),
 
     [LYN] = LAYOUT_numpad_6x4(
-        _______,    _______, _______, TO(LYB),
-        _______,    _______, C(KC_W), _______,
-        KC_WH_D,    KC_MS_L, KC_WH_U,
-        _______,    KC_MS_D, KC_MS_U, KC_WBAK,
-        KC_BTN2,    KC_MS_R, KC_F5,
-        KC_BTN1,             C(KC_T), KC_WFWD),
+        KC_F5,    C(KC_T), _______, TO(LYB),
+        KC_WBTP,  C(KC_W), C(KC_L), C(KC_F),
+        KC_WBAK,  KC_MS_L, KC_WH_U,
+        KC_WFWD,  KC_MS_D, KC_MS_U, KC_WBAK,
+        KC_WBTN,  KC_MS_R, KC_WH_D,
+        KC_BTN1,           KC_BTN2, KC_WFWD),
 
     [LYV] = LAYOUT_numpad_6x4(
-        G(KC_DOT), _______, _______,   TO(LYB),
-        _______,   _______, _______,   _______,
-        C(KC_X),   G(KC_H), G(KC_P),
-        C(KC_C),   G(KC_J), G(KC_K),   KC_F5,
-        C(KC_V),   G(KC_L), G(KC_N),
-        KC_SPC,             _______,   KC_DEL),
+        G(KC_DOT), G(KC_SPC), _______,    TO(LYB),
+        G(KC_A),   G(KC_H),   _______,    _______,
+        G(KC_S),   G(KC_J),   G(KC_P),
+        G(KC_D),   G(KC_K),   G(KC_SCLN), KC_F5,
+        G(KC_F),   G(KC_L),   G(KC_N),
+        KC_SPC,               _______,    KC_DEL),
 
     [LYF] = LAYOUT_numpad_6x4(
-        KC_VOLD,    KC_MPRV, KC_MPLY,   _______,
-        KC_VOLU,    KC_MNXT, KC_MSTP,   KC_MUTE,
-        _______,    _______, _______,
-        _______,    _______, _______,   _______,
-        _______,    _______, _______,
-        _______,             _______,   _______),
+        KC_WBTP, KC_MPRV, KC_MPLY,   TO(LYB),
+        KC_WBTN, KC_MNXT, KC_MSTP,   KC_MUTE,
+        G(KC_1), G(KC_4), G(KC_7),
+        G(KC_2), G(KC_5), G(KC_8),   G(KC_P),
+        G(KC_3), G(KC_6), G(KC_9),
+        G(KC_SPC),        G(KC_DOT), G(KC_N)),
 
     [LY1] = LAYOUT_numpad_6x4(
         _______,  _______, TG(LY2), _______,
@@ -71,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         QK_BOOT,           KC_F10,  KC_F12),
 
     [LY2] = LAYOUT_numpad_6x4(
-        _______, _______,  _______,  _______,
+        _______, _______,  _______,  TO(LYB),
         _______, _______,  _______,  _______,
         RGB_VAD, RGB_RMOD, RGB_VAI,
         RGB_HUD, RGB_TOG,  RGB_HUI,  _______,

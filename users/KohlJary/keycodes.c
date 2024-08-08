@@ -282,6 +282,87 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
+    case G(KC_H):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_H);
+          return false;
+        }
+      }
+      break;
+    case G(KC_J):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_J);
+          return false;
+        }
+      }
+      break;
+    case G(KC_K):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_K);
+          return false;
+        }
+      }
+      break;
+    case G(KC_L):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_L);
+          return false;
+        }
+      }
+      break;
+    case G(KC_A):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_A);
+          return false;
+        }
+      }
+      break;
+    case G(KC_S):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_S);
+          return false;
+        }
+      }
+      break;
+    case G(KC_D):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_D);
+          return false;
+        }
+      }
+      break;
+    case G(KC_F):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_F);
+          return false;
+        }
+      }
+      break;
+    case G(KC_SCLN):
+      if (record->event.pressed) {
+        if (detected_host_os() == OS_WINDOWS) {
+          add_oneshot_mods(MOD_BIT(KC_LALT));
+          tap_code(KC_SCLN);
+          return false;
+        }
+      }
+      break;
     default:
       if(user_return == true) {
         return false;
@@ -380,9 +461,6 @@ const key_override_t exlm_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_EX
 const key_override_t lprn_labk_override = ko_make_basic(MOD_MASK_SHIFT, KC_LPRN, KC_LABK);
 const key_override_t rprn_rabk_override = ko_make_basic(MOD_MASK_SHIFT, KC_RPRN, KC_RABK);
 
-const key_override_t one_override = ko_make_basic(MOD_MASK_SHIFT, KC_1, KC_GRV);
-const key_override_t two_override = ko_make_basic(MOD_MASK_SHIFT, KC_2, KC_PIPE);
-
 const key_override_t f23_override = ko_make_basic(MOD_MASK_CTRL, GUI_T(KC_MINS), KC_F23);
 
 const key_override_t kp_mins_override = ko_make_basic(MOD_MASK_SHIFT, KC_PMNS, KC_PSLS);
@@ -412,8 +490,6 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &exlm_override,
     &lprn_labk_override,
     &rprn_rabk_override,
-    &one_override,
-    &two_override,
     &f23_override,
     &kp_mins_override,
     &kp_pls_override,

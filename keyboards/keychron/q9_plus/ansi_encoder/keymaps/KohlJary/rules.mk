@@ -1,9 +1,9 @@
-VIA_ENABLE = yes
+VIA_ENABLE = no
 ENCODER_MAP_ENABLE = yes
 BOOTMAGIC_ENABLE = yes      # Enable Bootmagic Lite
 MOUSEKEY_ENABLE = yes       # Mouse keys
-EXTRAKEY_ENABLE = yes       # Audio control and System control
-CONSOLE_ENABLE = yes        # Console for debug
+EXTRAKEY_ENABLE = no       # Audio control and System control
+CONSOLE_ENABLE = no        # Console for debug
 COMMAND_ENABLE = no        # Commands for debug and configuration
 CAPS_WORD_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
