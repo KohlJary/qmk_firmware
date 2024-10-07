@@ -9,3 +9,4 @@ CAPS_WORD_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 LEADER_ENABLE = yes
 NKRO_ENABLE = yes           # Enable N-Key Rollover
+DYNAMIC_MACRO_ENABLE = yes
