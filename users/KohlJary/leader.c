@@ -52,4 +52,9 @@ void leader_end_user(void) {
   if(leader_sequence_two_keys(KC_L, KC_H)) {
     SEND_STRING("localhost:");
   }
+
+  //test npi number
+  if(leader_sequence_one_key(KC_I)) {
+    SEND_STRING("1043870686");
+  }
 }

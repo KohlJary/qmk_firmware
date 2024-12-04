@@ -19,6 +19,7 @@ enum TD_KEYCODES{
   T_TM, //Terminal shortcuts 1: new tab, Hold: close tab, 2: rename tab
   T_MB, //Tap/Hold: M1, Double Tap: M2, Double Tap Hold: M3
   T_LY, //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
+  T_1T, //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
 };
 
 // Define a type containing as many tapdance states as you need
@@ -73,6 +74,9 @@ void utility_reset(tap_dance_state_t *state, void *user_data);
 
 void terminal_finished(tap_dance_state_t *state, void *user_data);
 void terminal_reset(tap_dance_state_t *state, void *user_data);
+
+void ly1tab_finished(tap_dance_state_t *state, void *user_data);
+void ly1tab_reset(tap_dance_state_t *state, void *user_data);
 
 void mouse_button_finished(tap_dance_state_t *state, void *user_data);
 void mouse_button_reset(tap_dance_state_t *state, void *user_data);

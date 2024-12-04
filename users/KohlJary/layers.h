@@ -18,3 +18,4 @@ enum LAYERS {
 
 extern enum LAYERS layers;
 
+#define TAB_LAYER LY1

@@ -15,6 +15,7 @@ static td_state_t tm_td_state = TD_NONE;
 static td_state_t mb_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
 static td_state_t rshift_td_state = TD_NONE;
+static td_state_t ly1tab_td_state = TD_NONE;
 static bool nm_os_on = false;
 
 uint8_t mod_state;
@@ -500,10 +501,16 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
     switch (ux_td_state) {
         case TD_SINGLE_TAP:
             if(ly2_on) {
-                tap_code(KC_GRV);
+                tap_code(KC_INS);
             }
             else {
-                layer_invert(LYV);
+                if(detected_host_os() == OS_WINDOWS) {
+                    add_oneshot_mods(MOD_BIT(KC_LALT));
+                    tap_code(KC_SCLN);
+                } else {
+                    add_oneshot_mods(MOD_BIT(KC_LGUI));
+                    tap_code(KC_TAB);
+                }
             }
             break;
         case TD_DOUBLE_TAP:
@@ -564,6 +571,40 @@ void terminal_finished(tap_dance_state_t *state, void *user_data) {
 
 void terminal_reset(tap_dance_state_t *state, void *user_data) {
     switch (tm_td_state) {
+        default:
+            break;
+    }
+}
+
+void ly1tab_finished(tap_dance_state_t *state, void *user_data) {
+    ly1tab_td_state = cur_dance(state);
+    switch (ly1tab_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_TAB);
+            break;
+        case TD_DOUBLE_TAP:
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            tap_code(KC_TAB);
+            break;
+        case TD_SINGLE_HOLD:
+            layer_on(TAB_LAYER); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            layer_on(TAB_LAYER);
+            break;
+        default:
+            break;
+    }
+}
+
+void ly1tab_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ly1tab_td_state) {
+        case TD_SINGLE_HOLD:
+            layer_off(TAB_LAYER);
+            break;
+        case TD_DOUBLE_HOLD:
+            layer_off(TAB_LAYER);
+            break;
         default:
             break;
     }
@@ -635,6 +676,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_MB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, mouse_button_finished, mouse_button_reset),
   //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
   [T_LY] = ACTION_TAP_DANCE_FN(dance_layer),
+  //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
+  [T_1T] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly1tab_finished, ly1tab_reset),
 };
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
