@@ -107,6 +107,17 @@
 #define KJ_ALTQ TD(T_AQ)
 #define KJ_TERM TD(T_TM)
 
+#define KJ_TTY1 LCA(KC_F1)
+#define KJ_TTY2 LCA(KC_F2)
+#define KJ_TTY3 LCA(KC_F3)
+#define KJ_TTY4 LCA(KC_F4)
+#define KJ_TTY5 LCA(KC_F5)
+#define KJ_TTY6 LCA(KC_F6)
+#define KJ_TTY7 LCA(KC_F7)
+#define KJ_TTY8 LCA(KC_F8)
+#define KJ_TTY9 LCA(KC_F9)
+#define KJ_TTY0 LCA(KC_F10)
+
 // Vim binds
 #define VIM_TOP S(KC_H)
 #define VIM_MID S(KC_M)
@@ -165,29 +176,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LY1] = LAYOUT_moonlander(
         _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,     KC_3,    KC_4,     KC_5,    QK_BOOT,
-        _______, KC_PROG, KC_WSPR, KC_WSBF, KC_WSNX, KC_TERM, KC_PERC,          KC_ASTR, KC_NULL, TD(T_TM), KC_WFWD, KC_WBAK,  KC_WBTP, _______,
-        _______, KC_CIRC, AND_OR,  LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LPRN,          KC_RPRN, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DLR,  _______,
-        _______, KC_PERC, INC_DEC, IF_ELSE, FOR_EAC, KC_TRUE,                            KC_WBTN, VIM_TOP,  VIM_MID, VIM_BOT,  KC_ASTR, _______,
-        _______, _______, _______, _______, _______,          _______,          _______,          _______,  _______, _______,  _______, _______,
+        _______, KC_LABK, KC_RABK, INC_DEC, LAMBDA,  KC_PGUP, DM_REC1,          DM_PLY1, KC_NULL, TD(T_TM), KC_WFWD, KC_WBAK,  KC_WBTP, _______,
+        _______, KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_LPRN,          KC_RPRN, KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DLR,  _______,
+        _______, IF_ELSE, FOR_EAC, KC_NULL, KC_TRUE, KC_PGDN,                            KC_WBTN, KJ_TTY1,  KJ_TTY2, KJ_TTY3,  KJ_TTY4, _______,
+        _______, _______, _______, _______, _______,          _______,          _______,          KJ_TTY5,  KJ_TTY6, KJ_TTY7,  KJ_TTY8, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
 
     [LY2] = LAYOUT_moonlander(
-        QK_BOOT, KC_6,    KC_7,    KC_8,     KC_9,    KC_0,    _______,         _______, KC_F18,  KC_F19,  KC_F20,  KC_F21,  KC_F22,  _______,
-        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, _______,         _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F17,
-        _______, DM_PLY2, DM_PLY1, RGB_RMOD, RGB_TOG, RGB_MOD, _______,         _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
-        _______, RGB_SPD, RGB_SPI, RGB_HUD,  RGB_SAD, RGB_VAD,                           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
-        _______, _______, _______, _______,  _______,          _______,         _______,          KC_WBTP, KC_WBAK, KC_WFWD, KC_WBTN, _______,
-                                             _______, _______, _______,         _______, _______, _______
+        QK_BOOT, RGB_SPI, RGB_HUI, RGB_SAI, RGB_VAI, RGB_RMOD, RGB_MOD,         RGB_TOG, KC_F22,  KC_F23,  KC_F24,  KC_TERM, KC_PROG, _______,
+        _______, KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_TRUE,  DM_REC2,         DM_PLY2, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F17,
+        _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_AT,   KC_DLR,   KC_LABK,         KC_RABK, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
+        _______, KC_F21,  KC_F22,  KC_F23,  KC_F24,  KC_NULL,                            KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
+        _______, _______, _______, _______, _______,           _______,         _______,          KC_WBTP, KC_WBAK, KC_WFWD, KC_WBTN, _______,
+                                            _______, _______,  _______,         _______, _______, _______
     ),
 
     [LY3] = LAYOUT_moonlander(
-        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
-                                            _______, _______, _______,          _______, _______, _______
+        _______, _______, _______, _______,  _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, DM_REC2, DM_REC1, RGB_HUI,  RGB_SAI, RGB_VAI, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, DM_PLY2, DM_PLY1, RGB_RMOD, RGB_TOG, RGB_MOD, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, RGB_SPD, RGB_SPI, RGB_HUD,  RGB_SAD, RGB_VAD,                            _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______,  _______,          _______,          _______,          _______, _______, _______, _______, _______,
+                                             _______, _______, _______,          _______, _______, _______
     ),
 };
 

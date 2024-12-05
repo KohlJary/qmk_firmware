@@ -3,23 +3,25 @@
 #pragma once
 
 enum TD_KEYCODES{
-  T_SC, //1: scln, 2: cln
-  T_DR, //1: cur dir, 2: up dir
-  T_IN, //1: --, 2: ++
-  T_NM, //1: Oneshot Num, 2: Num Lock
+  T_1T, //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
   T_AQ, //Hold: alt, 1: quote, Double Hold: Alt+Shift, 2: F24
-  T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shift, 1: Open par/bra, 2: Close par/bra
-  T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shift, 1: Oneshot Shft, 2: Caps Word
+  T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_CE, //Hold: Control, 1: Escape, 2: QMK Leader, Double Hold: Control+Alt
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
-  T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
-  T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
+  T_CS, //Hold: Control + Shift, Double Hold: LY2, 1: @, 2: &
+  T_DR, //1: cur dir, 2: up dir
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
-  T_UX, //Utility
-  T_TM, //Terminal shortcuts 1: new tab, Hold: close tab, 2: rename tab
-  T_MB, //Tap/Hold: M1, Double Tap: M2, Double Tap Hold: M3
+  T_IN, //1: --, 2: ++
+  T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shift, 1: Open par/bra, 2: Close par/bra
   T_LY, //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
-  T_1T, //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
+  T_MB, //Tap/Hold: M1, Double Tap: M2, Double Tap Hold: M3
+  T_NE, //1: Enter, 2: Toggle num layer, Hold: Num layer momentary, Double Hold: Fn layermomentary
+  T_NM, //1: Oneshot Num, 2: Num Lock
+  T_OB, //Hold: Open curly, Tap: Open paran, Double Tap: Open brace, Double Hold: Open angle brack
+  T_RS, //Hold: Right Shift, Double Hold: Ctrl+Shift, 1: Oneshot Shft, 2: Caps Word
+  T_SC, //1: scln, 2: cln
+  T_TM, //Terminal shortcuts 1: new tab, Hold: close tab, 2: rename tab
+  T_UX, //Utility
 };
 
 // Define a type containing as many tapdance states as you need
@@ -57,6 +59,9 @@ void rightshift_reset(tap_dance_state_t *state, void *user_data);
 void ctrlesc_finished(tap_dance_state_t *state, void *user_data);
 void ctrlesc_reset(tap_dance_state_t *state, void *user_data);
 
+void ctrlshift_finished(tap_dance_state_t *state, void *user_data);
+void ctrlshift_reset(tap_dance_state_t *state, void *user_data);
+
 void copypaste_finished(tap_dance_state_t *state, void *user_data);
 void copypaste_reset(tap_dance_state_t *state, void *user_data);
 
@@ -80,3 +85,6 @@ void ly1tab_reset(tap_dance_state_t *state, void *user_data);
 
 void mouse_button_finished(tap_dance_state_t *state, void *user_data);
 void mouse_button_reset(tap_dance_state_t *state, void *user_data);
+
+void nument_finished(tap_dance_state_t *state, void *user_data);
+void nument_reset(tap_dance_state_t *state, void *user_data);

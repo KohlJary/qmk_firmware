@@ -34,73 +34,73 @@
 // Web Browser Tab Open
 #define KC_OPTB RCS(KC_T)
 
+#define KJ_ALTQ TD(T_AQ)
+#define KJ_AMPR LT(LY2,KC_AMPR)
+#define KJ_BSPC LT(LY2,KC_BSPC)
+#define KJ_CDIR TD(T_DR)
+#define KJ_CESC TD(T_CE)
+#define KJ_COPY TD(T_CP)
+#define KJ_CSFT TD(T_CS)
+#define KJ_ENT  TD(T_NE)
+#define KJ_F12  ALT_T(KC_F12)
+#define KJ_GEQL TD(T_GE)
+#define KJ_LSFT TD(T_LS)
+#define KJ_MINS GUI_T(KC_MINS)
+#define KJ_RSFT TD(T_RS)
+#define KJ_SCLN LT(LY1,KC_ENT)
 #define KJ_SPC  LT(LY1,KC_SPC)
 #define KJ_TAB  TD(T_1T)
-#define KJ_ENT  LT(LYN,KC_ENT)
-#define KJ_SCLN LT(LY1,KC_ENT)
-#define KJ_BSPC LT(LY2,KC_BSPC)
-#define KJ_AMPR LT(LY2,KC_AMPR)
-#define KJ_F12  ALT_T(KC_F12)
-#define KJ_MINS GUI_T(KC_MINS)
-#define KJ_COPY TD(T_CP)
-#define KJ_GEQL TD(T_GE)
-#define KJ_CESC TD(T_CE)
-#define KJ_LSFT TD(T_LS)
-#define KJ_RSFT TD(T_RS)
-#define KJ_UTIL TD(T_UX)
-#define KJ_ALTQ TD(T_AQ)
+#define KJ_2TB  LT(LY2,KC_TAB)
 #define KJ_TERM TD(T_TM)
+#define KJ_UTIL TD(T_UX)
 
-// Vim binds
-#define VIM_TOP S(KC_H)
-#define VIM_MID S(KC_M)
-#define VIM_BOT S(KC_L)
+#define KJ_TTY1 LCA(KC_F1)
+#define KJ_TTY2 LCA(KC_F2)
+#define KJ_TTY3 LCA(KC_F3)
+#define KJ_TTY4 LCA(KC_F4)
 
 #define MOD_AS  MOD_LALT | MOD_LSFT
 #define MOD_CS  MOD_LCTL | MOD_LSFT
 #define OSHT_CS OSM(MOD_CS)
 #define OSHT_AS OSM(MOD_AS)
 
-#define LY_A LT(LY2,KC_A)
-#define LY_SCLN LT(LY1,KC_SCLN)
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_54_ansi(
-        KJ_GEQL, KC_Q,    KC_W,  KC_E,    KC_R, KC_T,   KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC, KC_RBRC, KJ_MINS,           KC_MPLY,
-        KJ_CESC, KC_A,    KC_S,  KC_D,    KC_F, KC_G,   KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KJ_ALTQ,          KJ_ENT,            KJ_COPY,
-        KJ_LSFT, KC_Z,    KC_X,  KC_C,    KC_V, KC_B,   KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,          KJ_RSFT,          KC_PGUP,
-        OSHT_CS, KC_AMPR, KC_AT, KC_LABK,       KJ_SPC,             KJ_BSPC,         KC_RABK, KC_TASK, KJ_UTIL, KC_HOME, KC_PGDN, KC_END),
+        KJ_GEQL, KC_Q,    KC_W,    KC_E,    KC_R, KC_T,    KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC, KC_RBRC, KJ_MINS,          KC_MPLY,
+        KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F, KC_G,    KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KJ_ALTQ,          KJ_ENT,           KJ_COPY,
+        KJ_LSFT, KC_Z,    KC_X,    KC_C,    KC_V, KC_B,    KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,          KJ_RSFT,          KC_PGUP,
+        KJ_CSFT, KJ_2TB,  DM_REC1, DM_PLY1,       KJ_SPC,              KJ_BSPC,         KC_AMPR, KC_TASK, KJ_UTIL, KC_HOME, KC_PGDN, KC_END),
 
     [LYG] = LAYOUT_54_ansi(
-        KC_TAB,   KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KJ_MINS,          KC_MPLY,
-        TD(T_CE), KC_A,     KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,           KC_HOME,
-        KC_LSFT,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,            KC_RSFT,           KC_UP,
-        KC_LCTL,  KC_LWIN,  KC_LALT, MO(LY1),          KJ_SPC,                    KJ_BSPC,          KC_RALT,  MO(LY1),  MO(LY2),  KC_LEFT, KC_DOWN, KC_RGHT),
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R, KC_T,    KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_LBRC, KC_RBRC, KJ_MINS,          KC_MPLY,
+        KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F, KC_G,    KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT,          KC_ENT,           KC_HOME,
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V, KC_B,    KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,          KC_RSFT,          KC_UP,
+        KC_LCTL, KC_LWIN, KC_LALT, MO(LY1),       KJ_SPC,              KJ_BSPC,         KC_RALT, MO(LY1), MO(LY2), KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LYN] = LAYOUT_54_ansi(
-        _______, KC_PPLS, KC_7,     KC_8,    KC_9,    KC_0,    _______, _______, _______, _______, _______,  _______,  _______,  _______,          _______,
-        _______, KC_PMNS, KC_4,     KC_5,    KC_6,    _______, _______, _______, _______, _______, _______,  _______,            _______,          _______,
-        _______, KC_PDOT, KC_1,     KC_2,    KC_3,    _______, _______, _______, _______, _______, _______,            _______,           _______,
-        KC_LGUI, _______, _______,  _______,          _______,                   _______,          _______,  _______,  _______,  _______, _______, _______),
+        _______, KC_PPLS, KC_7,    KC_8,    KC_9, KC_0,    _______, _______, _______, _______, _______,  _______,  _______,  _______,          _______,
+        _______, KC_PMNS, KC_4,    KC_5,    KC_6, _______, _______, _______, _______, _______, _______,  _______,            _______,          _______,
+        _______, KC_DOT,  KC_1,    KC_2,    KC_3, _______, _______, _______, _______, _______, _______,            _______,           _______,
+        KC_LGUI, _______, _______, _______,       _______,                   _______,          _______,  _______,  _______,  _______, _______, _______),
 
     [LY1] = LAYOUT_54_ansi(
-        _______,  KC_LABK, KC_RABK, KC_AT,   KC_AMPR, KC_TERM, KC_NULL, KJ_TERM, KC_WBAK, KC_WFWD,  KC_WBTP,  KC_LPRN, KC_RPRN,  _______,          RGB_TOG,
-        _______,  KC_CIRC, AND_OR,  LTE_GTE, EQ_NEQ,  LAMBDA,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,   KJ_F12,            _______,          _______,
-        _______,  KC_PERC, INC_DEC, IF_ELSE, FOR_EAC, KC_TRUE, KC_WBTN, _______, KC_LABK, KC_RABK,  KC_ASTR,           _______,           KC_MS_U,
+        _______,  KC_LABK, KC_RABK, INC_DEC, LAMBDA,  KC_PGUP, _______, KJ_TERM, KC_WBAK, KC_WFWD,  KC_WBTP,  KC_LPRN, KC_RPRN,  _______,          RGB_TOG,
+        _______,  KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KJ_CDIR,  _______,           _______,          _______,
+        _______,  IF_ELSE, FOR_EAC, KC_NULL, KC_TRUE, KC_PGDN, KC_WBTN, KJ_TTY1, KJ_TTY2, KJ_TTY3,  KJ_TTY4,            _______,           KC_MS_U,
         _______,  _______, _______, _______,          _______,                   QK_LEAD,           _______,  KC_BTN2, KC_BTN1,  KC_MS_L, KC_MS_D, KC_MS_R),
 
     [LY2] = LAYOUT_54_ansi(
-        QK_BOOT, KC_F18,  KC_F19,   KC_F20,   KC_F21,  KC_F22,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_LABK, KC_RABK, _______,          RGB_TOG,
-        _______, KC_F17,  _______,  DM_PLY2,  DM_PLY1, _______, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,    KJ_F12,           _______,          _______,
-        _______, KC_F23,  _______,  DM_REC2,  DM_REC1, _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,             _______,          _______,
-        _______, _______, _______,  _______,           KJ_TAB,                    _______,          _______,  _______, _______, _______, _______, _______),
+        QK_BOOT, KC_F17,  KC_F18,  KC_F19,  KC_F20, KC_PLUS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   _______, _______, _______,          RGB_TOG,
+        _______, KC_CIRC, KC_AMPR, KC_ASTR, KC_AT,  KC_DLR,  KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,    KJ_F12,           _______,          _______,
+        _______, KC_F21,  KC_F22,  KC_F23,  KC_F24, KC_MINS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,             _______,          _______,
+        _______, _______, DM_REC2, DM_PLY2,         KJ_TAB,                    _______,          _______,  _______, _______, _______, _______, _______),
 
     [LY3] = LAYOUT_54_ansi(
-        _______, _______,  _______,  _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______,          _______,
-        _______, RGB_TOG,  RGB_MOD,  RGB_HUI, RGB_SAI, RGB_SPI, _______, _______, _______, _______, _______,  _______,           _______,          _______,
-        _______,           RGB_RMOD, RGB_HUD, RGB_SAD, RGB_SPD, _______, _______, _______, _______, _______,  _______,           _______, _______,
-        _______, _______,  _______,  _______,          _______,                   _______,          _______,  _______, _______,  _______, _______, _______)
+        RGB_TOG, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______,  _______,          _______,
+        _______, RGB_MOD,  RGB_SPI, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, _______, _______,  _______,           _______,          _______,
+        _______, RGB_RMOD, RGB_SPD, RGB_HUD, RGB_SAD, RGB_VAD, _______, _______, _______, _______, _______,           _______,           _______,
+        _______, _______,  _______, _______,          _______,                   _______,          _______,  _______, _______,  _______, _______, _______)
 };
 
 #if defined(ENCODER_MAP_ENABLE)

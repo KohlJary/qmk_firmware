@@ -449,8 +449,7 @@ const key_override_t alt_quot_override = ko_make_basic(MOD_MASK_CTRL, TD(T_AQ), 
 const key_override_t ly_quot_override = ko_make_basic(MOD_MASK_CTRL, LT(LY1,KC_QUOT), KC_GRV);
 
 const key_override_t at_hash_override = ko_make_basic(MOD_MASK_SHIFT, KC_AT, KC_HASH);
-const key_override_t dol_perc_override = ko_make_basic(MOD_MASK_SHIFT, KC_DLR, KC_PERC);
-const key_override_t circ_ast_override = ko_make_basic(MOD_MASK_SHIFT, KC_CIRC, KC_ASTR);
+const key_override_t ast_perc_override = ko_make_basic(MOD_MASK_SHIFT, KC_ASTR, KC_PERC);
 
 const key_override_t and_or_override = ko_make_basic(MOD_MASK_SHIFT, KC_AMPR, KC_PIPE);
 
@@ -485,8 +484,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &alt_quot_override,
     &ly_quot_override,
     &at_hash_override,
-    &dol_perc_override,
-    &circ_ast_override,
+    &ast_perc_override,
     &and_or_override,
     &tild_override,
     &exlm_override,
