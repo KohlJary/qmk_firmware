@@ -4,13 +4,14 @@
 
 enum TD_KEYCODES{
   T_1T, //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
-  T_AQ, //Hold: alt, 1: quote, Double Hold: Alt+Shift, 2: F24
+  T_AQ, //Hold: alt, Double hold: alt+Num, 1: quote, Double Hold: Alt+Shift, 2: F24
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_CE, //Hold: Control, 1: Escape, 2: QMK Leader, Double Hold: Control+Alt
   T_CP, //Hold: Paste, 1: Copy, 2: Cut
   T_CS, //Hold: Control + Shift, Double Hold: LY2, 1: @, 2: &
   T_DR, //1: cur dir, 2: up dir
   T_GE, //Hold: GUI, 1: =, 2:==, Double Hold: !=
+  T_GM, //Hold: GUI, Double holde: GUI+Num, 1: =, 2:==, Double Hold: !=
   T_IN, //1: --, 2: ++
   T_LS, //Hold: Left Shift, Double Hold: Ctrl+Shift, 1: Open par/bra, 2: Close par/bra
   T_LY, //1: TG(L_M), 2: TG(L_F), 3: TG(L_G), 4: Ctrl+Alt+Del
@@ -73,6 +74,9 @@ void closebrace_reset(tap_dance_state_t *state, void *user_data);
 
 void guieq_finished(tap_dance_state_t *state, void *user_data);
 void guieq_reset(tap_dance_state_t *state, void *user_data);
+
+void guimin_finished(tap_dance_state_t *state, void *user_data);
+void guimin_reset(tap_dance_state_t *state, void *user_data);
 
 void utility_finished(tap_dance_state_t *state, void *user_data);
 void utility_reset(tap_dance_state_t *state, void *user_data);

@@ -9,6 +9,7 @@ static td_state_t altqt_td_state = TD_NONE;
 static td_state_t ctrlesc_td_state = TD_NONE;
 static td_state_t ctrlshift_td_state = TD_NONE;
 static td_state_t guieq_td_state = TD_NONE;
+static td_state_t guimin_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
 static td_state_t ly1tab_td_state = TD_NONE;
 static td_state_t mb_td_state = TD_NONE;
@@ -172,7 +173,8 @@ void altquote_finished(tap_dance_state_t *state, void *user_data) {
             register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_HOLD:
-            register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            layer_on(LYN);
             break;
         default:
             break;
@@ -191,7 +193,8 @@ void altquote_reset(tap_dance_state_t *state, void *user_data) {
             unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            layer_off(LYN);
             break;
         default:
             break;
@@ -549,6 +552,55 @@ void guieq_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void guimin_finished(tap_dance_state_t *state, void *user_data) {
+    guimin_td_state = cur_dance(state);
+    switch (guimin_td_state) {
+        case TD_SINGLE_TAP:
+            if(is_caps_word_on())
+            {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+            }
+            register_code16(KC_MINS);
+            break;
+        case TD_DOUBLE_TAP:
+            if(is_caps_word_on())
+            {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+                tap_code(KC_MINS);
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+            }
+            register_code16(KC_MINS);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI));
+            break;
+        case TD_DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LGUI));
+            layer_on(LYN);
+            break;
+        default:
+            break;
+    }
+}
+
+void guimin_reset(tap_dance_state_t *state, void *user_data) {
+    switch (guimin_td_state) {
+        case TD_SINGLE_TAP:
+        case TD_DOUBLE_TAP:
+            unregister_code16(KC_MINS);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LGUI));
+            layer_off(LYN);
+            break;
+        default:
+            break;
+    }
+}
+
 void utility_finished(tap_dance_state_t *state, void *user_data) {
     ux_td_state = cur_dance(state);
     bool ly2_on = IS_LAYER_ON(LY2);
@@ -753,6 +805,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_DR] = ACTION_TAP_DANCE_FN(dance_dir),
   //T_GE Hold for GUI, tap for =, double hold for !=
   [T_GE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guieq_finished, guieq_reset),
+  //T_GE Hold for GUI, Double hold for GUI+Num, tap for =, double hold for !=
+  [T_GM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, guimin_finished, guimin_reset),
   //T_IN Tap once for decrement, twice for increment
   [T_IN] = ACTION_TAP_DANCE_FN(dance_dec_inc),
   //T_LS Hold for shift, single tap for OSM shift, double tap for open paren
