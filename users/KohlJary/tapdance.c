@@ -556,19 +556,10 @@ void guimin_finished(tap_dance_state_t *state, void *user_data) {
     guimin_td_state = cur_dance(state);
     switch (guimin_td_state) {
         case TD_SINGLE_TAP:
-            if(is_caps_word_on())
-            {
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-            }
             register_code16(KC_MINS);
             break;
         case TD_DOUBLE_TAP:
-            if(is_caps_word_on())
-            {
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-                tap_code(KC_MINS);
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-            }
+            tap_code(KC_MINS);
             register_code16(KC_MINS);
             break;
         case TD_SINGLE_HOLD:
