@@ -196,6 +196,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       break;
+    case NULL_OP:
+      if (record->event.pressed) {
+          SEND_STRING("??");
+      }
+      break;
     case MK_FLSH:
       clear_mods();
       clear_oneshot_mods();

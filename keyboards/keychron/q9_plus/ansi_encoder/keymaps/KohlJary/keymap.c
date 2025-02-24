@@ -88,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LY1] = LAYOUT_54_ansi(
         _______,  KC_LABK, KC_RABK, INC_DEC, LAMBDA,  KC_PGUP, _______, KJ_TERM, KC_WBAK, KC_WFWD,  KC_WBTP,  KC_LPRN, KC_RPRN,  _______,          RGB_TOG,
         _______,  KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KJ_CDIR,  _______,           _______,          _______,
-        _______,  IF_ELSE, FOR_EAC, KC_NULL, KC_TRUE, KC_PGDN, KC_WBTN, KJ_TTY1, KJ_TTY2, KJ_TTY3,  KJ_TTY4,            _______,          KC_MS_U,
+        _______,  IF_ELSE, FOR_EAC, KC_NULL, KC_TRUE, KC_PGDN, KC_WBTN, _______, _______, _______,  NULL_OP,           _______,          KC_MS_U,
         _______,  _______, _______, _______,          _______,                   QK_LEAD,           _______,  KC_BTN2, KC_BTN1,  KC_MS_L, KC_MS_D, KC_MS_R),
 
     [LY2] = LAYOUT_54_ansi(

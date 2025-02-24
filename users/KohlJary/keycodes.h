@@ -19,6 +19,7 @@ enum keyboard_keycodes {
     PER_AST, //%/* on one key
     MK_FLSH, //Make/flash keymap
     T_RSTRT, //Restart terminal process shortcut
+    NULL_OP, //??
     UC_STRT, //
 };
 
