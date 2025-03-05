@@ -48,17 +48,18 @@
 #define KJ_MINS TD(T_GM)
 #define KJ_MBTN TD(T_MB)
 #define KJ_RSFT TD(T_RS)
-#define KJ_SCLN LT(LY1,KC_ENT)
 #define KJ_SPC  LT(LY1,KC_SPC)
 #define KJ_TAB  TD(T_1T)
 #define KJ_2TB  LT(LY2,KC_TAB)
 #define KJ_TERM TD(T_TM)
 #define KJ_UTIL TD(T_UX)
-
 #define KJ_TTY1 LCA(KC_F1)
 #define KJ_TTY2 LCA(KC_F2)
 #define KJ_TTY3 LCA(KC_F3)
 #define KJ_TTY4 LCA(KC_F4)
+
+#define KJ_A    LT(LY2, KC_A)
+#define KJ_SCLN LT(LY1, KC_SCLN)
 
 #define MOD_AS  MOD_LALT | MOD_LSFT
 #define MOD_CS  MOD_LCTL | MOD_LSFT

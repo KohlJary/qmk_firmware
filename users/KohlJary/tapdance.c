@@ -553,14 +553,28 @@ void guieq_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 void guimin_finished(tap_dance_state_t *state, void *user_data) {
+    mod_state = get_mods();
+    oneshot_mod_state = get_oneshot_mods();
+    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
     guimin_td_state = cur_dance(state);
     switch (guimin_td_state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_MINS);
+            if(shift_mod || is_caps_word_on()) {
+                tap_code16(KC_UNDS);
+            }
+            else {
+                tap_code16(KC_MINS);
+            }
             break;
         case TD_DOUBLE_TAP:
-            tap_code(KC_MINS);
-            register_code16(KC_MINS);
+            if(shift_mod || is_caps_word_on()) {
+                tap_code16(KC_UNDS);
+                tap_code16(KC_UNDS);
+            }
+            else {
+                tap_code16(KC_MINS);
+                tap_code16(KC_MINS);
+            }
             break;
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LGUI));
@@ -578,7 +592,6 @@ void guimin_reset(tap_dance_state_t *state, void *user_data) {
     switch (guimin_td_state) {
         case TD_SINGLE_TAP:
         case TD_DOUBLE_TAP:
-            unregister_code16(KC_MINS);
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LGUI));
