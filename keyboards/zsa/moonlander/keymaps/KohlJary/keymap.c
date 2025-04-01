@@ -181,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,    KC_3,    KC_4,     KC_5,    QK_BOOT,
         _______, KC_LABK, KC_RABK, LAMBDA,  KC_LPRN, KC_RPRN, KC_PGUP,          DM_PLY1, KC_LBRC, KC_RBRC, KC_WFWD, KC_WBAK,  KC_WBTP, _______,
         _______, KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_PGDN,          DM_REC1, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,  _______,
-        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KC_LPRN, KC_RPRN, KJ_TTY3,  KJ_CDIR, _______,
+        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KC_LCBR, KC_RCBR, KJ_TTY3,  KJ_CDIR, _______,
         _______, _______, _______, _______, _______,          _______,          _______,          KJ_TTY5, KJ_TTY6, KJ_TTY7,  KJ_TTY8, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
