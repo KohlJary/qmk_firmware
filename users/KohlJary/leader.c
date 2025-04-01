@@ -42,27 +42,33 @@ void leader_end_user(void) {
 
   //address info
   if(leader_sequence_one_key(KC_A)) {
-    SEND_STRING("9 C Street");
+    SEND_STRING("975 Dorchester Ave");
   }
+    if(leader_sequence_one_key(KC_U)) {
+        SEND_STRING("#3");
+    }
   if(leader_sequence_one_key(KC_C)) {
-    SEND_STRING("Portland");
-  }
-  if(leader_sequence_one_key(KC_Z)) {
-    SEND_STRING("04102");
+    SEND_STRING("Dorchester");
   }
   if(leader_sequence_one_key(KC_S)) {
-    SEND_STRING("ME");
+    SEND_STRING("MA");
   }
-  if(leader_sequence_one_key(KC_U)) {
-    SEND_STRING("USA");
-  }
-  if(leader_sequence_one_key(KC_D)) {
-    SEND_STRING("9 C Street, Portland ME 04102");
-  }
+    if(leader_sequence_one_key(KC_Z)) {
+        SEND_STRING("02125");
+    }
+    if(leader_sequence_one_key(KC_D)) {
+        SEND_STRING("975 Dorchester Ave, Dorchester MA 02125");
+    }
 
   if(leader_sequence_one_key(KC_L)) {
     SEND_STRING("localhost:");
   }
+
+    //Git quick feature branch stub
+    if(leader_sequence_one_key(KC_G))
+    {
+        SEND_STRING("feature/kj/");
+    }
 
   //test npi number
   if(leader_sequence_one_key(KC_I)) {

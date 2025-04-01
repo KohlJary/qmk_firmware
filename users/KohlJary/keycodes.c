@@ -447,6 +447,7 @@ const key_override_t bsp_del_2_override = ko_make_basic(MOD_MASK_SHIFT, LT(LY2,K
 const key_override_t bsp_del_no_ly_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
 
 const key_override_t slsh_bsls_override = ko_make_basic(MOD_MASK_CTRL, KC_SLSH, KC_BSLS);
+const key_override_t lyn_slsh_bsls_override = ko_make_basic(MOD_MASK_CTRL, LT(LYN,KC_SLSH), KC_BSLS);
 
 const key_override_t quot_override = ko_make_basic(MOD_MASK_CTRL, KC_QUOT, KC_GRV);
 
@@ -487,6 +488,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &bsp_del_2_override,
     &bsp_del_no_ly_override,
     &slsh_bsls_override,
+    &lyn_slsh_bsls_override,
     &quot_override,
     &alt_quot_override,
     &ly_quot_override,

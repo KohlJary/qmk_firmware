@@ -98,6 +98,7 @@
 #define KJ_BSPC LT(LY1,KC_BSPC)
 #define KJ_F24  LT(LYN,KC_F24)
 #define KJ_SCLN LT(LYN,KC_SCLN)
+#define KJ_SLSH LT(LYN,KC_SLSH)
 #define KJ_MINS TD(T_GM)
 #define KJ_COPY TD(T_CP)
 #define KJ_GEQL TD(T_GE)
@@ -134,8 +135,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
         KJ_COPY, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,  KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KJ_UTIL,
         KJ_GEQL, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
-        KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_WSPR,          KC_WSNX, KC_H,   KC_J,    KC_K,    KC_L,    KJ_SCLN, KJ_ALTQ,
-        KJ_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KJ_RSFT,
+        KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_WSPR,          KC_WSNX, KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, KJ_ALTQ,
+        KJ_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KJ_SLSH, KJ_RSFT,
         OSHT_CS, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,         KC_BTN1,          KC_BTN2,         KC_HOME, KC_PGDN, KC_PGUP, KC_END,  OSHT_AS,
                                             KJ_SPC,  KJ_TAB, QK_LEAD,          KJ_F24,  KJ_ENT, KJ_BSPC
     ),
@@ -178,9 +179,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LY1] = LAYOUT_moonlander(
         _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,    KC_3,    KC_4,     KC_5,    QK_BOOT,
-        _______, KC_LABK, KC_RABK, LAMBDA,  KC_LCBR, KC_RCBR, KC_PGUP,          DM_PLY1, KC_LBRC, KC_RBRC, KC_WFWD, KC_WBAK,  KC_WBTP, _______,
+        _______, KC_LABK, KC_RABK, LAMBDA,  KC_LPRN, KC_RPRN, KC_PGUP,          DM_PLY1, KC_LBRC, KC_RBRC, KC_WFWD, KC_WBAK,  KC_WBTP, _______,
         _______, KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_PGDN,          DM_REC1, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,  _______,
-        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KJ_TTY1, KJ_TTY2, KJ_TTY3,  KJ_CDIR, _______,
+        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KC_LPRN, KC_RPRN, KJ_TTY3,  KJ_CDIR, _______,
         _______, _______, _______, _______, _______,          _______,          _______,          KJ_TTY5, KJ_TTY6, KJ_TTY7,  KJ_TTY8, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
