@@ -705,8 +705,7 @@ void terminal_finished(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
-            add_oneshot_mods(MOD_BIT(KC_LSFT));
-            tap_code(KC_T);
+            tap_code(KC_C);
             break;
         case TD_DOUBLE_HOLD:
             add_oneshot_mods(MOD_BIT(KC_LCTL));
@@ -720,6 +719,10 @@ void terminal_finished(tap_dance_state_t *state, void *user_data) {
 
 void terminal_reset(tap_dance_state_t *state, void *user_data) {
     switch (tm_td_state) {
+        case TD_SINGLE_HOLD:
+            tap_code(KC_UP);
+            tap_code(KC_ENT);
+            break;
         default:
             break;
     }
