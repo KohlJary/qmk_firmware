@@ -3,6 +3,23 @@
 #include "os_detection.h"
 #include "leader.h"
 
+void send_email(bool isWork) {
+  SEND_STRING("kohlbern");
+  if(isWork) {
+    tap_code(KC_DOT);
+    SEND_STRING("jary");
+  }
+  tap_code16(KC_AT);
+  if(isWork) {
+    SEND_STRING("ubc");
+  }
+  else {
+    SEND_STRING("gmail");
+  }
+  tap_code(KC_DOT);
+  SEND_STRING("com");
+}
+
 void leader_end_user(void) {
   //name and contact info
   if(leader_sequence_one_key(KC_N)) {
@@ -25,18 +42,18 @@ void leader_end_user(void) {
   }
   if(leader_sequence_one_key(KC_E)) {
     if(detected_host_os() == OS_WINDOWS) {
-        SEND_STRING("kohlbern.jary@ubc.com");
+        send_email(true);
     }
     else {
-        SEND_STRING("kohlbern@gmail.com");
+        send_email(false);
     }
   }
   if(leader_sequence_two_keys(KC_E, KC_E)) {
     if(detected_host_os() == OS_WINDOWS) {
-        SEND_STRING("kohlbern@gmail.com");
+        send_email(false);
     }
     else {
-        SEND_STRING("kohlbern.jary@ubc.com");
+        send_email(true);
     }
   }
 

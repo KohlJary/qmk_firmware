@@ -17,9 +17,6 @@ static bool user_return;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint32_t key_timer;
-  static uint32_t dc_key_timer;
-  static uint32_t pa_key_timer;
-  static uint32_t ah_key_timer;
 
   user_return = false;
   mod_state = get_mods();
@@ -101,6 +98,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
+    case EQ_NULL:
+      if (record->event.pressed) {
+        clear_mods();
+        clear_oneshot_mods();
+        if (ctrl_mod) {
+          if (shift_mod) {
+            SEND_STRING("!= undefined");
+          } else {
+            SEND_STRING("== undefined");
+          }
+        }
+        else {
+          if (shift_mod) {
+            SEND_STRING("!= null");
+          } else {
+            SEND_STRING("== null");
+          }
+        }
+        return false;
+      }
+      break;
     case KC_TRUE:
       if (record->event.pressed) {
         clear_mods();
@@ -153,47 +171,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           SEND_STRING("k$F)i");
         }
         return false;
-      }
-      break;
-    case AT_HASH:
-      if (record->event.pressed) {
-        ah_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(ah_key_timer) < TAPPING_TERM) {
-          SEND_STRING("@");
-        } else {
-          SEND_STRING("#");
-        }
-        set_mods(mod_state);
-      }
-      break;
-    case DOL_CIR:
-      if (record->event.pressed) {
-        dc_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(dc_key_timer) < TAPPING_TERM) {
-          SEND_STRING("$");
-        } else {
-          SEND_STRING("^");
-        }
-        set_mods(mod_state);
-      }
-      break;
-    case PER_AST:
-      if (record->event.pressed) {
-        pa_key_timer = timer_read();
-      } else {
-        clear_mods();
-        clear_oneshot_mods();
-        if(timer_elapsed(pa_key_timer) < TAPPING_TERM) {
-          SEND_STRING("%");
-        } else {
-          SEND_STRING("*");
-        }
       }
       break;
     case NULL_OP:

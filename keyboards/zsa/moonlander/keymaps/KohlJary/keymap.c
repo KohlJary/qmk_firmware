@@ -180,18 +180,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LY1] = LAYOUT_moonlander(
         _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,          _______, KC_1,    KC_2,    KC_3,    KC_4,     KC_5,    QK_BOOT,
         _______, KC_LABK, KC_RABK, LAMBDA,  KC_LPRN, KC_RPRN, KC_PGUP,          DM_PLY1, KC_LBRC, KC_RBRC, KC_WFWD, KC_WBAK,  KC_WBTP, _______,
-        _______, KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_PGDN,          DM_REC1, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,  _______,
-        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KC_LCBR, KC_RCBR, KJ_TTY3,  KJ_CDIR, _______,
+        _______, KC_HOME, AND_OR,  FOR_EAC, IF_ELSE, KC_END,  KC_PGDN,          DM_REC1, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KC_DLR,  _______,
+        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_TRUE,                            KC_WBTN, KC_LCBR, KC_RCBR, KJ_TERM,  KJ_CDIR, _______,
         _______, _______, _______, _______, _______,          _______,          _______,          KJ_TTY5, KJ_TTY6, KJ_TTY7,  KJ_TTY8, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
 
     [LY2] = LAYOUT_moonlander(
-        QK_BOOT, RGB_SPI, RGB_HUI, RGB_SAI, RGB_VAI, RGB_RMOD, RGB_MOD,         RGB_TOG, KC_F22,  KC_F23,  KC_F24,  KC_TERM, KC_PROG, _______,
-        _______, KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_WH_U,  KC_WH_U,         DM_PLY2, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F17,
+        QK_BOOT, RGB_SPI, RGB_HUI, RGB_SAI, RGB_VAI, RGB_RMOD, RGB_MOD,         RGB_TOG, KC_F17,  KC_F18,  KC_F19,  KC_F20,  KC_PROG, _______,
+        _______, EQ_NULL, KC_NULL, KC_TRUE, EQ_NEQ,  LTE_GTE,  KC_WH_U,         DM_PLY2, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  _______,
         _______, KC_CIRC, KC_AMPR, KC_PERC, KC_AT,   KC_DLR,   KC_WH_D,         DM_REC2, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F5,   ALT_T(KC_F12),
-        _______, KC_F21,  KC_F22,  KC_F23,  KC_F24,  KC_WH_D,                            KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
-        _______, _______, _______, _______, _______,           _______,         _______,          KC_WBTP, KC_WBAK, KC_WFWD, KC_WBTN, _______,
+        _______, KC_F21,  KC_F22,  KC_F23,  KC_F24,  LAMBDA,                             KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F6,   _______,
+        _______, _______, _______, _______, _______,           _______,         _______,          KJ_TTY1, KJ_TTY2, KJ_TTY3, KJ_TTY4, _______,
                                             _______, _______,  _______,         _______, _______, _______
     ),
 
