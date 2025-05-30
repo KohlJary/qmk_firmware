@@ -275,7 +275,7 @@ void rightshift_finished(tap_dance_state_t *state, void *user_data) {
             register_mods(MOD_BIT(KC_RSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_HOLD:
-            layer_on(LY1);
+            layer_on(LYN);
             break;
         default:
             break;
@@ -293,7 +293,7 @@ void rightshift_reset(tap_dance_state_t *state, void *user_data) {
         case TD_DOUBLE_TAP:
             break;
         case TD_DOUBLE_HOLD:
-            layer_off(LY1);
+            layer_off(LYN);
             break;
         default:
             break;
@@ -614,13 +614,7 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
                 tap_code(KC_INS);
             }
             else {
-                if(detected_host_os() == OS_WINDOWS) {
-                    add_oneshot_mods(MOD_BIT(KC_LALT));
-                    tap_code(KC_SCLN);
-                } else {
-                    add_oneshot_mods(MOD_BIT(KC_LGUI));
-                    tap_code(KC_TAB);
-                }
+                tap_code(KC_F24);
             }
             break;
         case TD_DOUBLE_TAP:
@@ -629,7 +623,7 @@ void utility_finished(tap_dance_state_t *state, void *user_data) {
                 tap_code(KC_SPC);
             }
             else {
-                layer_invert(LYF);
+                tap_code(KC_F23);
             }
             break;
         case TD_SINGLE_HOLD:

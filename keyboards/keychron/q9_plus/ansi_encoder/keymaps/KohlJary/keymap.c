@@ -88,10 +88,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LGUI, _______, _______, _______,          _______,                   _______,          _______,  _______,  _______,  _______, _______, _______),
 
     [LY1] = LAYOUT_54_ansi(
-        _______,  KC_LABK, KC_RABK, LAMBDA,  KC_LPRN, KC_RPRN, KC_LBRC, KC_RBRC, KC_WBAK, KC_WFWD,  KC_WBTP,  KC_F17,  KC_F18,  _______,          RGB_TOG,
-        _______,  KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KJ_CDIR,  _______,          KJ_TAB,           KJ_UTIL,
-        _______,  KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_PGDN, KC_WBTN, KC_LCBR, KC_RCBR, _______,  NULL_OP,           _______,          KC_MS_U,
-        _______,  _______, _______, _______,          _______,                   QK_LEAD,           _______,  KC_BTN2, KC_BTN1, KC_MS_L, KC_MS_D, KC_MS_R),
+        KC_F24,  KC_LABK, KC_RABK, LAMBDA,  KC_LPRN, KC_RPRN, KC_LBRC, KC_RBRC, KC_WBAK, KC_WFWD,  KC_WBTP,  KC_F17,  KC_F18,  _______,          RGB_TOG,
+        _______, KC_HOME, AND_OR,  LTE_GTE, EQ_NEQ,  KC_END,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, KJ_CDIR,  _______,          KJ_TAB,           KJ_UTIL,
+        _______, KJ_TERM, KC_TRUE, INC_DEC, KC_NULL, KC_PGDN, KC_WBTN, KC_LCBR, KC_RCBR, _______,  NULL_OP,           _______,          KC_MS_U,
+        _______, _______, _______, _______,          _______,                   KC_F23,            _______,  KC_BTN2, KC_BTN1, KC_MS_L, KC_MS_D, KC_MS_R),
 
     [LY2] = LAYOUT_54_ansi(
         QK_BOOT, EQ_NULL, KC_NULL, KC_TRUE, EQ_NEQ, KC_WH_U, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F19, KC_F20, _______,          RGB_TOG,
