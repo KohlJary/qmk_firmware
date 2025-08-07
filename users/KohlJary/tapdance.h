@@ -23,6 +23,7 @@ enum TD_KEYCODES{
   T_SC, //1: scln, 2: cln
   T_TM, //Terminal shortcuts 1: new tab, Hold: close tab, 2: rename tab
   T_UX, //Utility
+  T_LD, //1: F24, 2: F23, H: LYN
 };
 
 // Define a type containing as many tapdance states as you need
@@ -83,6 +84,9 @@ void utility_reset(tap_dance_state_t *state, void *user_data);
 
 void terminal_finished(tap_dance_state_t *state, void *user_data);
 void terminal_reset(tap_dance_state_t *state, void *user_data);
+
+void lead_finished(tap_dance_state_t *state, void *user_data);
+void lead_reset(tap_dance_state_t *state, void *user_data);
 
 void ly1tab_finished(tap_dance_state_t *state, void *user_data);
 void ly1tab_reset(tap_dance_state_t *state, void *user_data);

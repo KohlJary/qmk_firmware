@@ -12,6 +12,7 @@ static td_state_t guieq_td_state = TD_NONE;
 static td_state_t guimin_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
 static td_state_t ly1tab_td_state = TD_NONE;
+static td_state_t lead_td_state = TD_NONE;
 static td_state_t mb_td_state = TD_NONE;
 static td_state_t ne_td_state = TD_NONE;
 static td_state_t nm_td_state = TD_NONE;
@@ -201,6 +202,45 @@ void altquote_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void ctrlesc_finished(tap_dance_state_t *state, void *user_data) {
+    ctrlesc_td_state = cur_dance(state);
+    switch (ctrlesc_td_state) {
+        case TD_SINGLE_TAP:
+            register_code(KC_ESC);
+            break;
+        case TD_DOUBLE_TAP:
+            register_code(KC_F23);
+            break;
+        case TD_SINGLE_HOLD:
+            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void ctrlesc_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ctrlesc_td_state) {
+        case TD_SINGLE_TAP:
+            unregister_code(KC_ESC);
+            break;
+        case TD_DOUBLE_TAP:
+            unregister_code(KC_F23);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
 void leftshift_finished(tap_dance_state_t *state, void *user_data) {
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
@@ -294,42 +334,6 @@ void rightshift_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_DOUBLE_HOLD:
             layer_off(LYN);
-            break;
-        default:
-            break;
-    }
-}
-
-void ctrlesc_finished(tap_dance_state_t *state, void *user_data) {
-    ctrlesc_td_state = cur_dance(state);
-    switch (ctrlesc_td_state) {
-        case TD_SINGLE_TAP:
-            register_code(KC_ESC);
-            break;
-        case TD_DOUBLE_TAP:
-            leader_start();
-            break;
-        case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            break;
-        case TD_DOUBLE_HOLD:
-            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            break;
-        default:
-            break;
-    }
-}
-
-void ctrlesc_reset(tap_dance_state_t *state, void *user_data) {
-    switch (ctrlesc_td_state) {
-        case TD_SINGLE_TAP:
-            unregister_code(KC_ESC);
-            break;
-        case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
-            break;
-        case TD_DOUBLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         default:
             break;
@@ -789,6 +793,33 @@ void mouse_button_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void lead_finished(tap_dance_state_t *state, void *user_data) {
+    lead_td_state = cur_dance(state);
+    switch (lead_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_F24);
+            break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_F23);
+            break;
+        case TD_SINGLE_HOLD:
+            layer_on(LYN); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            break;
+        default:
+            break;
+    }
+}
+
+void lead_reset(tap_dance_state_t *state, void *user_data) {
+    switch (lead_td_state) {
+        case TD_SINGLE_HOLD:
+            layer_off(LYN);
+            break;
+        default:
+            break;
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
   //T_1T Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
   [T_1T] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly1tab_finished, ly1tab_reset),
@@ -830,6 +861,8 @@ tap_dance_action_t tap_dance_actions[] = {
   [T_TM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, terminal_finished, utility_reset),
   //T_UX Hold for GUI, tap for =, double hold for !=
   [T_UX] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, utility_finished, utility_reset),
+  //T_LD Tap once for nvim leader, twice for nvim local leader
+  [T_LD] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, lead_finished, lead_reset),
 };
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {

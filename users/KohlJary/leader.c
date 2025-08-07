@@ -153,4 +153,36 @@ void leader_end_user(void) {
     tap_code(KC_END);
     tap_code(KC_ENT);
   }
+
+  //primitive types
+  if(leader_sequence_two_keys(KC_T, KC_B)) {
+    SEND_STRING("bool");
+  }
+  if(leader_sequence_three_keys(KC_T, KC_B, KC_B)) {
+    SEND_STRING("boolean");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_C)) {
+    SEND_STRING("char");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_D)) {
+    SEND_STRING("decimal");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_F)) {
+    SEND_STRING("float");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_G)) {
+    SEND_STRING("Guid");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_I)) {
+    SEND_STRING("int");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_N)) {
+    SEND_STRING("number");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_S)) {
+    SEND_STRING("string");
+  }
+  if(leader_sequence_two_keys(KC_T, KC_V)) {
+    SEND_STRING("var");
+  }
 }
