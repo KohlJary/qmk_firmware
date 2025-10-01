@@ -92,9 +92,9 @@
 // Web Browser Tab Open
 #define KC_OPTB RCS(KC_T)
 
-#define KJ_SPC  LT(LY2,KC_SPC)
-#define KJ_TAB  LT(LY1,KC_TAB)
-#define KJ_ENT  LT(LY2,KC_ENT)
+#define KJ_SPC  LT(LY2, KC_SPC)
+#define KJ_TAB  TD(T_1T)
+#define KJ_ENT  TD(T_2E)
 #define KJ_BSPC LT(LY1,KC_BSPC)
 #define KJ_NVLD TD(T_LD)
 #define KJ_SCLN LT(LYN,KC_SCLN)
@@ -133,7 +133,7 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [LYB] = LAYOUT_moonlander(
-        KJ_COPY, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_CIRC,          KC_DLR,  KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KJ_UTIL,
+        KJ_COPY, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   TL_LOWR,          TL_UPPR, KC_6,   KC_7,    KC_8,    KC_9,    KC_0,    KJ_UTIL,
         KJ_GEQL, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_AT,            KC_AMPR, KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,    KJ_MINS,
         KJ_CESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_F24,           KC_F23,  KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN, KJ_ALTQ,
         KJ_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                              KC_N,   KC_M,    KC_COMM, KC_DOT,  KJ_SLSH, KJ_RSFT,
@@ -217,13 +217,14 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     bool alt_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_ALT);
     bool gui_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_GUI);
 
-    bool layersOn[6] = {
+    bool layersOn[7] = {
         layer_state_is(LYF),
         layer_state_is(LYV),
         layer_state_is(LYG),
         layer_state_is(LYN),
         layer_state_is(LY1),
-        layer_state_is(LY2)
+        layer_state_is(LY2),
+        layer_state_is(LY3)
     };
     uint8_t rainbow[7][3] = {
         {RGB_RED},
@@ -235,7 +236,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         {RGB_WHITE}
     };
     uint8_t modColor = (layersOn[0] == true) ? 0 : (layersOn[1] == true) ? 5 : 7;
-    uint8_t alphaColor = (layersOn[2] == true) ? 0 : (layersOn[4] == true) ? 4 : (layersOn[5] == true) ? 2 : 7;
+    uint8_t alphaColor = (layersOn[2] == true) ? 0 : (layersOn[4] == true) ? 4 : (layersOn[5] == true) ? 2 :  (layersOn[6] == true) ? 3 : 7;
 
     for (uint8_t i = led_min; i < led_max; i++) {
         if (rgb_matrix_get_flags() == LED_FLAG_NONE) {

@@ -11,7 +11,6 @@ static td_state_t ctrlshift_td_state = TD_NONE;
 static td_state_t guieq_td_state = TD_NONE;
 static td_state_t guimin_td_state = TD_NONE;
 static td_state_t lshift_td_state = TD_NONE;
-static td_state_t ly1tab_td_state = TD_NONE;
 static td_state_t lead_td_state = TD_NONE;
 static td_state_t mb_td_state = TD_NONE;
 static td_state_t ne_td_state = TD_NONE;
@@ -20,6 +19,10 @@ static td_state_t rshift_td_state = TD_NONE;
 static td_state_t td_state = TD_NONE;
 static td_state_t tm_td_state = TD_NONE;
 static td_state_t ux_td_state = TD_NONE;
+static td_state_t ly1bspc_td_state = TD_NONE;
+static td_state_t ly1tab_td_state = TD_NONE;
+static td_state_t ly2ent_td_state = TD_NONE;
+static td_state_t ly2spc_td_state = TD_NONE;
 static bool nm_os_on = false;
 
 uint8_t mod_state;
@@ -726,40 +729,6 @@ void terminal_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void ly1tab_finished(tap_dance_state_t *state, void *user_data) {
-    ly1tab_td_state = cur_dance(state);
-    switch (ly1tab_td_state) {
-        case TD_SINGLE_TAP:
-            tap_code(KC_TAB);
-            break;
-        case TD_DOUBLE_TAP:
-            add_oneshot_mods(MOD_BIT(KC_LSFT));
-            tap_code(KC_TAB);
-            break;
-        case TD_SINGLE_HOLD:
-            layer_on(TAB_LAYER); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
-            break;
-        case TD_DOUBLE_HOLD:
-            layer_on(TAB_LAYER);
-            break;
-        default:
-            break;
-    }
-}
-
-void ly1tab_reset(tap_dance_state_t *state, void *user_data) {
-    switch (ly1tab_td_state) {
-        case TD_SINGLE_HOLD:
-            layer_off(TAB_LAYER);
-            break;
-        case TD_DOUBLE_HOLD:
-            layer_off(TAB_LAYER);
-            break;
-        default:
-            break;
-    }
-}
-
 void mouse_button_finished(tap_dance_state_t *state, void *user_data) {
     mb_td_state = cur_dance(state);
     switch (mb_td_state) {
@@ -820,9 +789,179 @@ void lead_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void ly1tab_finished(tap_dance_state_t *state, void *user_data) {
+    ly1tab_td_state = cur_dance(state);
+    switch (ly1tab_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_TAB);
+            break;
+        case TD_DOUBLE_TAP:
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
+            tap_code(KC_TAB);
+            break;
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY2)) {
+                layer_on(LY3);
+            }
+            else {
+                layer_on(TAB_LAYER); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void ly1tab_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ly1tab_td_state) {
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY3)) {
+                layer_off(LY3);
+            }
+            layer_off(LY1);
+            break;
+        default:
+            break;
+    }
+}
+
+void ly1bspc_finished(tap_dance_state_t *state, void *user_data) {
+    mod_state = get_mods();
+    oneshot_mod_state = get_oneshot_mods();
+    bool shift_mod = ((mod_state | oneshot_mod_state) & MOD_MASK_SHIFT);
+    ly1bspc_td_state = cur_dance(state);
+    switch (ly1bspc_td_state) {
+        case TD_SINGLE_TAP:
+            if (shift_mod) {
+                unregister_mods(mod_state);
+                clear_oneshot_mods();
+                tap_code(KC_DEL);
+                register_mods(mod_state);
+            }
+            else {
+                tap_code(KC_BSPC);
+            }
+            break;
+        case TD_DOUBLE_TAP:
+            if (shift_mod) {
+                unregister_mods(mod_state);
+                clear_oneshot_mods();
+                tap_code(KC_DEL);
+                tap_code(KC_DEL);
+                register_mods(mod_state);
+            }
+            else {
+                tap_code(KC_BSPC);
+                tap_code(KC_BSPC);
+            }
+            break;
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY2)) {
+                layer_on(LY3);
+            }
+            else {
+                layer_on(LY1); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void ly1bspc_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ly1bspc_td_state) {
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY3)) {
+                layer_off(LY3);
+            }
+            layer_off(LY1);
+            break;
+        default:
+            break;
+    }
+}
+
+void ly2ent_finished(tap_dance_state_t *state, void *user_data) {
+    ly2ent_td_state = cur_dance(state);
+    switch (ly2ent_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_ENT);
+            break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_ENT);
+            tap_code(KC_ENT);
+            break;
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY1)) {
+                layer_on(LY3);
+            }
+            else {
+                layer_on(LY2); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void ly2ent_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ly2ent_td_state) {
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY3)) {
+                layer_off(LY3);
+            }
+            layer_off(LY2);
+            break;
+        default:
+            break;
+    }
+}
+
+void ly2spc_finished(tap_dance_state_t *state, void *user_data) {
+    ly2spc_td_state = cur_dance(state);
+    switch (ly2spc_td_state) {
+        case TD_SINGLE_TAP:
+            tap_code(KC_SPC);
+            break;
+        case TD_DOUBLE_TAP:
+            tap_code(KC_SPC);
+            tap_code(KC_SPC);
+            break;
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY2)) {
+                layer_on(LY3);
+            }
+            else {
+                layer_on(LY2); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void ly2spc_reset(tap_dance_state_t *state, void *user_data) {
+    switch (ly2spc_td_state) {
+        case TD_SINGLE_HOLD:
+            if(IS_LAYER_ON(LY3)) {
+                layer_off(LY3);
+            }
+            layer_off(LY2);
+            break;
+        default:
+            break;
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
   //T_1T Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
+  [T_1B] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly1bspc_finished, ly1bspc_reset),
+  //T_1T Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
   [T_1T] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly1tab_finished, ly1tab_reset),
+  //T_2T Hold: TG(L_2), Tap: Tab, Double Tap: Shift+Tab
+  [T_2E] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly2ent_finished, ly2ent_reset),
+  //T_2T Hold: TG(L_2), Tap: Tab, Double Tap: Shift+Tab
+  [T_2S] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ly2spc_finished, ly2spc_reset),
   //T_AQ Hold for Alt, tap for quote, double tap for F24, double hold for Alt+Shift
   [T_AQ] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altquote_finished, altquote_reset),
   //T_CB Hold for close curly, single tap for close paren, double tap for close brace, double hold for close angle brack

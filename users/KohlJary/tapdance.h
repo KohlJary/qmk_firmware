@@ -3,7 +3,10 @@
 #pragma once
 
 enum TD_KEYCODES{
+  T_1B, //Hold: TL_LOWR (L_1), Tap: Backspace
   T_1T, //Hold: TG(L_1), Tap: Tab, Double Tap: Shift+Tab
+  T_2E, //Hold: TL_UPPR (L_2), Tap: Enter
+  T_2S, //Hold: TL_UPPR (L_2), Tap: Space
   T_AQ, //Hold: alt, Double hold: alt+Num, 1: quote, Double Hold: Alt+Shift, 2: F24
   T_CB, //Hold: Closed curly, Tap: Closed paran, Double Tap: Closed brace, Double Hold: Closed angle brack
   T_CE, //Hold: Control, 1: Escape, 2: QMK Leader, Double Hold: Control+Alt
@@ -88,11 +91,20 @@ void terminal_reset(tap_dance_state_t *state, void *user_data);
 void lead_finished(tap_dance_state_t *state, void *user_data);
 void lead_reset(tap_dance_state_t *state, void *user_data);
 
-void ly1tab_finished(tap_dance_state_t *state, void *user_data);
-void ly1tab_reset(tap_dance_state_t *state, void *user_data);
-
 void mouse_button_finished(tap_dance_state_t *state, void *user_data);
 void mouse_button_reset(tap_dance_state_t *state, void *user_data);
 
 void nument_finished(tap_dance_state_t *state, void *user_data);
 void nument_reset(tap_dance_state_t *state, void *user_data);
+
+void ly1tab_finished(tap_dance_state_t *state, void *user_data);
+void ly1tab_reset(tap_dance_state_t *state, void *user_data);
+
+void ly1bspc_finished(tap_dance_state_t *state, void *user_data);
+void ly1bspc_reset(tap_dance_state_t *state, void *user_data);
+
+void ly2ent_finished(tap_dance_state_t *state, void *user_data);
+void ly2ent_reset(tap_dance_state_t *state, void *user_data);
+
+void ly2spc_finished(tap_dance_state_t *state, void *user_data);
+void ly2spc_reset(tap_dance_state_t *state, void *user_data);
